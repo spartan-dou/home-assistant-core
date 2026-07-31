@@ -81,10 +81,10 @@ from .const import (
     CONF_MIN_DUR,
     CONF_MIN_TEMP,
     CONF_OPENINGS,
-    CONF_OPENINGS_TIMEOUT,
+    CONF_OPENINGS_RESUME_DELAY,
     CONF_PRESETS,
     CONF_SENSOR,
-    DEFAULT_OPENINGS_TIMEOUT,
+    DEFAULT_OPENINGS_RESUME_DELAY,
     DEFAULT_TOLERANCE,
     DOMAIN,
     PLATFORMS,
@@ -121,7 +121,7 @@ PLATFORM_SCHEMA_COMMON = vol.Schema(
         vol.Optional(CONF_KEEP_ALIVE): cv.positive_time_period,
         vol.Optional(CONF_OPENINGS, default=[]): cv.entity_ids,
         vol.Optional(
-            CONF_OPENINGS_TIMEOUT, default=DEFAULT_OPENINGS_TIMEOUT
+            CONF_OPENINGS_RESUME_DELAY, default=DEFAULT_OPENINGS_RESUME_DELAY
         ): cv.positive_time_period,
         vol.Optional(CONF_INITIAL_HVAC_MODE): vol.In(
             [HVACMode.COOL, HVACMode.HEAT, HVACMode.OFF]
@@ -194,8 +194,8 @@ async def _async_setup_config(
     hot_tolerance: float = config[CONF_HOT_TOLERANCE]
     keep_alive: timedelta | None = config.get(CONF_KEEP_ALIVE)
     openings: list[str] = config.get(CONF_OPENINGS) or []
-    openings_timeout: timedelta = (
-        config.get(CONF_OPENINGS_TIMEOUT) or DEFAULT_OPENINGS_TIMEOUT
+    openings_resume_delay: timedelta = (
+        config.get(CONF_OPENINGS_RESUME_DELAY) or DEFAULT_OPENINGS_RESUME_DELAY
     )
     initial_hvac_mode: HVACMode | None = config.get(CONF_INITIAL_HVAC_MODE)
     presets: dict[str, float] = {
@@ -222,7 +222,7 @@ async def _async_setup_config(
                 hot_tolerance=hot_tolerance,
                 keep_alive=keep_alive,
                 openings=openings,
-                openings_timeout=openings_timeout,
+                openings_resume_delay=openings_resume_delay,
                 initial_hvac_mode=initial_hvac_mode,
                 presets=presets,
                 precision=precision,
@@ -257,7 +257,7 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
         hot_tolerance: float,
         keep_alive: timedelta | None,
         openings: list[str],
-        openings_timeout: timedelta,
+        openings_resume_delay: timedelta,
         initial_hvac_mode: HVACMode | None,
         presets: dict[str, float],
         precision: float | None,
@@ -285,7 +285,7 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
         self._hot_tolerance = hot_tolerance
         self._keep_alive = keep_alive
         self._openings = openings
-        self._openings_timeout = openings_timeout
+        self._openings_resume_delay = openings_resume_delay
         # Mode to return to once the openings close, or once the timeout
         # elapses. None means no opening override is in effect.
         self._openings_saved_hvac_mode: HVACMode | None = None
@@ -474,48 +474,53 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
         if self._openings_open:
             await self._async_openings_switch_off()
         else:
-            await self._async_openings_restore()
+            self._async_openings_schedule_resume()
 
     async def _async_openings_switch_off(self) -> None:
-        """Switch off while an opening is open, and arm the resume timeout."""
-        if self._openings_saved_hvac_mode is not None:
-            if self._openings_callback is None:
-                # Override restored from a previous run: the timer does not
-                # survive a restart, so arm a fresh one.
-                self._openings_callback = async_call_later(
-                    self.hass, self._openings_timeout, self._async_openings_timeout
-                )
-            # Otherwise the override is already in effect: re-arming here would
-            # push the resume back every time a second window moves.
-            return
+        """Switch off for as long as an opening stays open."""
+        # An opening reopening during the wait cancels the pending resume: the
+        # thermostat must never run while something is open.
+        self._cancel_openings_timer()
         if self._hvac_mode == HVACMode.OFF:
-            # Already off before the opening: nothing to switch back on later.
+            # Already off, because another opening got there first or because it
+            # was off to begin with. Either way there is nothing to switch off,
+            # and any mode already remembered stays the one to come back to.
             return
 
-        saved_hvac_mode = self._hvac_mode
+        # An override restored from a previous run keeps its own mode: with
+        # initial_hvac_mode set, the thermostat comes back up running even
+        # though an opening had switched it off.
+        saved_hvac_mode = self._openings_saved_hvac_mode or self._hvac_mode
         await self.async_set_hvac_mode(HVACMode.OFF)
         self._openings_saved_hvac_mode = saved_hvac_mode
-        self._openings_callback = async_call_later(
-            self.hass, self._openings_timeout, self._async_openings_timeout
-        )
         self.async_write_ha_state()
 
-    async def _async_openings_restore(self) -> None:
+    @callback
+    def _async_openings_schedule_resume(self) -> None:
+        """Arm the delayed resume now that every opening is closed."""
+        if self._openings_saved_hvac_mode is None:
+            # Nothing was switched off, so there is nothing to come back to.
+            return
+        if self._openings_callback is not None:
+            # Already counting down: a second opening closing must not push the
+            # resume back.
+            return
+        self._openings_callback = async_call_later(
+            self.hass, self._openings_resume_delay, self._async_openings_resume
+        )
+
+    async def _async_openings_resume(self, _: datetime) -> None:
         """Switch back to the mode that was in effect before the opening."""
+        self._openings_callback = None
         if (saved_hvac_mode := self._openings_saved_hvac_mode) is None:
             return
-        self._cancel_openings_timer()
+        _LOGGER.debug(
+            "Openings closed for %s, resuming %s",
+            self._openings_resume_delay,
+            saved_hvac_mode,
+        )
         self._openings_saved_hvac_mode = None
         await self.async_set_hvac_mode(saved_hvac_mode)
-
-    async def _async_openings_timeout(self, _: datetime) -> None:
-        """Resume heating even though the opening is still open."""
-        _LOGGER.debug(
-            "Opening still open after %s, resuming %s",
-            self._openings_timeout,
-            self._openings_saved_hvac_mode,
-        )
-        await self._async_openings_restore()
 
     @callback
     def _cancel_openings_timer(self) -> None:
