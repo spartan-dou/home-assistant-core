@@ -29,7 +29,7 @@
           "min_temp": "Minimum target temperature",
           "name": "[%key:common::config_flow::data::name%]",
           "openings": "Openings",
-          "openings_timeout": "Opening resume timeout",
+          "openings_resume_delay": "Resume delay after closing",
           "target_sensor": "Temperature sensor"
         },
         "data_description": {
@@ -42,7 +42,7 @@
           "max_cycle_duration": "Once switched on, the maximum amount of time that can elapse before it will be switched off.",
           "min_cycle_duration": "Once switched on, the minimum amount of time that must elapse before it may be switched off.",
           "openings": "Switch the thermostat off while any of these doors or windows is open.",
-          "openings_timeout": "Switch back on after this long even if the opening is still open. Defaults to 30 minutes.",
+          "openings_resume_delay": "How long to wait after every opening is closed before switching back to the previous mode. Defaults to 30 minutes.",
           "target_sensor": "Temperature sensor that reflects the current temperature."
         },
         "description": "Create a climate entity that controls the temperature via a switch and sensor.",
@@ -68,7 +68,7 @@
           "min_cycle_duration": "[%key:component::generic_thermostat::config::step::user::data::min_cycle_duration%]",
           "min_temp": "[%key:component::generic_thermostat::config::step::user::data::min_temp%]",
           "openings": "[%key:component::generic_thermostat::config::step::user::data::openings%]",
-          "openings_timeout": "[%key:component::generic_thermostat::config::step::user::data::openings_timeout%]",
+          "openings_resume_delay": "[%key:component::generic_thermostat::config::step::user::data::openings_resume_delay%]",
           "target_sensor": "[%key:component::generic_thermostat::config::step::user::data::target_sensor%]"
         },
         "data_description": {
@@ -81,7 +81,7 @@
           "max_cycle_duration": "[%key:component::generic_thermostat::config::step::user::data_description::max_cycle_duration%]",
           "min_cycle_duration": "[%key:component::generic_thermostat::config::step::user::data_description::min_cycle_duration%]",
           "openings": "[%key:component::generic_thermostat::config::step::user::data_description::openings%]",
-          "openings_timeout": "[%key:component::generic_thermostat::config::step::user::data_description::openings_timeout%]",
+          "openings_resume_delay": "[%key:component::generic_thermostat::config::step::user::data_description::openings_resume_delay%]",
           "target_sensor": "[%key:component::generic_thermostat::config::step::user::data_description::target_sensor%]"
         }
       },
