@@ -327,17 +327,24 @@ async def test_set_target_temp(hass: HomeAssistant) -> None:
 
 
 @pytest.mark.usefixtures("setup_comp_2")
-async def test_set_target_temp_change_preset(hass: HomeAssistant) -> None:
+async def test_set_target_temp_keeps_preset(hass: HomeAssistant) -> None:
     """Test the setting of the target temperature.
 
-    Verify that preset is changed.
+    Verify the preset is left alone, including when the temperature happens to
+    match one of the presets: 20 is the comfort temperature of setup_comp_2.
     """
     await common.async_set_temperature(hass, 30)
     state = hass.states.get(ENTITY)
     assert state.attributes.get("preset_mode") == PRESET_NONE
     await common.async_set_temperature(hass, 20)
     state = hass.states.get(ENTITY)
-    assert state.attributes.get("preset_mode") == PRESET_COMFORT
+    assert state.attributes.get("preset_mode") == PRESET_NONE
+
+    await common.async_set_preset_mode(hass, PRESET_AWAY)
+    await common.async_set_temperature(hass, 24)
+    state = hass.states.get(ENTITY)
+    assert state.attributes.get("preset_mode") == PRESET_AWAY
+    assert state.attributes.get("temperature") == 24
 
 
 @pytest.mark.parametrize(
