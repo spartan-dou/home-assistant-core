@@ -3,6 +3,8 @@
 DEVELOPMENT OF THE GENERIC THERMOSTAT INTEGRATION IS FROZEN.
 """
 
+from datetime import timedelta
+
 from homeassistant.components.climate import (
     PRESET_ACTIVITY,
     PRESET_AWAY,
@@ -41,6 +43,12 @@ CONF_PRECISION = "precision"
 CONF_SENSOR = "target_sensor"
 CONF_KEEP_ALIVE = "keep_alive"
 CONF_TEMP_STEP = "target_temp_step"
+CONF_OPENINGS = "openings"
+CONF_OPENINGS_TIMEOUT = "openings_timeout"
 DEFAULT_TOLERANCE = 0.3
+# Resume heating after this long even if the opening is still open, so a window
+# left ajar cannot switch the heating off indefinitely.
+DEFAULT_OPENINGS_TIMEOUT = timedelta(minutes=30)
 
 ATTR_TARGET_TEMP_PRESET_NONE = "target_temp_preset_none"
+ATTR_OPENINGS_SAVED_HVAC_MODE = "openings_saved_hvac_mode"
