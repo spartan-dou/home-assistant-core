@@ -9,7 +9,8 @@ from typing import Any, cast, override
 
 import probatio
 
-from homeassistant.components import fan, switch
+from homeassistant.components import binary_sensor, fan, switch
+from homeassistant.components.binary_sensor import BinarySensorDeviceClass
 from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN, SensorDeviceClass
 from homeassistant.const import CONF_NAME, DEGREE
 from homeassistant.helpers import selector
@@ -31,6 +32,8 @@ from .const import (
     CONF_MAX_TEMP,
     CONF_MIN_DUR,
     CONF_MIN_TEMP,
+    CONF_OPENINGS,
+    CONF_OPENINGS_TIMEOUT,
     CONF_PRESETS,
     CONF_SENSOR,
     DEFAULT_TOLERANCE,
@@ -67,6 +70,21 @@ OPTIONS_SCHEMA = {
         selector.DurationSelectorConfig(allow_negative=False)
     ),
     probatio.Optional(CONF_KEEP_ALIVE): selector.DurationSelector(
+        selector.DurationSelectorConfig(allow_negative=False)
+    ),
+    probatio.Optional(CONF_OPENINGS): selector.EntitySelector(
+        selector.EntitySelectorConfig(
+            domain=binary_sensor.DOMAIN,
+            device_class=[
+                BinarySensorDeviceClass.DOOR,
+                BinarySensorDeviceClass.GARAGE_DOOR,
+                BinarySensorDeviceClass.OPENING,
+                BinarySensorDeviceClass.WINDOW,
+            ],
+            multiple=True,
+        )
+    ),
+    probatio.Optional(CONF_OPENINGS_TIMEOUT): selector.DurationSelector(
         selector.DurationSelectorConfig(allow_negative=False)
     ),
     probatio.Optional(CONF_MAX_DUR): selector.DurationSelector(
