@@ -29,6 +29,8 @@
           "min_cycle_duration": "Minimum run time",
           "min_temp": "Minimum target temperature",
           "name": "[%key:common::config_flow::data::name%]",
+          "openings": "Openings",
+          "openings_timeout": "Opening resume timeout",
           "precision": "Temperature precision",
           "target_sensor": "Temperature sensor",
           "target_temp_step": "Temperature step"
@@ -42,6 +44,8 @@
           "keep_alive": "Trigger the heater periodically to keep devices from losing state.",
           "max_cycle_duration": "Once switched on, the maximum amount of time that can elapse before it will be switched off.",
           "min_cycle_duration": "Once switched on, the minimum amount of time that must elapse before it may be switched off.",
+          "openings": "Switch the thermostat off while any of these doors or windows is open.",
+          "openings_timeout": "Switch back on after this long even if the opening is still open. Defaults to 30 minutes.",
           "precision": "Precision used to round the displayed current and target temperatures. If not set, it depends on the temperature unit.",
           "target_sensor": "Temperature sensor that reflects the current temperature.",
           "target_temp_step": "Step size used when adjusting the target temperature. If not set, it matches the precision."
@@ -69,6 +73,8 @@
           "max_temp": "[%key:component::generic_thermostat::config::step::user::data::max_temp%]",
           "min_cycle_duration": "[%key:component::generic_thermostat::config::step::user::data::min_cycle_duration%]",
           "min_temp": "[%key:component::generic_thermostat::config::step::user::data::min_temp%]",
+          "openings": "[%key:component::generic_thermostat::config::step::user::data::openings%]",
+          "openings_timeout": "[%key:component::generic_thermostat::config::step::user::data::openings_timeout%]",
           "precision": "[%key:component::generic_thermostat::config::step::user::data::precision%]",
           "target_sensor": "[%key:component::generic_thermostat::config::step::user::data::target_sensor%]",
           "target_temp_step": "[%key:component::generic_thermostat::config::step::user::data::target_temp_step%]"
@@ -82,6 +88,8 @@
           "keep_alive": "[%key:component::generic_thermostat::config::step::user::data_description::keep_alive%]",
           "max_cycle_duration": "[%key:component::generic_thermostat::config::step::user::data_description::max_cycle_duration%]",
           "min_cycle_duration": "[%key:component::generic_thermostat::config::step::user::data_description::min_cycle_duration%]",
+          "openings": "[%key:component::generic_thermostat::config::step::user::data_description::openings%]",
+          "openings_timeout": "[%key:component::generic_thermostat::config::step::user::data_description::openings_timeout%]",
           "precision": "[%key:component::generic_thermostat::config::step::user::data_description::precision%]",
           "target_sensor": "[%key:component::generic_thermostat::config::step::user::data_description::target_sensor%]",
           "target_temp_step": "[%key:component::generic_thermostat::config::step::user::data_description::target_temp_step%]"
