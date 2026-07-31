@@ -42,3 +42,5 @@ CONF_SENSOR = "target_sensor"
 CONF_KEEP_ALIVE = "keep_alive"
 CONF_TEMP_STEP = "target_temp_step"
 DEFAULT_TOLERANCE = 0.3
+
+ATTR_TARGET_TEMP_PRESET_NONE = "target_temp_preset_none"
