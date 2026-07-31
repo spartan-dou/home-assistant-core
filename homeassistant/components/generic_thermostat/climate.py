@@ -68,6 +68,7 @@ from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType, VolDictT
 from homeassistant.util import dt as dt_util
 
 from .const import (
+    ATTR_OPENINGS_SAVED_HVAC_MODE,
     ATTR_TARGET_TEMP_PRESET_NONE,
     CONF_AC_MODE,
     CONF_COLD_TOLERANCE,
@@ -79,8 +80,11 @@ from .const import (
     CONF_MAX_TEMP,
     CONF_MIN_DUR,
     CONF_MIN_TEMP,
+    CONF_OPENINGS,
+    CONF_OPENINGS_TIMEOUT,
     CONF_PRESETS,
     CONF_SENSOR,
+    DEFAULT_OPENINGS_TIMEOUT,
     DEFAULT_TOLERANCE,
     DOMAIN,
     PLATFORMS,
@@ -115,6 +119,10 @@ PLATFORM_SCHEMA_COMMON = vol.Schema(
         vol.Optional(CONF_HOT_TOLERANCE, default=DEFAULT_TOLERANCE): vol.Coerce(float),
         vol.Optional(CONF_TARGET_TEMP): vol.Coerce(float),
         vol.Optional(CONF_KEEP_ALIVE): cv.positive_time_period,
+        vol.Optional(CONF_OPENINGS, default=[]): cv.entity_ids,
+        vol.Optional(
+            CONF_OPENINGS_TIMEOUT, default=DEFAULT_OPENINGS_TIMEOUT
+        ): cv.positive_time_period,
         vol.Optional(CONF_INITIAL_HVAC_MODE): vol.In(
             [HVACMode.COOL, HVACMode.HEAT, HVACMode.OFF]
         ),
@@ -185,6 +193,10 @@ async def _async_setup_config(
     cold_tolerance: float = config[CONF_COLD_TOLERANCE]
     hot_tolerance: float = config[CONF_HOT_TOLERANCE]
     keep_alive: timedelta | None = config.get(CONF_KEEP_ALIVE)
+    openings: list[str] = config.get(CONF_OPENINGS) or []
+    openings_timeout: timedelta = (
+        config.get(CONF_OPENINGS_TIMEOUT) or DEFAULT_OPENINGS_TIMEOUT
+    )
     initial_hvac_mode: HVACMode | None = config.get(CONF_INITIAL_HVAC_MODE)
     presets: dict[str, float] = {
         key: config[value] for key, value in CONF_PRESETS.items() if value in config
@@ -209,6 +221,8 @@ async def _async_setup_config(
                 cold_tolerance=cold_tolerance,
                 hot_tolerance=hot_tolerance,
                 keep_alive=keep_alive,
+                openings=openings,
+                openings_timeout=openings_timeout,
                 initial_hvac_mode=initial_hvac_mode,
                 presets=presets,
                 precision=precision,
@@ -242,6 +256,8 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
         cold_tolerance: float,
         hot_tolerance: float,
         keep_alive: timedelta | None,
+        openings: list[str],
+        openings_timeout: timedelta,
         initial_hvac_mode: HVACMode | None,
         presets: dict[str, float],
         precision: float | None,
@@ -268,6 +284,12 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
         self._last_context_id: str | None = None
         self._hot_tolerance = hot_tolerance
         self._keep_alive = keep_alive
+        self._openings = openings
+        self._openings_timeout = openings_timeout
+        # Mode to return to once the openings close, or once the timeout
+        # elapses. None means no opening override is in effect.
+        self._openings_saved_hvac_mode: HVACMode | None = None
+        self._openings_callback: CALLBACK_TYPE | None = None
         self._hvac_mode = initial_hvac_mode
         self._saved_target_temp = target_temp or next(iter(presets.values()), None)
         self._temp_precision = precision
@@ -314,6 +336,14 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
             )
         )
         self.async_on_remove(self._cancel_timers)
+
+        if self._openings:
+            self.async_on_remove(
+                async_track_state_change_event(
+                    self.hass, self._openings, self._async_opening_changed
+                )
+            )
+            self.async_on_remove(self._cancel_openings_timer)
 
         if self._keep_alive:
             self.async_on_remove(
@@ -390,6 +420,15 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
                 self._saved_target_temp = float(saved_target_temp)
             elif self._attr_preset_mode == PRESET_NONE:
                 self._saved_target_temp = self._target_temp
+            # A restart taken while an opening had switched the thermostat off
+            # would otherwise lose the mode to come back to, leaving the room
+            # off for good once the window is closed again.
+            if (
+                saved_hvac_mode := old_state.attributes.get(
+                    ATTR_OPENINGS_SAVED_HVAC_MODE
+                )
+            ) is not None:
+                self._openings_saved_hvac_mode = HVACMode(saved_hvac_mode)
             if not self._hvac_mode and old_state.state:
                 self._hvac_mode = HVACMode(old_state.state)
 
@@ -407,6 +446,83 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
         # Set default state to off
         if not self._hvac_mode:
             self._hvac_mode = HVACMode.OFF
+
+        if self._openings:
+            await self._async_sync_openings()
+
+    @property
+    def _openings_open(self) -> bool:
+        """Return whether at least one opening reports being open.
+
+        Unknown and unavailable openings count as closed: a flat battery on a
+        window sensor must not switch the heating off for good.
+        """
+        return any(
+            (state := self.hass.states.get(entity_id)) is not None
+            and state.state == STATE_ON
+            for entity_id in self._openings
+        )
+
+    async def _async_opening_changed(self, event: Event[EventStateChangedData]) -> None:
+        """Handle an opening being opened or closed."""
+        if event.data["new_state"] is None:
+            return
+        await self._async_sync_openings()
+
+    async def _async_sync_openings(self) -> None:
+        """Apply or lift the opening override to match the current openings."""
+        if self._openings_open:
+            await self._async_openings_switch_off()
+        else:
+            await self._async_openings_restore()
+
+    async def _async_openings_switch_off(self) -> None:
+        """Switch off while an opening is open, and arm the resume timeout."""
+        if self._openings_saved_hvac_mode is not None:
+            if self._openings_callback is None:
+                # Override restored from a previous run: the timer does not
+                # survive a restart, so arm a fresh one.
+                self._openings_callback = async_call_later(
+                    self.hass, self._openings_timeout, self._async_openings_timeout
+                )
+            # Otherwise the override is already in effect: re-arming here would
+            # push the resume back every time a second window moves.
+            return
+        if self._hvac_mode == HVACMode.OFF:
+            # Already off before the opening: nothing to switch back on later.
+            return
+
+        saved_hvac_mode = self._hvac_mode
+        await self.async_set_hvac_mode(HVACMode.OFF)
+        self._openings_saved_hvac_mode = saved_hvac_mode
+        self._openings_callback = async_call_later(
+            self.hass, self._openings_timeout, self._async_openings_timeout
+        )
+        self.async_write_ha_state()
+
+    async def _async_openings_restore(self) -> None:
+        """Switch back to the mode that was in effect before the opening."""
+        if (saved_hvac_mode := self._openings_saved_hvac_mode) is None:
+            return
+        self._cancel_openings_timer()
+        self._openings_saved_hvac_mode = None
+        await self.async_set_hvac_mode(saved_hvac_mode)
+
+    async def _async_openings_timeout(self, _: datetime) -> None:
+        """Resume heating even though the opening is still open."""
+        _LOGGER.debug(
+            "Opening still open after %s, resuming %s",
+            self._openings_timeout,
+            self._openings_saved_hvac_mode,
+        )
+        await self._async_openings_restore()
+
+    @callback
+    def _cancel_openings_timer(self) -> None:
+        """Reset the opening resume timer."""
+        if self._openings_callback is not None:
+            self._openings_callback()
+            self._openings_callback = None
 
     @property
     @override
@@ -442,10 +558,13 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
     def extra_state_attributes(self) -> dict[str, Any]:
         """Return the temperature restored when leaving a preset.
 
-        Published as a state attribute so it survives a restart: that is the
+        Published as state attributes so they survive a restart: that is the
         only persistence mechanism available to the entity.
         """
-        return {ATTR_TARGET_TEMP_PRESET_NONE: self._saved_target_temp}
+        return {
+            ATTR_TARGET_TEMP_PRESET_NONE: self._saved_target_temp,
+            ATTR_OPENINGS_SAVED_HVAC_MODE: self._openings_saved_hvac_mode,
+        }
 
     @property
     @override
@@ -471,6 +590,11 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
     @override
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         """Set hvac mode."""
+        # Taking manual control drops any opening override, so that closing the
+        # window later does not undo what the user just asked for. The internal
+        # callers set the override after calling this, and clear it before.
+        self._cancel_openings_timer()
+        self._openings_saved_hvac_mode = None
         if hvac_mode == HVACMode.HEAT:
             self._hvac_mode = HVACMode.HEAT
             await self._async_control_heating(force=True)
