@@ -29,7 +29,7 @@
                     "min_temp": "Minimum target temperature",
                     "name": "Name",
                     "openings": "Openings",
-                    "openings_timeout": "Opening resume timeout",
+                    "openings_resume_delay": "Resume delay after closing",
                     "target_sensor": "Temperature sensor"
                 },
                 "data_description": {
@@ -42,7 +42,7 @@
                     "max_cycle_duration": "Once switched on, the maximum amount of time that can elapse before it will be switched off.",
                     "min_cycle_duration": "Once switched on, the minimum amount of time that must elapse before it may be switched off.",
                     "openings": "Switch the thermostat off while any of these doors or windows is open.",
-                    "openings_timeout": "Switch back on after this long even if the opening is still open. Defaults to 30 minutes.",
+                    "openings_resume_delay": "How long to wait after every opening is closed before switching back to the previous mode. Defaults to 30 minutes.",
                     "target_sensor": "Temperature sensor that reflects the current temperature."
                 },
                 "description": "Create a climate entity that controls the temperature via a switch and sensor.",
@@ -68,7 +68,7 @@
                     "min_cycle_duration": "Minimum run time",
                     "min_temp": "Minimum target temperature",
                     "openings": "Openings",
-                    "openings_timeout": "Opening resume timeout",
+                    "openings_resume_delay": "Resume delay after closing",
                     "target_sensor": "Temperature sensor"
                 },
                 "data_description": {
@@ -81,7 +81,7 @@
                     "max_cycle_duration": "Once switched on, the maximum amount of time that can elapse before it will be switched off.",
                     "min_cycle_duration": "Once switched on, the minimum amount of time that must elapse before it may be switched off.",
                     "openings": "Switch the thermostat off while any of these doors or windows is open.",
-                    "openings_timeout": "Switch back on after this long even if the opening is still open. Defaults to 30 minutes.",
+                    "openings_resume_delay": "How long to wait after every opening is closed before switching back to the previous mode. Defaults to 30 minutes.",
                     "target_sensor": "Temperature sensor that reflects the current temperature."
                 }
             },
