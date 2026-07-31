@@ -2152,12 +2152,12 @@ ENT_OPENING_2 = "binary_sensor.door"
 
 
 async def _setup_thermostat_with_openings(
-    hass: HomeAssistant, openings: list[str]
+    hass: HomeAssistant, openings: list[str], opening_state: str = STATE_OFF
 ) -> None:
     """Set up a thermostat watching the given openings."""
     hass.config.units = METRIC_SYSTEM
     for opening in openings:
-        hass.states.async_set(opening, STATE_OFF)
+        hass.states.async_set(opening, opening_state)
     assert await async_setup_component(
         hass,
         CLIMATE_DOMAIN,
@@ -2180,8 +2180,10 @@ async def _set_opening(hass: HomeAssistant, opening: str, state: str) -> None:
     await hass.async_block_till_done()
 
 
-async def test_opening_switches_off_and_back_on(hass: HomeAssistant) -> None:
-    """Opening a window switches off, closing it switches back on."""
+async def test_opening_switches_off_and_resumes_after_the_delay(
+    hass: HomeAssistant,
+) -> None:
+    """Opening switches off at once; closing resumes only after the delay."""
     await _setup_thermostat_with_openings(hass, [ENT_OPENING])
     assert hass.states.get(ENTITY).state == HVACMode.HEAT
 
@@ -2189,6 +2191,66 @@ async def test_opening_switches_off_and_back_on(hass: HomeAssistant) -> None:
     assert hass.states.get(ENTITY).state == HVACMode.OFF
 
     await _set_opening(hass, ENT_OPENING, STATE_OFF)
+    assert hass.states.get(ENTITY).state == HVACMode.OFF
+
+    async_fire_time_changed(hass, dt_util.utcnow() + datetime.timedelta(minutes=31))
+    await hass.async_block_till_done()
+    assert hass.states.get(ENTITY).state == HVACMode.HEAT
+
+
+async def test_opening_stays_off_however_long_it_is_open(hass: HomeAssistant) -> None:
+    """A window left open must never let the thermostat run."""
+    await _setup_thermostat_with_openings(hass, [ENT_OPENING])
+    await _set_opening(hass, ENT_OPENING, STATE_ON)
+
+    async_fire_time_changed(hass, dt_util.utcnow() + datetime.timedelta(hours=3))
+    await hass.async_block_till_done()
+    assert hass.states.get(ENTITY).state == HVACMode.OFF
+
+
+async def test_reopening_cancels_the_pending_resume(
+    hass: HomeAssistant, freezer: FrozenDateTimeFactory
+) -> None:
+    """Reopening during the wait must call the resume off.
+
+    The clock is frozen so the second wait starts at a distinguishable time:
+    otherwise a stale timer would expire at the same moment as the fresh one.
+    """
+    start = dt_util.utcnow()
+    freezer.move_to(start)
+    await _setup_thermostat_with_openings(hass, [ENT_OPENING])
+    await _set_opening(hass, ENT_OPENING, STATE_ON)
+    await _set_opening(hass, ENT_OPENING, STATE_OFF)
+
+    freezer.move_to(start + datetime.timedelta(minutes=10))
+    await _set_opening(hass, ENT_OPENING, STATE_ON)
+
+    # The first wait would have expired here.
+    async_fire_time_changed(hass, start + datetime.timedelta(minutes=31))
+    await hass.async_block_till_done()
+    assert hass.states.get(ENTITY).state == HVACMode.OFF
+
+    freezer.move_to(start + datetime.timedelta(minutes=40))
+    await _set_opening(hass, ENT_OPENING, STATE_OFF)
+    async_fire_time_changed(hass, start + datetime.timedelta(minutes=71))
+    await hass.async_block_till_done()
+    assert hass.states.get(ENTITY).state == HVACMode.HEAT
+
+
+async def test_resume_waits_for_every_opening_to_close(hass: HomeAssistant) -> None:
+    """Closing one of two openings does not start the wait."""
+    await _setup_thermostat_with_openings(hass, [ENT_OPENING, ENT_OPENING_2])
+    await _set_opening(hass, ENT_OPENING, STATE_ON)
+    await _set_opening(hass, ENT_OPENING_2, STATE_ON)
+
+    await _set_opening(hass, ENT_OPENING, STATE_OFF)
+    async_fire_time_changed(hass, dt_util.utcnow() + datetime.timedelta(minutes=31))
+    await hass.async_block_till_done()
+    assert hass.states.get(ENTITY).state == HVACMode.OFF
+
+    await _set_opening(hass, ENT_OPENING_2, STATE_OFF)
+    async_fire_time_changed(hass, dt_util.utcnow() + datetime.timedelta(minutes=31))
+    await hass.async_block_till_done()
     assert hass.states.get(ENTITY).state == HVACMode.HEAT
 
 
@@ -2198,80 +2260,22 @@ async def test_opening_leaves_an_already_off_thermostat_alone(
     """A thermostat already off before the opening must not be switched on."""
     await _setup_thermostat_with_openings(hass, [ENT_OPENING])
     await common.async_set_hvac_mode(hass, HVACMode.OFF)
-    assert hass.states.get(ENTITY).state == HVACMode.OFF
 
     await _set_opening(hass, ENT_OPENING, STATE_ON)
     await _set_opening(hass, ENT_OPENING, STATE_OFF)
-    assert hass.states.get(ENTITY).state == HVACMode.OFF
-
-
-async def test_opening_resumes_after_the_timeout(hass: HomeAssistant) -> None:
-    """A window left open must not switch the heating off indefinitely."""
-    await _setup_thermostat_with_openings(hass, [ENT_OPENING])
-    await _set_opening(hass, ENT_OPENING, STATE_ON)
-    assert hass.states.get(ENTITY).state == HVACMode.OFF
-
     async_fire_time_changed(hass, dt_util.utcnow() + datetime.timedelta(minutes=31))
     await hass.async_block_till_done()
-    assert hass.states.get(ENTITY).state == HVACMode.HEAT
-
-    # The opening is still open, but the override is spent: it must not fire a
-    # second time and switch the thermostat off again.
-    async_fire_time_changed(hass, dt_util.utcnow() + datetime.timedelta(minutes=62))
-    await hass.async_block_till_done()
-    assert hass.states.get(ENTITY).state == HVACMode.HEAT
-
-
-async def test_second_opening_does_not_push_back_the_timeout(
-    hass: HomeAssistant, freezer: FrozenDateTimeFactory
-) -> None:
-    """The resume timeout runs from the first opening, not the last.
-
-    The clock has to be frozen for this one: the two openings must land at
-    different wall-clock times, otherwise a re-armed timer would expire at the
-    same moment as the original and the test would pass either way.
-    """
-    start = dt_util.utcnow()
-    freezer.move_to(start)
-    await _setup_thermostat_with_openings(hass, [ENT_OPENING, ENT_OPENING_2])
-    await _set_opening(hass, ENT_OPENING, STATE_ON)
-
-    freezer.move_to(start + datetime.timedelta(minutes=20))
-    await _set_opening(hass, ENT_OPENING_2, STATE_ON)
     assert hass.states.get(ENTITY).state == HVACMode.OFF
-
-    # A re-armed timer would only expire at start + 50 minutes.
-    async_fire_time_changed(hass, start + datetime.timedelta(minutes=31))
-    await hass.async_block_till_done()
-    assert hass.states.get(ENTITY).state == HVACMode.HEAT
-
-
-async def test_opening_stays_off_while_any_opening_is_open(
-    hass: HomeAssistant,
-) -> None:
-    """Closing one of two openings is not enough to resume."""
-    await _setup_thermostat_with_openings(hass, [ENT_OPENING, ENT_OPENING_2])
-    await _set_opening(hass, ENT_OPENING, STATE_ON)
-    await _set_opening(hass, ENT_OPENING_2, STATE_ON)
-
-    await _set_opening(hass, ENT_OPENING, STATE_OFF)
-    assert hass.states.get(ENTITY).state == HVACMode.OFF
-
-    await _set_opening(hass, ENT_OPENING_2, STATE_OFF)
-    assert hass.states.get(ENTITY).state == HVACMode.HEAT
 
 
 async def test_manual_mode_during_opening_wins(hass: HomeAssistant) -> None:
-    """Taking manual control drops the override, so closing does not undo it."""
+    """Taking manual control drops the override, so the resume never fires."""
     await _setup_thermostat_with_openings(hass, [ENT_OPENING])
     await _set_opening(hass, ENT_OPENING, STATE_ON)
     assert hass.states.get(ENTITY).state == HVACMode.OFF
 
     await common.async_set_hvac_mode(hass, HVACMode.HEAT)
     await _set_opening(hass, ENT_OPENING, STATE_OFF)
-    assert hass.states.get(ENTITY).state == HVACMode.HEAT
-
-    # And the spent override must not resume anything later either.
     async_fire_time_changed(hass, dt_util.utcnow() + datetime.timedelta(minutes=31))
     await hass.async_block_till_done()
     assert hass.states.get(ENTITY).state == HVACMode.HEAT
@@ -2285,7 +2289,7 @@ async def test_unavailable_opening_counts_as_closed(hass: HomeAssistant) -> None
 
 
 async def test_opening_override_survives_a_restart(hass: HomeAssistant) -> None:
-    """The mode to come back to is restored, so closing still resumes."""
+    """The mode to come back to is restored, so the resume still fires."""
     mock_restore_cache(
         hass,
         (
@@ -2305,4 +2309,37 @@ async def test_opening_override_survives_a_restart(hass: HomeAssistant) -> None:
     assert hass.states.get(ENTITY).state == HVACMode.OFF
 
     await _set_opening(hass, ENT_OPENING, STATE_OFF)
+    async_fire_time_changed(hass, dt_util.utcnow() + datetime.timedelta(minutes=31))
+    await hass.async_block_till_done()
+    assert hass.states.get(ENTITY).state == HVACMode.HEAT
+
+
+async def test_opening_still_open_after_a_restart_switches_off_again(
+    hass: HomeAssistant,
+) -> None:
+    """A restart with the window still open must not leave the heating running.
+
+    initial_hvac_mode brings the thermostat back up running, so the opening has
+    to be applied again on startup.
+    """
+    mock_restore_cache(
+        hass,
+        (
+            State(
+                ENTITY,
+                HVACMode.OFF,
+                {
+                    ATTR_TEMPERATURE: "20",
+                    ATTR_OPENINGS_SAVED_HVAC_MODE: HVACMode.HEAT,
+                },
+            ),
+        ),
+    )
+    hass.set_state(CoreState.starting)
+    await _setup_thermostat_with_openings(hass, [ENT_OPENING], STATE_ON)
+    assert hass.states.get(ENTITY).state == HVACMode.OFF
+
+    await _set_opening(hass, ENT_OPENING, STATE_OFF)
+    async_fire_time_changed(hass, dt_util.utcnow() + datetime.timedelta(minutes=31))
+    await hass.async_block_till_done()
     assert hass.states.get(ENTITY).state == HVACMode.HEAT
