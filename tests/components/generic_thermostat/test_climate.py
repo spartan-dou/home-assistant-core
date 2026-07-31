@@ -22,7 +22,10 @@ from homeassistant.components.climate import (
     PRESET_SLEEP,
     HVACMode,
 )
-from homeassistant.components.generic_thermostat.const import DOMAIN
+from homeassistant.components.generic_thermostat.const import (
+    ATTR_TARGET_TEMP_PRESET_NONE,
+    DOMAIN,
+)
 from homeassistant.const import (
     ATTR_TEMPERATURE,
     SERVICE_RELOAD,
@@ -1548,6 +1551,50 @@ async def test_restore_state(hass: HomeAssistant, hvac_mode) -> None:
     assert state.attributes[ATTR_TEMPERATURE] == 20
     assert state.attributes[ATTR_PRESET_MODE] == PRESET_AWAY
     assert state.state == hvac_mode
+
+
+async def test_restore_preset_none_temp_taken_in_preset(hass: HomeAssistant) -> None:
+    """Ensure the preset-less setpoint survives a restart taken while in a preset.
+
+    Without the restored attribute, leaving the preset falls back to the
+    temperature computed at startup instead of the one set by hand before the
+    restart.
+    """
+    mock_restore_cache(
+        hass,
+        (
+            State(
+                "climate.test_thermostat",
+                HVACMode.HEAT,
+                {
+                    ATTR_TEMPERATURE: "14",
+                    ATTR_PRESET_MODE: PRESET_AWAY,
+                    ATTR_TARGET_TEMP_PRESET_NONE: 23,
+                },
+            ),
+        ),
+    )
+
+    hass.set_state(CoreState.starting)
+
+    await async_setup_component(
+        hass,
+        CLIMATE_DOMAIN,
+        {
+            "climate": {
+                "platform": "generic_thermostat",
+                "name": "test_thermostat",
+                "heater": ENT_SWITCH,
+                "target_sensor": ENT_SENSOR,
+                "away_temp": 14,
+            }
+        },
+    )
+    await hass.async_block_till_done()
+
+    await common.async_set_preset_mode(hass, PRESET_NONE, "climate.test_thermostat")
+    state = hass.states.get("climate.test_thermostat")
+    assert state.attributes[ATTR_TEMPERATURE] == 23
 
 
 async def test_no_restore_state(hass: HomeAssistant) -> None:
