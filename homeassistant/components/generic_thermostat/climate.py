@@ -296,7 +296,6 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
         else:
             self._attr_preset_modes = [PRESET_NONE]
         self._presets = presets
-        self._presets_inv = {v: k for k, v in presets.items()}
 
     @override
     async def async_added_to_hass(self) -> None:
@@ -493,7 +492,10 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
         """Set new target temperature."""
         if (temperature := kwargs.get(ATTR_TEMPERATURE)) is None:
             return
-        self._attr_preset_mode = self._presets_inv.get(temperature, PRESET_NONE)
+        # Setting a temperature deliberately leaves the preset alone, including
+        # when it happens to match a preset's own temperature: upstream would
+        # switch the preset over, which reassigns the thermostat behind the
+        # user's back.
         self._target_temp = temperature
         # Track the preset-less setpoint on every change, not only when leaving
         # PRESET_NONE, so the published attribute stays accurate even if Home
