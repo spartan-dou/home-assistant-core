@@ -68,6 +68,7 @@ from homeassistant.helpers.typing import ConfigType, DiscoveryInfoType, VolDictT
 from homeassistant.util import dt as dt_util
 
 from .const import (
+    ATTR_TARGET_TEMP_PRESET_NONE,
     CONF_AC_MODE,
     CONF_COLD_TOLERANCE,
     CONF_DUR_COOLDOWN,
@@ -379,6 +380,17 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
                 self._attr_preset_mode = old_state.attributes.get(
                     ClimateEntityStateAttribute.PRESET_MODE
                 )
+            # Without this, returning to PRESET_NONE after a restart taken while
+            # a preset was active yields the startup fallback temperature
+            # instead of the one that was set by hand before shutting down.
+            if (
+                saved_target_temp := old_state.attributes.get(
+                    ATTR_TARGET_TEMP_PRESET_NONE
+                )
+            ) is not None:
+                self._saved_target_temp = float(saved_target_temp)
+            elif self._attr_preset_mode == PRESET_NONE:
+                self._saved_target_temp = self._target_temp
             if not self._hvac_mode and old_state.state:
                 self._hvac_mode = HVACMode(old_state.state)
 
@@ -428,6 +440,16 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
 
     @property
     @override
+    def extra_state_attributes(self) -> dict[str, Any]:
+        """Return the temperature restored when leaving a preset.
+
+        Published as a state attribute so it survives a restart: that is the
+        only persistence mechanism available to the entity.
+        """
+        return {ATTR_TARGET_TEMP_PRESET_NONE: self._saved_target_temp}
+
+    @property
+    @override
     def hvac_action(self) -> HVACAction:
         """Return the current running hvac operation if supported.
 
@@ -473,6 +495,11 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
             return
         self._attr_preset_mode = self._presets_inv.get(temperature, PRESET_NONE)
         self._target_temp = temperature
+        # Track the preset-less setpoint on every change, not only when leaving
+        # PRESET_NONE, so the published attribute stays accurate even if Home
+        # Assistant restarts while no preset was ever activated.
+        if self._attr_preset_mode == PRESET_NONE:
+            self._saved_target_temp = temperature
         if (hvac_mode := kwargs.get(ATTR_HVAC_MODE)) is not None:
             await self.async_set_hvac_mode(hvac_mode)
             return
