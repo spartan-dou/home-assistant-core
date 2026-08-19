@@ -219,6 +219,21 @@ jobs:
           done
           uv pip install -e . --config-settings editable_mode=compat
 
+      # translations/ est généré au build et absent du dépôt, mais la suite de
+      # tests vérifie que chaque clé référencée existe : sans cette étape, tout
+      # test de composant sort en « Translation not found ». C'est ce que fait
+      # la CI amont avant chaque pytest.
+      #
+      # Le script réécrit au passage le translations/en.json que la branche
+      # embarque. Sans conséquence : seules des références sont poussées plus
+      # bas, jamais l'arbre de travail.
+      - name: Compiler les traductions anglaises
+        if: steps.plan.outputs.afaire == 'oui'
+        run: |
+          set -euo pipefail
+          . venv/bin/activate
+          python3 -m script.translations develop --all
+
       - name: Jouer les tests des intégrations patchées
         if: steps.plan.outputs.afaire == 'oui'
         run: |
