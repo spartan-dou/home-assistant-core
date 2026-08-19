@@ -1,0 +1,245 @@
+# Rebase la série de patchs sur le dernier tag stable de home-assistant/core,
+# joue les tests des intégrations patchées, puis publie un tag immuable
+# `patches/<version>`.
+#
+# C'est ce tag que le cluster déploie : côté spartan-dou/cluster-config,
+# `PATCH_REF` le nomme et un test de la CI vérifie qu'il correspond exactement
+# à la version de l'image Home Assistant. Rien n'est poussé vers ce dépôt-là
+# depuis ici — la boucle se referme chez Renovate, qui voit apparaître le
+# nouveau tag et ouvre la PR de montée, image et PATCH_REF dans la même PR.
+#
+# Le tag `patches-base` mémorise le tag amont sur lequel la série est
+# actuellement posée. C'est la seule chose qui rende le rebase automatisable :
+# sans lui, rien ne permet de retrouver où finit l'amont et où commencent les
+# patchs. Il est déplacé à chaque rebase réussi. S'il n'existe pas encore, le
+# renseigner une fois via l'entrée `base` d'un lancement manuel.
+#
+# En cas de conflit, rien n'est poussé et une issue est ouverte. C'est le seul
+# cas qui demande une intervention, et il est visible : côté cluster, la PR de
+# Renovate reste rouge tant que le tag n'existe pas.
+
+name: Rebase des patchs sur l'amont
+
+on:
+  schedule:
+    - cron: "0 5 * * *"
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Tag amont visé (ex. 2026.9.0). Vide = dernier stable."
+        required: false
+        default: ""
+      base:
+        description: "Amorçage : tag amont sur lequel la série est déjà posée. Ignoré si patches-base existe."
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: rebase-patches
+
+env:
+  # Doit rester identique au `ref:` de l'étape de récupération ci-dessous : le
+  # contexte env n'est pas disponible dans le `with:` d'une action.
+  PATCH_BRANCH: claude/home-assistant-custom-integrations-ai8zkb
+  BASE_TAG: patches-base
+  UPSTREAM: https://github.com/home-assistant/core
+  # Intégrations dont la suite de tests doit passer avant publication. Aligné
+  # sur PATCH_DOMAINS côté cluster-config, aux domaines non patchés près : un
+  # domaine publié tel quel n'a rien de nouveau à faire vérifier ici.
+  TESTED: generic_thermostat
+
+jobs:
+  rebase:
+    runs-on: ubuntu-latest
+    steps:
+      # persist-credentials reste à sa valeur par défaut (true) : ce workflow
+      # pousse la branche rebasée et les tags.
+      - name: Récupérer la branche de patchs
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: claude/home-assistant-custom-integrations-ai8zkb
+          # Historique complet : le rebase rejoue des commits, et patches-base
+          # doit être résolvable.
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Identité git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git remote add upstream "$UPSTREAM"
+
+      - name: Décider quoi faire
+        id: plan
+        env:
+          CIBLE_DEMANDEE: ${{ inputs.target }}
+          BASE_AMORCAGE: ${{ inputs.base }}
+        run: |
+          set -euo pipefail
+
+          if [ -n "$CIBLE_DEMANDEE" ]; then
+            cible="$CIBLE_DEMANDEE"
+          else
+            # L'ancrage de fin du motif écarte les préversions : 2026.9.0b3 et
+            # 2026.9.0.dev0 ne correspondent pas. sort -V ordonne 2026.10.0
+            # après 2026.9.0, ce qu'un tri lexicographique ferait à l'envers.
+            cible=$(git ls-remote --tags --refs upstream \
+              | sed -n 's#.*refs/tags/\([0-9]\{4\}\.[0-9]\{1,2\}\.[0-9]\{1,3\}\)$#\1#p' \
+              | sort -V | tail -1)
+          fi
+          [ -n "$cible" ] || { echo "::error::aucun tag stable trouvé chez l'amont"; exit 1; }
+          echo "cible=$cible" >> "$GITHUB_OUTPUT"
+
+          # La base : le tag patches-base, ou l'amorçage manuel s'il est absent.
+          if git rev-parse -q --verify "refs/tags/$BASE_TAG^{commit}" >/dev/null; then
+            base_ref="refs/tags/$BASE_TAG"
+          elif [ -n "$BASE_AMORCAGE" ]; then
+            git fetch --no-tags upstream "refs/tags/$BASE_AMORCAGE:refs/tags/$BASE_AMORCAGE"
+            base_ref="refs/tags/$BASE_AMORCAGE"
+          else
+            echo "::error::$BASE_TAG est absent. Relancer ce workflow à la main en renseignant l'entrée « base » avec le tag amont sur lequel la série est posée."
+            exit 1
+          fi
+          echo "base_ref=$base_ref" >> "$GITHUB_OUTPUT"
+
+          git fetch --no-tags upstream "refs/tags/$cible:refs/tags/$cible"
+          if [ "$(git rev-parse "$base_ref^{commit}")" = "$(git rev-parse "refs/tags/$cible^{commit}")" ]; then
+            rebase=non
+          else
+            rebase=oui
+          fi
+          echo "rebase=$rebase" >> "$GITHUB_OUTPUT"
+
+          # Le tag de déploiement peut manquer même sans rebase à faire : c'est
+          # le cas au tout premier passage, série déjà posée sur la cible.
+          if git ls-remote --exit-code --tags origin "refs/tags/patches/$cible" >/dev/null 2>&1; then
+            tag=non
+          else
+            tag=oui
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+          if [ "$rebase" = non ] && [ "$tag" = non ]; then
+            echo "afaire=non" >> "$GITHUB_OUTPUT"
+            echo "Série déjà posée sur $cible et tag patches/$cible déjà publié : rien à faire."
+          else
+            echo "afaire=oui" >> "$GITHUB_OUTPUT"
+            echo "Cible $cible — rebase : $rebase, tag à créer : $tag."
+          fi
+
+      - name: Rebaser la série
+        if: steps.plan.outputs.rebase == 'oui'
+        id: rebase
+        env:
+          CIBLE: ${{ steps.plan.outputs.cible }}
+          BASE_REF: ${{ steps.plan.outputs.base_ref }}
+        run: |
+          set -uo pipefail
+          if git rebase --onto "refs/tags/$CIBLE" "$BASE_REF" "$PATCH_BRANCH"; then
+            exit 0
+          fi
+          conflits=$(git diff --name-only --diff-filter=U | sed 's/^/- /')
+          git rebase --abort || true
+          {
+            echo "conflits<<FIN_CONFLITS"
+            echo "$conflits"
+            echo "FIN_CONFLITS"
+          } >> "$GITHUB_OUTPUT"
+          exit 1
+
+      - name: Signaler le conflit
+        if: failure() && steps.rebase.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CIBLE: ${{ steps.plan.outputs.cible }}
+          CONFLITS: ${{ steps.rebase.outputs.conflits }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          corps=$(printf '%s\n' \
+            "Le rebase automatique de \`$PATCH_BRANCH\` sur \`$CIBLE\` s'arrête sur un conflit." \
+            "Rien n'a été poussé et le tag \`patches/$CIBLE\` n'existe pas : côté cluster, la PR" \
+            "Renovate qui monte l'image restera rouge tant que ce n'est pas résolu." \
+            "" \
+            "Fichiers en conflit :" \
+            "" \
+            "$CONFLITS" \
+            "" \
+            "Pour reprendre à la main :" \
+            "" \
+            '```bash' \
+            "git fetch origin --tags" \
+            "git fetch https://github.com/home-assistant/core refs/tags/$CIBLE:refs/tags/$CIBLE" \
+            "git rebase --onto refs/tags/$CIBLE refs/tags/$BASE_TAG $PATCH_BRANCH" \
+            "# … résoudre, git add, git rebase --continue …" \
+            "git push --force-with-lease origin $PATCH_BRANCH" \
+            "git tag -f $BASE_TAG refs/tags/$CIBLE && git push -f origin refs/tags/$BASE_TAG" \
+            "git tag patches/$CIBLE $PATCH_BRANCH && git push origin refs/tags/patches/$CIBLE" \
+            '```' \
+            "" \
+            "Déclenché par [ce run]($RUN_URL).")
+          gh issue create --title "Rebase sur $CIBLE : conflit à résoudre à la main" --body "$corps"
+
+      - name: Installer uv et Python
+        if: steps.plan.outputs.afaire == 'oui'
+        uses: astral-sh/setup-uv@fac544c07dec837d0ccb6301d7b5580bf5edae39 # v8.2.0
+        with:
+          python-version-file: ".python-version"
+
+      - name: Construire l'environnement de test
+        if: steps.plan.outputs.afaire == 'oui'
+        run: |
+          set -euo pipefail
+          uv venv venv
+          . venv/bin/activate
+          # requirements_all.txt (les dépendances de toutes les intégrations)
+          # est volontairement omis : les intégrations patchées ici n'ont aucune
+          # dépendance externe, et l'installer coûterait plusieurs minutes.
+          uv pip install -r requirements.txt -r requirements_test.txt
+          uv pip install -e . --config-settings editable_mode=compat
+
+      - name: Jouer les tests des intégrations patchées
+        if: steps.plan.outputs.afaire == 'oui'
+        run: |
+          set -euo pipefail
+          . venv/bin/activate
+          for integration in $TESTED; do
+            echo "::group::$integration"
+            pytest "tests/components/$integration" -q --no-header
+            echo "::endgroup::"
+          done
+
+      - name: Publier
+        if: steps.plan.outputs.afaire == 'oui'
+        env:
+          CIBLE: ${{ steps.plan.outputs.cible }}
+          REBASE: ${{ steps.plan.outputs.rebase }}
+          TAG: ${{ steps.plan.outputs.tag }}
+        run: |
+          set -euo pipefail
+          if [ "$REBASE" = oui ]; then
+            # La branche est réécrite : c'est un rebase.
+            git push --force-with-lease origin "$PATCH_BRANCH"
+            git tag -f "$BASE_TAG" "refs/tags/$CIBLE"
+            git push --force origin "refs/tags/$BASE_TAG"
+          elif ! git ls-remote --exit-code --tags origin "refs/tags/$BASE_TAG" >/dev/null 2>&1; then
+            # Amorçage : la série était déjà posée sur la cible, le repère manquait.
+            git tag -f "$BASE_TAG" "refs/tags/$CIBLE"
+            git push origin "refs/tags/$BASE_TAG"
+          fi
+          if [ "$TAG" = oui ]; then
+            # Un tag déployé n'est jamais réécrit : c'est ce qui rend le
+            # déploiement révocable par un simple retour en arrière côté Flux.
+            git tag "patches/$CIBLE" "$PATCH_BRANCH"
+            git push origin "refs/tags/patches/$CIBLE"
+          fi
+          {
+            echo "### Série publiée sur \`$CIBLE\`"
+            echo
+            echo "Tag déployable : \`patches/$CIBLE\`."
+            echo "Renovate ouvrira la PR de montée côté \`cluster-config\`."
+          } >> "$GITHUB_STEP_SUMMARY"
