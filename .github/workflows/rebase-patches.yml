@@ -33,6 +33,11 @@ on:
         description: "Amorçage : tag amont sur lequel la série est déjà posée. Ignoré si patches-base existe."
         required: false
         default: ""
+      retag:
+        description: "Republier le tag même s'il existe déjà, après modification d'une intégration."
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: write
@@ -47,9 +52,14 @@ env:
   PATCH_BRANCH: claude/home-assistant-custom-integrations-ai8zkb
   BASE_TAG: patches-base
   UPSTREAM: https://github.com/home-assistant/core
-  # Intégrations dont la suite de tests doit passer avant publication. Aligné
-  # sur PATCH_DOMAINS côté cluster-config, aux domaines non patchés près : un
-  # domaine publié tel quel n'a rien de nouveau à faire vérifier ici.
+  # Intégrations déployées dans le PVC. Doit rester identique à PATCH_DOMAINS
+  # côté cluster-config : c'est la liste des dossiers que le tag doit rendre
+  # autosuffisants. Un écart ne casse rien de grave, il fait juste apparaître
+  # des clés brutes à la place du texte traduit.
+  PATCH_DOMAINS: ecovacs generic_thermostat
+  # Sous-ensemble portant réellement des patchs : les seules dont la suite de
+  # tests apprend quelque chose. Un domaine publié tel quel n'a rien de nouveau
+  # à faire vérifier ici.
   TESTED: generic_thermostat
 
 jobs:
@@ -78,6 +88,7 @@ jobs:
         env:
           CIBLE_DEMANDEE: ${{ inputs.target }}
           BASE_AMORCAGE: ${{ inputs.base }}
+          REPUBLIER: ${{ inputs.retag }}
         run: |
           set -euo pipefail
 
@@ -115,8 +126,13 @@ jobs:
           echo "rebase=$rebase" >> "$GITHUB_OUTPUT"
 
           # Le tag de déploiement peut manquer même sans rebase à faire : c'est
-          # le cas au tout premier passage, série déjà posée sur la cible.
-          if git ls-remote --exit-code --tags origin "refs/tags/patches/$cible" >/dev/null 2>&1; then
+          # le cas au tout premier passage, série déjà posée sur la cible. Il
+          # peut aussi devoir être refait à l'identique de version mais pas de
+          # contenu, quand un patch a changé sans que Home Assistant bouge —
+          # c'est le rôle de l'entrée « retag ».
+          if [ "${REPUBLIER:-false}" = true ]; then
+            tag=oui
+          elif git ls-remote --exit-code --tags origin "refs/tags/patches/$cible" >/dev/null 2>&1; then
             tag=non
           else
             tag=oui
@@ -245,12 +261,48 @@ jobs:
             echo "::endgroup::"
           done
 
+      # Le tag déployé doit se suffire à lui-même : le pod y recopie le dossier
+      # de l'intégration tel quel, sans rien recomposer. Il lui manque deux
+      # choses, ajoutées ici — translations/, généré à l'étape précédente et
+      # absent du dépôt (gitignore amont), et la clé version, sans laquelle le
+      # loader écarte une intégration personnalisée sans autre message.
+      #
+      # HEAD est détaché d'abord : ce commit est un artefact, il ne doit pas
+      # atterrir sur la branche, qui reste la série de patchs et rien d'autre.
+      - name: Composer le contenu déployable
+        if: steps.plan.outputs.afaire == 'oui'
+        id: artefact
+        env:
+          CIBLE: ${{ steps.plan.outputs.cible }}
+        run: |
+          set -euo pipefail
+          # Le SHA de la série, pris avant le commit d'artefact : c'est lui qui
+          # identifie ce qui est déployé, pas le commit fabriqué par la CI.
+          version="$CIBLE+$(git rev-parse --short HEAD)"
+          git checkout --quiet --detach
+          for domaine in $PATCH_DOMAINS; do
+            dossier="homeassistant/components/$domaine"
+            python3 - "$dossier/manifest.json" "$version" <<'FIN_PYTHON'
+          import json, sys
+
+          chemin, version = sys.argv[1], sys.argv[2]
+          manifeste = json.load(open(chemin))
+          manifeste["version"] = version
+          json.dump(manifeste, open(chemin, "w"), indent=2)
+          FIN_PYTHON
+            git add -f "$dossier/translations" "$dossier/manifest.json"
+          done
+          git commit --quiet -m "build: contenu déployable pour $version"
+          echo "commit=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "Artefact composé pour $version"
+
       - name: Publier
         if: steps.plan.outputs.afaire == 'oui'
         env:
           CIBLE: ${{ steps.plan.outputs.cible }}
           REBASE: ${{ steps.plan.outputs.rebase }}
           TAG: ${{ steps.plan.outputs.tag }}
+          ARTEFACT: ${{ steps.artefact.outputs.commit }}
         run: |
           set -euo pipefail
           if [ "$REBASE" = oui ]; then
@@ -264,10 +316,11 @@ jobs:
             git push origin "refs/tags/$BASE_TAG"
           fi
           if [ "$TAG" = oui ]; then
-            # Un tag déployé n'est jamais réécrit : c'est ce qui rend le
-            # déploiement révocable par un simple retour en arrière côté Flux.
-            git tag "patches/$CIBLE" "$PATCH_BRANCH"
-            git push origin "refs/tags/patches/$CIBLE"
+            # La réécriture n'a lieu que si le tag manquait, ou si elle a été
+            # demandée explicitement : jamais au fil de l'eau, sinon le tag ne
+            # décrirait plus rien de stable.
+            git tag -f "patches/$CIBLE" "$ARTEFACT"
+            git push --force origin "refs/tags/patches/$CIBLE"
           fi
           {
             echo "### Série publiée sur \`$CIBLE\`"
