@@ -196,10 +196,18 @@ jobs:
           set -euo pipefail
           uv venv venv
           . venv/bin/activate
-          # requirements_all.txt (les dépendances de toutes les intégrations)
-          # est volontairement omis : les intégrations patchées ici n'ont aucune
-          # dépendance externe, et l'installer coûterait plusieurs minutes.
+          # requirements_all.txt réunit les dépendances de toutes les
+          # intégrations : 1135 paquets, plusieurs minutes, pour des intégrations
+          # patchées qui n'ont elles-mêmes aucune dépendance externe.
           uv pip install -r requirements.txt -r requirements_test.txt
+          # Sauf une : tests/common.py, que toute la suite importe, a besoin de
+          # paho.mqtt. La version est reprise de requirements_all.txt plutôt que
+          # réécrite ici, pour ne pas figer un second pin qui dériverait.
+          if ! paho=$(grep -m1 '^paho-mqtt==' requirements_all.txt); then
+            echo "::error::paho-mqtt introuvable dans requirements_all.txt : tests/common.py ne s'importera pas"
+            exit 1
+          fi
+          uv pip install "$paho"
           uv pip install -e . --config-settings editable_mode=compat
 
       - name: Jouer les tests des intégrations patchées
