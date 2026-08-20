@@ -81,9 +81,11 @@ from .const import (
     CONF_MIN_DUR,
     CONF_MIN_TEMP,
     CONF_OPENINGS,
+    CONF_OPENINGS_DEBOUNCE,
     CONF_OPENINGS_RESUME_DELAY,
     CONF_PRESETS,
     CONF_SENSOR,
+    DEFAULT_OPENINGS_DEBOUNCE,
     DEFAULT_OPENINGS_RESUME_DELAY,
     DEFAULT_TOLERANCE,
     DOMAIN,
@@ -122,6 +124,9 @@ PLATFORM_SCHEMA_COMMON = vol.Schema(
         vol.Optional(CONF_OPENINGS, default=[]): cv.entity_ids,
         vol.Optional(
             CONF_OPENINGS_RESUME_DELAY, default=DEFAULT_OPENINGS_RESUME_DELAY
+        ): cv.positive_time_period,
+        vol.Optional(
+            CONF_OPENINGS_DEBOUNCE, default=DEFAULT_OPENINGS_DEBOUNCE
         ): cv.positive_time_period,
         vol.Optional(CONF_INITIAL_HVAC_MODE): vol.In(
             [HVACMode.COOL, HVACMode.HEAT, HVACMode.OFF]
@@ -197,6 +202,9 @@ async def _async_setup_config(
     openings_resume_delay: timedelta = (
         config.get(CONF_OPENINGS_RESUME_DELAY) or DEFAULT_OPENINGS_RESUME_DELAY
     )
+    openings_debounce: timedelta = config.get(
+        CONF_OPENINGS_DEBOUNCE, DEFAULT_OPENINGS_DEBOUNCE
+    )
     initial_hvac_mode: HVACMode | None = config.get(CONF_INITIAL_HVAC_MODE)
     presets: dict[str, float] = {
         key: config[value] for key, value in CONF_PRESETS.items() if value in config
@@ -223,6 +231,7 @@ async def _async_setup_config(
                 keep_alive=keep_alive,
                 openings=openings,
                 openings_resume_delay=openings_resume_delay,
+                openings_debounce=openings_debounce,
                 initial_hvac_mode=initial_hvac_mode,
                 presets=presets,
                 precision=precision,
@@ -258,6 +267,7 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
         keep_alive: timedelta | None,
         openings: list[str],
         openings_resume_delay: timedelta,
+        openings_debounce: timedelta,
         initial_hvac_mode: HVACMode | None,
         presets: dict[str, float],
         precision: float | None,
@@ -286,10 +296,12 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
         self._keep_alive = keep_alive
         self._openings = openings
         self._openings_resume_delay = openings_resume_delay
+        self._openings_debounce = openings_debounce
         # Mode to return to once the openings close, or once the timeout
         # elapses. None means no opening override is in effect.
         self._openings_saved_hvac_mode: HVACMode | None = None
         self._openings_callback: CALLBACK_TYPE | None = None
+        self._openings_debounce_callback: CALLBACK_TYPE | None = None
         self._hvac_mode = initial_hvac_mode
         self._saved_target_temp = target_temp or next(iter(presets.values()), None)
         self._temp_precision = precision
@@ -344,6 +356,7 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
                 )
             )
             self.async_on_remove(self._cancel_openings_timer)
+            self.async_on_remove(self._cancel_openings_debounce)
 
         if self._keep_alive:
             self.async_on_remove(
@@ -471,10 +484,40 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
 
     async def _async_sync_openings(self) -> None:
         """Apply or lift the opening override to match the current openings."""
-        if self._openings_open:
-            await self._async_openings_switch_off()
-        else:
+        if not self._openings_open:
+            # Closed again before the debounce elapsed: nothing was switched
+            # off, and nothing should be. Walking through a door costs nothing.
+            self._cancel_openings_debounce()
             self._async_openings_schedule_resume()
+            return
+
+        # An opening reopening during the wait cancels the pending resume: the
+        # thermostat must never run while something is open.
+        self._cancel_openings_timer()
+        if self._openings_debounce:
+            self._async_openings_schedule_switch_off()
+        else:
+            await self._async_openings_switch_off()
+
+    @callback
+    def _async_openings_schedule_switch_off(self) -> None:
+        """Arm the switch-off, once the opening has stayed open long enough."""
+        if self._openings_saved_hvac_mode is not None:
+            # Already switched off by an earlier opening.
+            return
+        if self._openings_debounce_callback is not None:
+            # Already counting down: a second opening must not push it back.
+            return
+        self._openings_debounce_callback = async_call_later(
+            self.hass, self._openings_debounce, self._async_openings_debounce_elapsed
+        )
+
+    async def _async_openings_debounce_elapsed(self, _: datetime) -> None:
+        """Switch off, unless everything closed while the debounce ran."""
+        self._openings_debounce_callback = None
+        if not self._openings_open:
+            return
+        await self._async_openings_switch_off()
 
     async def _async_openings_switch_off(self) -> None:
         """Switch off for as long as an opening stays open."""
@@ -528,6 +571,13 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
         if self._openings_callback is not None:
             self._openings_callback()
             self._openings_callback = None
+
+    @callback
+    def _cancel_openings_debounce(self) -> None:
+        """Reset the timer that delays the switch-off."""
+        if self._openings_debounce_callback is not None:
+            self._openings_debounce_callback()
+            self._openings_debounce_callback = None
 
     @property
     @override
@@ -597,8 +647,11 @@ class GenericThermostat(ClimateEntity, RestoreEntity):
         """Set hvac mode."""
         # Taking manual control drops any opening override, so that closing the
         # window later does not undo what the user just asked for. The internal
-        # callers set the override after calling this, and clear it before.
+        # callers set the override after calling this, and clear it before. The
+        # debounce goes too: a window opened a moment ago must not switch off
+        # what the user has just asked for.
         self._cancel_openings_timer()
+        self._cancel_openings_debounce()
         self._openings_saved_hvac_mode = None
         if hvac_mode == HVACMode.HEAT:
             self._hvac_mode = HVACMode.HEAT
