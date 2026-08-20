@@ -2152,9 +2152,17 @@ ENT_OPENING_2 = "binary_sensor.door"
 
 
 async def _setup_thermostat_with_openings(
-    hass: HomeAssistant, openings: list[str], opening_state: str = STATE_OFF
+    hass: HomeAssistant,
+    openings: list[str],
+    opening_state: str = STATE_OFF,
+    debounce: datetime.timedelta = datetime.timedelta(0),
 ) -> None:
-    """Set up a thermostat watching the given openings."""
+    """Set up a thermostat watching the given openings.
+
+    The debounce defaults to zero here: the tests below are about what happens
+    once an opening counts as open, and would otherwise all have to tick the
+    clock first. The tests that do cover the debounce set it explicitly.
+    """
     hass.config.units = METRIC_SYSTEM
     for opening in openings:
         hass.states.async_set(opening, opening_state)
@@ -2168,6 +2176,7 @@ async def _setup_thermostat_with_openings(
                 "heater": ENT_SWITCH,
                 "target_sensor": ENT_SENSOR,
                 "openings": openings,
+                "openings_debounce": debounce,
                 "initial_hvac_mode": HVACMode.HEAT,
             }
         },
@@ -2312,6 +2321,114 @@ async def test_opening_override_survives_a_restart(hass: HomeAssistant) -> None:
     async_fire_time_changed(hass, dt_util.utcnow() + datetime.timedelta(minutes=31))
     await hass.async_block_till_done()
     assert hass.states.get(ENTITY).state == HVACMode.HEAT
+
+
+async def test_a_brief_opening_leaves_the_thermostat_alone(
+    hass: HomeAssistant, freezer: FrozenDateTimeFactory
+) -> None:
+    """A door one walks through must not switch the heating off.
+
+    That is what the debounce buys: the switch-off is only armed when an
+    opening opens, and closing again before it elapses calls it off.
+    """
+    start = dt_util.utcnow()
+    freezer.move_to(start)
+    await _setup_thermostat_with_openings(
+        hass, [ENT_OPENING], debounce=datetime.timedelta(seconds=30)
+    )
+
+    await _set_opening(hass, ENT_OPENING, STATE_ON)
+    assert hass.states.get(ENTITY).state == HVACMode.HEAT
+
+    freezer.move_to(start + datetime.timedelta(seconds=10))
+    await _set_opening(hass, ENT_OPENING, STATE_OFF)
+
+    # Well past the debounce: nothing was ever switched off, so nothing is
+    # waiting to be resumed either.
+    async_fire_time_changed(hass, start + datetime.timedelta(minutes=5))
+    await hass.async_block_till_done()
+    assert hass.states.get(ENTITY).state == HVACMode.HEAT
+
+
+async def test_an_opening_left_open_switches_off_after_the_debounce(
+    hass: HomeAssistant,
+) -> None:
+    """Staying open past the debounce switches off, as before."""
+    await _setup_thermostat_with_openings(
+        hass, [ENT_OPENING], debounce=datetime.timedelta(seconds=30)
+    )
+    await _set_opening(hass, ENT_OPENING, STATE_ON)
+    assert hass.states.get(ENTITY).state == HVACMode.HEAT
+
+    async_fire_time_changed(hass, dt_util.utcnow() + datetime.timedelta(seconds=31))
+    await hass.async_block_till_done()
+    assert hass.states.get(ENTITY).state == HVACMode.OFF
+
+
+async def test_reclosing_and_reopening_restarts_the_debounce(
+    hass: HomeAssistant, freezer: FrozenDateTimeFactory
+) -> None:
+    """Each opening gets its own full debounce, not the leftovers of the last."""
+    start = dt_util.utcnow()
+    freezer.move_to(start)
+    await _setup_thermostat_with_openings(
+        hass, [ENT_OPENING], debounce=datetime.timedelta(seconds=30)
+    )
+
+    await _set_opening(hass, ENT_OPENING, STATE_ON)
+    freezer.move_to(start + datetime.timedelta(seconds=20))
+    await _set_opening(hass, ENT_OPENING, STATE_OFF)
+    await _set_opening(hass, ENT_OPENING, STATE_ON)
+
+    # The first debounce would have expired here.
+    async_fire_time_changed(hass, start + datetime.timedelta(seconds=31))
+    await hass.async_block_till_done()
+    assert hass.states.get(ENTITY).state == HVACMode.HEAT
+
+    async_fire_time_changed(hass, start + datetime.timedelta(seconds=51))
+    await hass.async_block_till_done()
+    assert hass.states.get(ENTITY).state == HVACMode.OFF
+
+
+async def test_manual_mode_during_the_debounce_wins(hass: HomeAssistant) -> None:
+    """Taking manual control calls off a switch-off that has not fired yet."""
+    await _setup_thermostat_with_openings(
+        hass, [ENT_OPENING], debounce=datetime.timedelta(seconds=30)
+    )
+    await _set_opening(hass, ENT_OPENING, STATE_ON)
+    await common.async_set_hvac_mode(hass, HVACMode.HEAT)
+
+    async_fire_time_changed(hass, dt_util.utcnow() + datetime.timedelta(seconds=31))
+    await hass.async_block_till_done()
+    assert hass.states.get(ENTITY).state == HVACMode.HEAT
+
+
+async def test_the_debounce_defaults_to_one_second(hass: HomeAssistant) -> None:
+    """Left unset, the debounce is short enough to go unnoticed."""
+    hass.config.units = METRIC_SYSTEM
+    hass.states.async_set(ENT_OPENING, STATE_OFF)
+    assert await async_setup_component(
+        hass,
+        CLIMATE_DOMAIN,
+        {
+            "climate": {
+                "platform": "generic_thermostat",
+                "name": "test",
+                "heater": ENT_SWITCH,
+                "target_sensor": ENT_SENSOR,
+                "openings": [ENT_OPENING],
+                "initial_hvac_mode": HVACMode.HEAT,
+            }
+        },
+    )
+    await hass.async_block_till_done()
+
+    await _set_opening(hass, ENT_OPENING, STATE_ON)
+    assert hass.states.get(ENTITY).state == HVACMode.HEAT
+
+    async_fire_time_changed(hass, dt_util.utcnow() + datetime.timedelta(seconds=2))
+    await hass.async_block_till_done()
+    assert hass.states.get(ENTITY).state == HVACMode.OFF
 
 
 async def test_opening_still_open_after_a_restart_switches_off_again(
