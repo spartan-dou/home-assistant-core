@@ -280,8 +280,42 @@ jobs:
           # identifie ce qui est déployé, pas le commit fabriqué par la CI.
           version="$CIBLE+$(git rev-parse --short HEAD)"
           git checkout --quiet --detach
+
+          # Les traductions autres que l'anglais viennent de Lokalise, dont ce
+          # fork n'a pas le jeton : `develop --all` n'a produit que en.json. On
+          # les prend donc dans la roue publiée, qui est empaquetée après la
+          # récupération Lokalise et embarque une trentaine de langues.
+          uv pip install --no-deps --quiet --target /tmp/coeur "homeassistant==$CIBLE"
+
           for domaine in $PATCH_DOMAINS; do
             dossier="homeassistant/components/$domaine"
+            python3 - "$dossier/translations" "/tmp/coeur/$dossier/translations" <<'FIN_PYTHON'
+          import json, pathlib, sys
+
+          dest, coeur = (pathlib.Path(a) for a in sys.argv[1:3])
+
+          def fusionner(base, ajouts):
+              for cle, valeur in ajouts.items():
+                  if isinstance(valeur, dict) and isinstance(base.get(cle), dict):
+                      fusionner(base[cle], valeur)
+                  else:
+                      base[cle] = valeur
+              return base
+
+          dest.mkdir(parents=True, exist_ok=True)
+          for fichier in sorted(coeur.glob("*.json")):
+              # en.json vient d'être régénéré depuis notre strings.json : il porte
+              # déjà les clés ajoutées, celui de la roue les ignore.
+              if fichier.name == "en.json":
+                  continue
+              cible = dest / fichier.name
+              contenu = json.loads(fichier.read_text())
+              # La branche ne porte qu'un delta par langue traduite à la main :
+              # les clés qu'aucune version du cœur ne peut connaître.
+              if cible.exists():
+                  fusionner(contenu, json.loads(cible.read_text()))
+              cible.write_text(json.dumps(contenu, indent=2, ensure_ascii=False) + "\n")
+          FIN_PYTHON
             python3 - "$dossier/manifest.json" "$version" <<'FIN_PYTHON'
           import json, sys
 
