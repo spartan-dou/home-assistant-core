@@ -4,11 +4,13 @@
       "user": {
         "data": {
           "openings": "Ouvertures",
-          "openings_resume_delay": "Délai de reprise après fermeture"
+          "openings_resume_delay": "Délai de reprise après fermeture",
+          "openings_debounce": "Délai avant coupure"
         },
         "data_description": {
           "openings": "Éteindre le thermostat tant que l'une de ces portes ou fenêtres est ouverte.",
-          "openings_resume_delay": "Temps d'attente après la fermeture de toutes les ouvertures avant de revenir au mode précédent. 30 minutes par défaut."
+          "openings_resume_delay": "Temps d'attente après la fermeture de toutes les ouvertures avant de revenir au mode précédent. 30 minutes par défaut.",
+          "openings_debounce": "Durée pendant laquelle une ouverture doit rester ouverte avant que le thermostat ne coupe. Évite qu'une porte que l'on franchit n'arrête le chauffage. 1 seconde par défaut."
         }
       }
     }
@@ -18,11 +20,13 @@
       "init": {
         "data": {
           "openings": "Ouvertures",
-          "openings_resume_delay": "Délai de reprise après fermeture"
+          "openings_resume_delay": "Délai de reprise après fermeture",
+          "openings_debounce": "Délai avant coupure"
         },
         "data_description": {
           "openings": "Éteindre le thermostat tant que l'une de ces portes ou fenêtres est ouverte.",
-          "openings_resume_delay": "Temps d'attente après la fermeture de toutes les ouvertures avant de revenir au mode précédent. 30 minutes par défaut."
+          "openings_resume_delay": "Temps d'attente après la fermeture de toutes les ouvertures avant de revenir au mode précédent. 30 minutes par défaut.",
+          "openings_debounce": "Durée pendant laquelle une ouverture doit rester ouverte avant que le thermostat ne coupe. Évite qu'une porte que l'on franchit n'arrête le chauffage. 1 seconde par défaut."
         }
       }
     }
