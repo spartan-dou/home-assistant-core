@@ -30,6 +30,7 @@ from .const import (
     CONF_MIN_DUR,
     CONF_MIN_TEMP,
     CONF_OPENINGS,
+    CONF_OPENINGS_DEBOUNCE,
     CONF_OPENINGS_RESUME_DELAY,
     CONF_PRESETS,
     CONF_SENSOR,
@@ -80,6 +81,9 @@ OPTIONS_SCHEMA = {
             ],
             multiple=True,
         )
+    ),
+    vol.Optional(CONF_OPENINGS_DEBOUNCE): selector.DurationSelector(
+        selector.DurationSelectorConfig(allow_negative=False)
     ),
     vol.Optional(CONF_OPENINGS_RESUME_DELAY): selector.DurationSelector(
         selector.DurationSelectorConfig(allow_negative=False)
