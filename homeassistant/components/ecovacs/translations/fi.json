@@ -1,0 +1,212 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Tili on jo määritetty"
+    },
+    "error": {
+      "cannot_connect": "Yhteyden muodostaminen epäonnistui",
+      "invalid_auth": "Virheellinen todennus",
+      "invalid_url": "Virheellinen URL",
+      "invalid_url_schema_override_mqtt_url": "Virheellinen MQTT URL-skeema.\nURL-osoitteen pitäisi alkaa `mqtt://` tai `mqtts://`.",
+      "invalid_url_schema_override_rest_url": "Virheellinen REST-URL-skeema.\nURL-osoitteen pitäisi alkaa sanalla `http://` tai `https://`.",
+      "unknown": "Odottamaton virhe"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "override_mqtt_url": "MQTT URL",
+          "override_rest_url": "REST URL",
+          "password": "Salasana",
+          "username": "Käyttäjätunnus",
+          "verify_mqtt_certificate": "Tarkista MQTT SSL-sertifikaatti"
+        },
+        "data_description": {
+          "override_mqtt_url": "Kirjoita itse isännöimäsi instanssin MQTT-URL-osoite, mukaan lukien järjestelmä (mqtt/mqtts).",
+          "override_rest_url": "Kirjoita itse isännöimäsi instanssin REST-URL-osoite, mukaan lukien järjestelmä (http/https)."
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "Tila"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Moppi kiinnitetty"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "Uudelleensijoita"
+      },
+      "reset_lifespan_blade": {
+        "name": "Nollaa terän käyttöikä"
+      },
+      "reset_lifespan_brush": {
+        "name": "Nollaa pääharjan käyttöikä"
+      },
+      "reset_lifespan_filter": {
+        "name": "Nollaa suodattimen käyttöikä"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Nollaa linssin harjan käyttöikä"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Viimeisin työ",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Valmis",
+              "finished_with_warnings": "Valmis varoitusten kanssa",
+              "manually_stopped": "Pysäytetty manuaalisesti"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Kartta"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "Tyhjennä laskuri"
+      },
+      "volume": {
+        "name": "Äänenvoimakkuus"
+      }
+    },
+    "select": {
+      "water_amount": {
+        "state": {
+          "ultrahigh": "Erittäin korkea"
+        }
+      },
+      "work_mode": {
+        "name": "Työtila",
+        "state": {
+          "mop": "Moppaus",
+          "mop_after_vacuum": "Moppaus imuroinnin jälkeen",
+          "vacuum": "Imurointi",
+          "vacuum_and_mop": "Imurointi ja moppaus"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Virhe",
+        "state_attributes": {
+          "description": {
+            "name": "Kuvaus"
+          }
+        }
+      },
+      "lifespan_blade": {
+        "name": "Terän käyttöikä"
+      },
+      "lifespan_brush": {
+        "name": "Pääharjan käyttöikä"
+      },
+      "lifespan_filter": {
+        "name": "Suodattimen käyttöikä"
+      },
+      "lifespan_lens_brush": {
+        "name": "Linssin harjan käyttöikä"
+      },
+      "network_ip": {
+        "name": "IP-osoite"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fi SSID"
+      },
+      "stats_area": {
+        "name": "Alue siivottu"
+      },
+      "stats_time": {
+        "name": "Siivouksen kesto"
+      },
+      "total_stats_area": {
+        "name": "Siivottu kokonaispinta-ala"
+      },
+      "total_stats_cleanings": {
+        "name": "Siivoukset yhteensä"
+      },
+      "total_stats_time": {
+        "name": "Siivouksen kokonaisaika"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Kehittynyt tila"
+      },
+      "border_switch": {
+        "name": "Rajakytkin"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "Mattojen automaattinen imutehostin"
+      },
+      "child_lock": {
+        "name": "Lapsilukko"
+      },
+      "clean_preference": {
+        "name": "Tyhjennä preferenssi"
+      },
+      "continuous_cleaning": {
+        "name": "Jatkuva puhdistus"
+      },
+      "cross_map_border_warning": {
+        "name": "Kartan rajat ylittävä varoitus"
+      },
+      "move_up_warning": {
+        "name": "Siirry ylöspäin varoitus"
+      },
+      "safe_protect": {
+        "name": "Turvallinen suojaus"
+      },
+      "true_detect": {
+        "name": "Tosi havaitse"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Max",
+              "max_plus": "Max+",
+              "quiet": "Hiljainen"
+            }
+          },
+          "rooms": {
+            "name": "Huoneet"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_send_command_params_dict": {
+      "message": "Parametrien on oltava sanasto eikä luettelo"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "Parametrit vaaditaan komentoa varten: {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Pilvi",
+        "self_hosted": "Itse-isännöity"
+      }
+    }
+  }
+}

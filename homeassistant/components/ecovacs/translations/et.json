@@ -1,0 +1,365 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Kasutaja on juba seadistatud",
+      "reauth_successful": "Taastuvastamine õnnestus"
+    },
+    "error": {
+      "cannot_connect": "Ühendamine nurjus",
+      "invalid_auth": "Tuvastamine nurjus",
+      "invalid_url": "Sobimatu URL",
+      "invalid_url_schema_override_mqtt_url": "Kehtetu MQTT URL-i skeem.\n URL peaks algama tähega „mqtt://” või „mqtts://”.",
+      "invalid_url_schema_override_rest_url": "Kehtetu REST URL-i skeem.\n URL peaks algama tähega „http://” või „https://”.",
+      "invalid_verification_code": "Kinnituskood on kehtetu või aegunud.",
+      "unknown": "Ootamatu tõrge"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Riik",
+          "override_mqtt_url": "MQTT URL",
+          "override_rest_url": "REST URL",
+          "password": "Salasõna",
+          "username": "Kasutajanimi",
+          "verify_mqtt_certificate": "Kontrolli MQTT SSL-sertifikaati"
+        },
+        "data_description": {
+          "override_mqtt_url": "Sisesta oma hostitud eksemplari MQTT URL, sealhulgas skeem (mqtt/mqtts).",
+          "override_rest_url": "Sisesta oma hostitud eksemplari REST URL koos skeemiga (http/https)."
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "Kinnituskood"
+        },
+        "description": "Sisesta kinnituskood, mille Ecovacs saatis aadressile {username} , et kinnitada Home Assistant usaldusväärse seadmena."
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Salasõna"
+        },
+        "description": "Sisesta Ecovacsi salasõna aadressil {username} , et sidumine uuesti ühendada."
+      },
+      "user": {
+        "data": {
+          "mode": "Režiim"
+        },
+        "data_description": {
+          "mode": "Vali režiim, mida soovid Ecovacsiga ühenduse loomiseks kasutada. Kui te pole kindel, valige 'Pilvemajutus'. \n\n Vali „Ise majutatud” ainult siis, kui sul on töötav ise majutatud eksemplar."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Mopp on küljes"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "Ümberpaigutamine"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "Õhuvärskendaja eluea lähtestamine"
+      },
+      "reset_lifespan_blade": {
+        "name": "Lähtesta luua eluiga"
+      },
+      "reset_lifespan_brush": {
+        "name": "Lähtesta põhiharja eluiga"
+      },
+      "reset_lifespan_cleaning_solution": {
+        "name": "Puhastuslahuse kasutusaja lähtestamine"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "Tolmukoti eluea lähtestamine"
+      },
+      "reset_lifespan_filter": {
+        "name": "Lähtesta filtri eluiga"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "Käefiltri eluea lähtestamine"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Lähtesta objektiiviharja eluiga"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "Lähtesta ümmarguse mopi eluiga"
+      },
+      "reset_lifespan_sewage_box": {
+        "name": "Reoveemahuti eluea lähtestamine"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Lähtesta külgharjade eluiga"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "Lähtesta jaama filtri eluiga"
+      },
+      "reset_lifespan_trimmer_brush": {
+        "name": "Lähtesta servatrimmeri harja eluiga"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "Lähtesta seadme hoolduse eluiga"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "UV-desinfitseerija eluea lähtestamine"
+      },
+      "reset_lifespan_water_sink": {
+        "name": "Veeanuma kasutusaja taastamine"
+      },
+      "reset_lifespan_weed_rope": {
+        "name": "Äärise trimmeri jõhvi eluea lähtestamine"
+      },
+      "station_action_clean_base": {
+        "name": "Puhas alus"
+      },
+      "station_action_dry_mop": {
+        "name": "Kuiv mopp"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Tühjenda prügikast"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Viimane töö",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Lõpetanud",
+              "finished_with_warnings": "Lõpetatud hoiatustega",
+              "manually_stopped": "Käsitsi peatatud"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Koristuskaart"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "Puhastuste arv"
+      },
+      "cut_direction": {
+        "name": "Lõikamise suund"
+      },
+      "volume": {
+        "name": "Maht"
+      },
+      "water_amount": {
+        "name": "Vee voolutugevus"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "Aktiivne kaart"
+      },
+      "auto_empty": {
+        "name": "Automaatse tühjendamise sagedus",
+        "state": {
+          "auto": "Automaatne",
+          "min_10": "10 minutit",
+          "min_15": "15 minutit",
+          "min_25": "25 minutit",
+          "smart": "Nutikas"
+        }
+      },
+      "water_amount": {
+        "name": "Vee voolutugevus",
+        "state": {
+          "high": "Kõrge",
+          "low": "Madal",
+          "medium": "Keskmine",
+          "ultrahigh": "Ülikõrge"
+        }
+      },
+      "work_mode": {
+        "name": "Töörežiim",
+        "state": {
+          "mop": "Pese",
+          "mop_after_vacuum": "Pese pärast tolmu imemist",
+          "vacuum": "Tolmuimeja",
+          "vacuum_and_mop": "Tolmuimeja & mopp"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Tõrge",
+        "state_attributes": {
+          "description": {
+            "name": "Kirjeldus"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "Õhuvärskendaja eluiga"
+      },
+      "lifespan_blade": {
+        "name": "Luua eluiga"
+      },
+      "lifespan_brush": {
+        "name": "Põhiharja eluiga"
+      },
+      "lifespan_cleaning_solution": {
+        "name": "Puhastuslahuse eluiga"
+      },
+      "lifespan_dust_bag": {
+        "name": "Tolmukoti eluiga"
+      },
+      "lifespan_filter": {
+        "name": "Filtri kasutusiga"
+      },
+      "lifespan_hand_filter": {
+        "name": "Käsifiltri eluiga"
+      },
+      "lifespan_lens_brush": {
+        "name": "Objektiiviharja eluiga"
+      },
+      "lifespan_main_brush": {
+        "name": "Põhiharja eluiga"
+      },
+      "lifespan_round_mop": {
+        "name": "Ümarmopi eluiga"
+      },
+      "lifespan_sewage_box": {
+        "name": "Reoveekasti eluiga"
+      },
+      "lifespan_side_brush": {
+        "name": "Külgharjade eluiga"
+      },
+      "lifespan_trimmer_brush": {
+        "name": "Äärtetrimmeri harja eluiga"
+      },
+      "lifespan_unit_care": {
+        "name": "Üksuse hoolduse eluiga"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "UV desinfitseerija eluiga"
+      },
+      "lifespan_water_sink": {
+        "name": "Veeanuma eluiga"
+      },
+      "lifespan_weed_rope": {
+        "name": "Ääretrimmeri jõhvi eluiga"
+      },
+      "network_ip": {
+        "name": "IP-aadress"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fi SSID"
+      },
+      "station_state": {
+        "name": "Jaama olek",
+        "state": {
+          "drying_mop": "Kuivatusmopp",
+          "emptying_dustbin": "Prügikasti tühjendamine",
+          "idle": "Ootel",
+          "washing_mop": "Pesumopp"
+        }
+      },
+      "stats_area": {
+        "name": "Koristatud ala"
+      },
+      "stats_time": {
+        "name": "Koristusaeg"
+      },
+      "total_stats_area": {
+        "name": "Koristatud üldpindala"
+      },
+      "total_stats_cleanings": {
+        "name": "Koristusi kokku"
+      },
+      "total_stats_time": {
+        "name": "Koristusaeg kokku"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Edasijõudnute režiim"
+      },
+      "border_spin": {
+        "name": "Servade pühkimine"
+      },
+      "border_switch": {
+        "name": "Piiride lülitamine"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "Vaiba automaatne imemisvõimendus"
+      },
+      "child_lock": {
+        "name": "Lapselukk"
+      },
+      "clean_preference": {
+        "name": "Puhastamise eelistus"
+      },
+      "continuous_cleaning": {
+        "name": "Pidev puhastamine"
+      },
+      "cross_map_border_warning": {
+        "name": "Kaardi piiridest väljumise hoiatus"
+      },
+      "move_up_warning": {
+        "name": "Hoiatuse ülespoole liigutamine"
+      },
+      "safe_protect": {
+        "name": "Turvaline kaitse"
+      },
+      "true_detect": {
+        "name": "Tõene tuvastamine"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Max",
+              "max_plus": "Max+",
+              "normal": "Tavaline",
+              "quiet": "Vaikne"
+            }
+          },
+          "rooms": {
+            "name": "Toad"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "Laadijate ja seadme enda asukohtade otsimist ei toetata"
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "Seda käsku {command} seade{name} ei toeta"
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "Parameetrid peavad olema sõnastik, mitte loend"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "Käsu {command} jaoks on vaja parameetreid."
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Pilvemajutus",
+        "self_hosted": "Ise majutatud"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Otsib töötlemata vastuse, mis sisaldab laadijate ja seadme enda asukohti.",
+      "name": "Hangi ligikaudsed asukohad"
+    }
+  }
+}

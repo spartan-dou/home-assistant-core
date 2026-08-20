@@ -1,0 +1,365 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "帳號已經設定完成",
+      "reauth_successful": "重新認證成功"
+    },
+    "error": {
+      "cannot_connect": "連線失敗",
+      "invalid_auth": "身份驗證無效",
+      "invalid_url": "URL 無效",
+      "invalid_url_schema_override_mqtt_url": "MQTT URL scheme 無效。\nURL 應該以 `mqtt://` or `mqtts://` 開頭。",
+      "invalid_url_schema_override_rest_url": "REST URL scheme 無效。\nURL 應該以 `http://` or `https://` 開頭。",
+      "invalid_verification_code": "驗證碼無效或已過期。",
+      "unknown": "未預期錯誤"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "國家",
+          "override_mqtt_url": "MQTT URL",
+          "override_rest_url": "REST URL",
+          "password": "密碼",
+          "username": "使用者名稱",
+          "verify_mqtt_certificate": "驗證 MQTT SSL 認證"
+        },
+        "data_description": {
+          "override_mqtt_url": "輸入自託管實例的 MQTT URL、包括 scheme（mqtt/mqtts）。",
+          "override_rest_url": "輸入自託管實例的 REST URL、包括 scheme（http/https）。"
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "驗證碼"
+        },
+        "description": "輸入 Ecovacs 傳送至 {username} 的驗證碼，以確認 Home Assistant 為受信任的裝置。"
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "密碼"
+        },
+        "description": "輸入 {username} 的 Ecovacs 密碼以重新連接整合。"
+      },
+      "user": {
+        "data": {
+          "mode": "模式"
+        },
+        "data_description": {
+          "mode": "選擇連線 Ecovacs 的模式。如果不確定，請選擇 **雲端**。\n\n只有在具有一組執行中的自託管實例時、才選擇 **自託管**。"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "拖把已安裝"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "重新定位"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "重置空氣清新劑壽命"
+      },
+      "reset_lifespan_blade": {
+        "name": "重置刀片壽命"
+      },
+      "reset_lifespan_brush": {
+        "name": "重置主刷壽命"
+      },
+      "reset_lifespan_cleaning_solution": {
+        "name": "重置清潔液壽命"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "重置集塵袋壽命"
+      },
+      "reset_lifespan_filter": {
+        "name": "重置過濾器壽命"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "重置手持過濾器壽命"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "重置鏡頭刷壽命"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "重置圓形拖把壽命"
+      },
+      "reset_lifespan_sewage_box": {
+        "name": "重置污水箱壽命"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "重置邊刷壽命"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "重置充電站過濾器壽命"
+      },
+      "reset_lifespan_trimmer_brush": {
+        "name": "重置修邊器刷壽命"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "重置設備保固壽命"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "重置紫外線消毒器壽命"
+      },
+      "reset_lifespan_water_sink": {
+        "name": "重置水槽壽命"
+      },
+      "reset_lifespan_weed_rope": {
+        "name": "重置修邊機線壽命"
+      },
+      "station_action_clean_base": {
+        "name": "清掃基地"
+      },
+      "station_action_dry_mop": {
+        "name": "烘乾拖把"
+      },
+      "station_action_empty_dustbin": {
+        "name": "清空集塵盒"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "上次工作",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "完成",
+              "finished_with_warnings": "已完成帶警告",
+              "manually_stopped": "手動停止"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "地圖"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "清掃次數"
+      },
+      "cut_direction": {
+        "name": "切割方向"
+      },
+      "volume": {
+        "name": "面積"
+      },
+      "water_amount": {
+        "name": "水量等級"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "使用中地圖"
+      },
+      "auto_empty": {
+        "name": "自動清空頻率",
+        "state": {
+          "auto": "自動",
+          "min_10": "10 分鐘",
+          "min_15": "15 分鐘",
+          "min_25": "25 分鐘",
+          "smart": "智能"
+        }
+      },
+      "water_amount": {
+        "name": "水量等級",
+        "state": {
+          "high": "高",
+          "low": "低",
+          "medium": "中",
+          "ultrahigh": "超高"
+        }
+      },
+      "work_mode": {
+        "name": "工作模式",
+        "state": {
+          "mop": "拖地",
+          "mop_after_vacuum": "於清掃後拖地",
+          "vacuum": "清掃",
+          "vacuum_and_mop": "清掃與拖地"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "錯誤",
+        "state_attributes": {
+          "description": {
+            "name": "說明"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "空氣清新劑壽命"
+      },
+      "lifespan_blade": {
+        "name": "刀片壽命"
+      },
+      "lifespan_brush": {
+        "name": "主刷壽命"
+      },
+      "lifespan_cleaning_solution": {
+        "name": "清潔液使用壽命"
+      },
+      "lifespan_dust_bag": {
+        "name": "集塵袋壽命"
+      },
+      "lifespan_filter": {
+        "name": "過濾器壽命"
+      },
+      "lifespan_hand_filter": {
+        "name": "手持過濾器壽命"
+      },
+      "lifespan_lens_brush": {
+        "name": "鏡頭刷壽命"
+      },
+      "lifespan_main_brush": {
+        "name": "主刷壽命"
+      },
+      "lifespan_round_mop": {
+        "name": "圓形拖把壽命"
+      },
+      "lifespan_sewage_box": {
+        "name": "污水箱使用壽命"
+      },
+      "lifespan_side_brush": {
+        "name": "邊刷壽命"
+      },
+      "lifespan_trimmer_brush": {
+        "name": "修邊器刷使用壽命"
+      },
+      "lifespan_unit_care": {
+        "name": "設備保固壽命"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "紫外線消毒器壽命"
+      },
+      "lifespan_water_sink": {
+        "name": "水槽使用壽命"
+      },
+      "lifespan_weed_rope": {
+        "name": "修邊機線使用壽命"
+      },
+      "network_ip": {
+        "name": "IP 位址"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fi SSID"
+      },
+      "station_state": {
+        "name": "充電站狀態",
+        "state": {
+          "drying_mop": "烘乾拖把",
+          "emptying_dustbin": "清空集塵盒",
+          "idle": "待命",
+          "washing_mop": "清洗拖把"
+        }
+      },
+      "stats_area": {
+        "name": "已清掃區域"
+      },
+      "stats_time": {
+        "name": "清掃時間"
+      },
+      "total_stats_area": {
+        "name": "已清掃總區域"
+      },
+      "total_stats_cleanings": {
+        "name": "總清掃"
+      },
+      "total_stats_time": {
+        "name": "總清掃時間"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "進階模式"
+      },
+      "border_spin": {
+        "name": "邊界旋轉"
+      },
+      "border_switch": {
+        "name": "邊界開關"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "地毯自動吸力增強"
+      },
+      "child_lock": {
+        "name": "兒童鎖"
+      },
+      "clean_preference": {
+        "name": "清掃偏好"
+      },
+      "continuous_cleaning": {
+        "name": "持續清掃"
+      },
+      "cross_map_border_warning": {
+        "name": "跨地圖邊界警告"
+      },
+      "move_up_warning": {
+        "name": "向上移動警告"
+      },
+      "safe_protect": {
+        "name": "安全保護"
+      },
+      "true_detect": {
+        "name": "真實偵測"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "最高",
+              "max_plus": "最高+",
+              "normal": "正常",
+              "quiet": "靜音"
+            }
+          },
+          "rooms": {
+            "name": "房間"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "不支援檢索充電站和裝置本身的位置"
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "{name} 不支援命令 {command}"
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "參數必須是字典，而不是列表"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "需要參數以執行命令：{command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "雲端",
+        "self_hosted": "自託管"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "檢索充電站與裝置本身的原始回應位置。",
+      "name": "取得原始位置"
+    }
+  }
+}

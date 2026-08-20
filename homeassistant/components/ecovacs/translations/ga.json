@@ -1,0 +1,365 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Tá an cuntas cumraithe cheana féin",
+      "reauth_successful": "D'éirigh leis an athfhíordheimhniú"
+    },
+    "error": {
+      "cannot_connect": "Theip ar an nascadh",
+      "invalid_auth": "Fíordheimhniú neamhbhailí",
+      "invalid_url": "URL neamhbhailí",
+      "invalid_url_schema_override_mqtt_url": "Scéim URL MQTT neamhbhailí. \nBa chóir go dtosódh an URL le `mqtt://` nó `mqtts://`.",
+      "invalid_url_schema_override_rest_url": "Scéim URL REST neamhbhailí. Ba chóir go dtosódh an URL le `http://` nó `https://`.",
+      "invalid_verification_code": "Tá an cód fíoraithe neamhbhailí nó imithe in éag.",
+      "unknown": "Earráid gan choinne"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Tír",
+          "override_mqtt_url": "URL MQTT",
+          "override_rest_url": "URL REST",
+          "password": "Pasfhocal",
+          "username": "Ainm úsáideora",
+          "verify_mqtt_certificate": "Fíoraigh teastas SSL MQTT"
+        },
+        "data_description": {
+          "override_mqtt_url": "Cuir isteach URL MQTT d’eispéireas féinóstáilte lena n-áirítear an scéim (mqtt/mqtts).",
+          "override_rest_url": "Cuir isteach URL REST d’eispéireas féinóstáilte lena n-áirítear an scéim (http/https)."
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "Cód fíoraithe"
+        },
+        "description": "Cuir isteach an cód fíoraithe a sheol Ecovacs chuig {username} chun Home Assistant a dhearbhú mar fheiste iontaofa."
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Pasfhocal"
+        },
+        "description": "Cuir isteach an focal faire Ecovacs do {username} chun an comhtháthú a athcheangal."
+      },
+      "user": {
+        "data": {
+          "mode": "Mód"
+        },
+        "data_description": {
+          "mode": "Roghnaigh an modh is mian leat a úsáid chun ceangal le Ecovacs. Mura bhfuil tú cinnte, roghnaigh **Scamall**.\n\nNá roghnaigh **Féinóstáilte** ach amháin má tá cás féinóstáilte ag obair agat."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Mopa ceangailte"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "Athlonnú"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "Athshocraigh saolré an úrnaitheoirí aeir"
+      },
+      "reset_lifespan_blade": {
+        "name": "Athshocraigh saolré an lann"
+      },
+      "reset_lifespan_brush": {
+        "name": "Athshocraigh saolré an phríomhscuib"
+      },
+      "reset_lifespan_cleaning_solution": {
+        "name": "Athshocraigh saolré an tuaslagáin ghlantacháin"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "Athshocraigh saolré an mhála deannaigh"
+      },
+      "reset_lifespan_filter": {
+        "name": "Athshocraigh saolré an scagaire"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "Athshocraigh saolré an scagaire láimhe"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Athshocraigh saolré scuab lionsa"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "Athshocraigh saolré mopa babhta"
+      },
+      "reset_lifespan_sewage_box": {
+        "name": "Athshocraigh saolré an bhosca séarachais"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Athshocraigh saolré an scuab taobh"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "Athshocraigh saolré scagaire an stáisiúin"
+      },
+      "reset_lifespan_trimmer_brush": {
+        "name": "Athshocraigh saolré scuab an trimmer imeall"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "Athshocraigh saolré cúraim an aonaid"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "Athshocraigh saolré an tsláintitheora UV"
+      },
+      "reset_lifespan_water_sink": {
+        "name": "Athshocraigh saolré an doirteal uisce"
+      },
+      "reset_lifespan_weed_rope": {
+        "name": "Athshocraigh saolré líne gearrthóra imeall"
+      },
+      "station_action_clean_base": {
+        "name": "Bonn glan"
+      },
+      "station_action_dry_mop": {
+        "name": "Mop tirim"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Bosca bruscair folamh"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "An post deireanach",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Críochnaithe",
+              "finished_with_warnings": "Críochnaithe le rabhaidh",
+              "manually_stopped": "Stoptha de láimh"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Léarscáil"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "Líon glan"
+      },
+      "cut_direction": {
+        "name": "Treo gearrtha"
+      },
+      "volume": {
+        "name": "Toirt"
+      },
+      "water_amount": {
+        "name": "Leibhéal sreafa uisce"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "Léarscáil ghníomhach"
+      },
+      "auto_empty": {
+        "name": "Minicíocht uath-fholamhaithe",
+        "state": {
+          "auto": "Uathoibríoch",
+          "min_10": "10 nóiméad",
+          "min_15": "15 nóiméad",
+          "min_25": "25 nóiméad",
+          "smart": "Cliste"
+        }
+      },
+      "water_amount": {
+        "name": "Leibhéal sreafa uisce",
+        "state": {
+          "high": "Ard",
+          "low": "Íseal",
+          "medium": "Meánach",
+          "ultrahigh": "Ultra-ard"
+        }
+      },
+      "work_mode": {
+        "name": "Mód oibre",
+        "state": {
+          "mop": "Mopa",
+          "mop_after_vacuum": "Mop tar éis folúsghlanadh",
+          "vacuum": "Folúsghlantóir",
+          "vacuum_and_mop": "Folúsghlantóir & mopa"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Earráid",
+        "state_attributes": {
+          "description": {
+            "name": "Cur síos"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "Saolré an úrnuaiteora aeir"
+      },
+      "lifespan_blade": {
+        "name": "Saolré na lanna"
+      },
+      "lifespan_brush": {
+        "name": "Saolré an phríomhscuab"
+      },
+      "lifespan_cleaning_solution": {
+        "name": "Saolré an tuaslagáin ghlantacháin"
+      },
+      "lifespan_dust_bag": {
+        "name": "Saolré an mhála deannaigh"
+      },
+      "lifespan_filter": {
+        "name": "Saolré an scagaire"
+      },
+      "lifespan_hand_filter": {
+        "name": "Saolré scagaire láimhe"
+      },
+      "lifespan_lens_brush": {
+        "name": "Saolré scuab lionsa"
+      },
+      "lifespan_main_brush": {
+        "name": "Saolré an phríomhscuab"
+      },
+      "lifespan_round_mop": {
+        "name": "Saolré mopa babhta"
+      },
+      "lifespan_sewage_box": {
+        "name": "Saolré bosca séarachais"
+      },
+      "lifespan_side_brush": {
+        "name": "Saolré scuab taobh"
+      },
+      "lifespan_trimmer_brush": {
+        "name": "Saolré scuab gearrthóra imeall"
+      },
+      "lifespan_unit_care": {
+        "name": "Saolré cúraim aonaid"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "Saolré sláintitheoir UV"
+      },
+      "lifespan_water_sink": {
+        "name": "Saolré doirteal uisce"
+      },
+      "lifespan_weed_rope": {
+        "name": "Saolré líne trimmer imeall"
+      },
+      "network_ip": {
+        "name": "Seoladh IP"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "SSID Wi-Fi"
+      },
+      "station_state": {
+        "name": "Stát an stáisiúin",
+        "state": {
+          "drying_mop": "Mop triomúcháin",
+          "emptying_dustbin": "Bosca bruscair a fholmhú",
+          "idle": "Díomhaoin",
+          "washing_mop": "Mop níocháin"
+        }
+      },
+      "stats_area": {
+        "name": "Limistéar glanta"
+      },
+      "stats_time": {
+        "name": "Fad an ghlantacháin"
+      },
+      "total_stats_area": {
+        "name": "Limistéar iomlán glanta"
+      },
+      "total_stats_cleanings": {
+        "name": "Glanadh iomlán"
+      },
+      "total_stats_time": {
+        "name": "Fad iomlán an ghlantacháin"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Mód ardleibhéil"
+      },
+      "border_spin": {
+        "name": "Casadh teorann"
+      },
+      "border_switch": {
+        "name": "Lasc teorann"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "Súchán uath-threisithe cairpéad"
+      },
+      "child_lock": {
+        "name": "Glas leanaí"
+      },
+      "clean_preference": {
+        "name": "Glan rogha"
+      },
+      "continuous_cleaning": {
+        "name": "Glanadh leanúnach"
+      },
+      "cross_map_border_warning": {
+        "name": "Rabhadh teorainn tras-léarscáile"
+      },
+      "move_up_warning": {
+        "name": "Rabhadh bog suas"
+      },
+      "safe_protect": {
+        "name": "Cosaint shábháilte"
+      },
+      "true_detect": {
+        "name": "Brath fíor"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Uasmhéid",
+              "max_plus": "Uasmhéid+",
+              "normal": "Gnáth",
+              "quiet": "Ciúin"
+            }
+          },
+          "rooms": {
+            "name": "Seomraí"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "Ní thacaítear le suíomhanna na luchtairí agus an fheiste féin a aisghabháil"
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "Ní thacaíonn {name} leis an ordú {command}"
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "Ní mór do na paraiméadair a bheith ina bhfoclóir agus ní ina liosta"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "Tá paraiméadair riachtanach don ordú: {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Néal",
+        "self_hosted": "Féinóstáilte"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Aisghabhann sé freagra amh ina bhfuil suíomhanna na luchtairí agus an fheiste féin.",
+      "name": "Faigh suíomhanna amha"
+    }
+  }
+}

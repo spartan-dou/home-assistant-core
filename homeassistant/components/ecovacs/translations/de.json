@@ -1,0 +1,365 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Konto ist bereits konfiguriert",
+      "reauth_successful": "Die erneute Authentifizierung war erfolgreich"
+    },
+    "error": {
+      "cannot_connect": "Verbindung fehlgeschlagen",
+      "invalid_auth": "Ungültige Authentifizierung",
+      "invalid_url": "Ungültige URL",
+      "invalid_url_schema_override_mqtt_url": "Ungültiges MQTT-URL-Schema.\nDie URL sollte mit `mqtt://` oder `mqtts://` beginnen.",
+      "invalid_url_schema_override_rest_url": "Ungültiges REST-URL-Schema.\nDie URL sollte mit `http://` oder `https://` beginnen.",
+      "invalid_verification_code": "Der Bestätigungscode ist ungültig oder abgelaufen.",
+      "unknown": "Unerwarteter Fehler"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Land",
+          "override_mqtt_url": "MQTT-URL",
+          "override_rest_url": "REST-URL",
+          "password": "Passwort",
+          "username": "Benutzername",
+          "verify_mqtt_certificate": "MQTT-SSL-Zertifikat verifizieren"
+        },
+        "data_description": {
+          "override_mqtt_url": "Gib die MQTT-URL deiner selbstgehosteten Instanz einschließlich des Schemas (mqtt/mqtts) ein.",
+          "override_rest_url": "Gib die REST-URL deiner selbstgehosteten Instanz einschließlich des Schemas (http/https) ein."
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "Bestätigungscode"
+        },
+        "description": "Gib den von Ecovacs an {username} gesendeten Bestätigungscode ein, um Home Assistant als vertrauenswürdiges Gerät zu bestätigen."
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Passwort"
+        },
+        "description": "Gib das Ecovacs-Passwort für {username} ein, um die Integration wieder zu verbinden."
+      },
+      "user": {
+        "data": {
+          "mode": "Modus"
+        },
+        "data_description": {
+          "mode": "Wähle den Modus aus, den du für die Verbindung mit Ecovacs verwenden möchtest. Wenn du unsicher bist, wähle **Cloud**. \n\nWähle **Selbstgehostet** nur aus, wenn du über eine funktionierende selbstgehostete Instanz verfügst."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Mopp angebracht"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "Verlegen"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "Lebensdauer des Lufterfrischers zurücksetzen"
+      },
+      "reset_lifespan_blade": {
+        "name": "Lebensdauer der Klinge zurücksetzen"
+      },
+      "reset_lifespan_brush": {
+        "name": "Lebensdauer der Hauptbürste zurücksetzen"
+      },
+      "reset_lifespan_cleaning_solution": {
+        "name": "Lebensdauer der Reinigungslösung zurücksetzen"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "Lebensdauer des Staubbeutels zurücksetzen"
+      },
+      "reset_lifespan_filter": {
+        "name": "Lebensdauer des Filters zurücksetzen"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "Lebensdauer des Handfilters zurücksetzen"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Lebensdauer der Objektivbürste zurücksetzen"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "Lebensdauer des Rundwischers zurücksetzen"
+      },
+      "reset_lifespan_sewage_box": {
+        "name": "Lebensdauer des Abwasserkastens zurücksetzen"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Lebensdauer der Seitenbürste zurücksetzen"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "Lebensdauer des Stationsfilters zurücksetzen"
+      },
+      "reset_lifespan_trimmer_brush": {
+        "name": "Lebensdauer der Kantentrimmerbürste zurücksetzen"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "Lebensdauer der Pflegeeinheit zurücksetzen"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "Lebensdauer des UV-Desinfektionsmittels zurücksetzen"
+      },
+      "reset_lifespan_water_sink": {
+        "name": "Lebensdauer des Wasserablaufs zurücksetzen"
+      },
+      "reset_lifespan_weed_rope": {
+        "name": "Lebensdauer des Kantentrimmerfadens zurücksetzen"
+      },
+      "station_action_clean_base": {
+        "name": "Basis reinigen"
+      },
+      "station_action_dry_mop": {
+        "name": "Mopp trocknen"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Staubbehälter entleeren"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Letzter Auftrag",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Abgeschlossen",
+              "finished_with_warnings": "Mit Warnungen abgeschlossen",
+              "manually_stopped": "Manuell gestoppt"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Karte"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "Reinigungszähler"
+      },
+      "cut_direction": {
+        "name": "Schnittrichtung"
+      },
+      "volume": {
+        "name": "Lautstärke"
+      },
+      "water_amount": {
+        "name": "Wasserdurchfluss"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "Aktive Karte"
+      },
+      "auto_empty": {
+        "name": "Häufigkeit der Auto-Entleerung",
+        "state": {
+          "auto": "Auto",
+          "min_10": "10 Minuten",
+          "min_15": "15 Minuten",
+          "min_25": "25 Minuten",
+          "smart": "Smart"
+        }
+      },
+      "water_amount": {
+        "name": "Wasserdurchfluss",
+        "state": {
+          "high": "Hoch",
+          "low": "Niedrig",
+          "medium": "Mittel",
+          "ultrahigh": "Ultrahoch"
+        }
+      },
+      "work_mode": {
+        "name": "Betriebsmodus",
+        "state": {
+          "mop": "Wischen",
+          "mop_after_vacuum": "Nach dem Saugen wischen",
+          "vacuum": "Saugen",
+          "vacuum_and_mop": "Saugen & Wischen"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Fehler",
+        "state_attributes": {
+          "description": {
+            "name": "Beschreibung"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "Lebensdauer des Lufterfrischers"
+      },
+      "lifespan_blade": {
+        "name": "Lebensdauer der Klinge"
+      },
+      "lifespan_brush": {
+        "name": "Lebensdauer der Hauptbürste"
+      },
+      "lifespan_cleaning_solution": {
+        "name": "Lebensdauer der Reinigungslösung"
+      },
+      "lifespan_dust_bag": {
+        "name": "Lebensdauer des Staubbeutels"
+      },
+      "lifespan_filter": {
+        "name": "Lebensdauer des Filters"
+      },
+      "lifespan_hand_filter": {
+        "name": "Lebensdauer des Handfilters"
+      },
+      "lifespan_lens_brush": {
+        "name": "Lebensdauer der Objektivbürste"
+      },
+      "lifespan_main_brush": {
+        "name": "Lebensdauer der Hauptbürste"
+      },
+      "lifespan_round_mop": {
+        "name": "Lebensdauer des Rundwischers"
+      },
+      "lifespan_sewage_box": {
+        "name": "Lebensdauer des Abwasserkastens"
+      },
+      "lifespan_side_brush": {
+        "name": "Lebensdauer der Seitenbürste"
+      },
+      "lifespan_trimmer_brush": {
+        "name": "Lebensdauer der Kantentrimmerbürste"
+      },
+      "lifespan_unit_care": {
+        "name": "Lebensdauer der Pflegeeinheit"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "Lebensdauer des UV-Desinfektionsmittels"
+      },
+      "lifespan_water_sink": {
+        "name": "Lebensdauer des Wasserablaufs"
+      },
+      "lifespan_weed_rope": {
+        "name": "Lebensdauer des Kantentrimmerfadens"
+      },
+      "network_ip": {
+        "name": "IP-Adresse"
+      },
+      "network_rssi": {
+        "name": "WLAN-RSSI"
+      },
+      "network_ssid": {
+        "name": "WLAN-SSID"
+      },
+      "station_state": {
+        "name": "Zustand der Station",
+        "state": {
+          "drying_mop": "Mopp wird getrocknet",
+          "emptying_dustbin": "Staubbehälter wird entleert",
+          "idle": "Leerlauf",
+          "washing_mop": "Mopp wird gewaschen"
+        }
+      },
+      "stats_area": {
+        "name": "Fläche gereinigt"
+      },
+      "stats_time": {
+        "name": "Reinigungsdauer"
+      },
+      "total_stats_area": {
+        "name": "Gesamtfläche gereinigt"
+      },
+      "total_stats_cleanings": {
+        "name": "Reinigungen insgesamt"
+      },
+      "total_stats_time": {
+        "name": "Gesamtdauer der Reinigung"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Erweiterter Modus"
+      },
+      "border_spin": {
+        "name": "Randdrehung"
+      },
+      "border_switch": {
+        "name": "Grenzschalter"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "Automatische Saugkraftverstärkung für Teppiche"
+      },
+      "child_lock": {
+        "name": "Kindersicherung"
+      },
+      "clean_preference": {
+        "name": "Reinigungspräferenz"
+      },
+      "continuous_cleaning": {
+        "name": "Kontinuierliche Reinigung"
+      },
+      "cross_map_border_warning": {
+        "name": "Warnung vor Überschreitung der Kartengrenzen"
+      },
+      "move_up_warning": {
+        "name": "Warnung vor „Nach oben“"
+      },
+      "safe_protect": {
+        "name": "Safe protect"
+      },
+      "true_detect": {
+        "name": "TrueDetect"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Max",
+              "max_plus": "Max+",
+              "normal": "Normal",
+              "quiet": "Leise"
+            }
+          },
+          "rooms": {
+            "name": "Räume"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "Das Abrufen der Positionen der Ladegeräte und des Geräts selbst wird nicht unterstützt"
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "Der {command}-Befehl wird von {name} nicht unterstützt"
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "Parameter müssen ein Dictionary und keine Liste sein"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "Parameter sind für den Befehl erforderlich: {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Cloud",
+        "self_hosted": "Selbstgehostet"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Ruft eine Rohantwort ab, die die Positionen der Ladegeräte und des Geräts selbst enthält.",
+      "name": "Rohpositionen abrufen"
+    }
+  }
+}

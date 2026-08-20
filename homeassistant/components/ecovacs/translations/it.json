@@ -1,0 +1,243 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "L'account è già configurato",
+      "reauth_successful": "La riautenticazione è avvenuta con successo"
+    },
+    "error": {
+      "cannot_connect": "Impossibile connettersi",
+      "invalid_auth": "Autenticazione non valida",
+      "invalid_url": "URL non valido",
+      "invalid_verification_code": "Il codice di verifica non è valido o è scaduto.",
+      "unknown": "Errore imprevisto"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "override_rest_url": "URL REST",
+          "password": "Password",
+          "username": "Nome utente",
+          "verify_mqtt_certificate": "Verifica certificato MQTT SSL"
+        },
+        "data_description": {
+          "override_rest_url": "Inserisci l'URL REST della tua istanza self-hosted incluso lo schema (http/https)."
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "Codice di verifica"
+        },
+        "description": "Inserisci il codice di verifica che Ecovacs ha inviato a {username} per confermare Home Assistant come dispositivo attendibile."
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Password"
+        },
+        "description": "Inserisci la password di Ecovacs per {username} per ricollegare l'integrazione."
+      },
+      "user": {
+        "data": {
+          "mode": "Modalità"
+        }
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "reset_lifespan_air_freshener": {
+        "name": "Ripristina la durata del deodorante per ambienti"
+      },
+      "reset_lifespan_brush": {
+        "name": "Reimposta durata spazzola principale"
+      },
+      "reset_lifespan_cleaning_solution": {
+        "name": "Ripristina la durata della soluzione detergente"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "Ripristina la durata del sacchetto antipolvere"
+      },
+      "reset_lifespan_filter": {
+        "name": "Reimposta la durata del filtro"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "Ripristina la durata del filtro manuale"
+      },
+      "reset_lifespan_sewage_box": {
+        "name": "Ripristina la durata della cassetta di scarico"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Reimposta durata spazzola principale"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "Ripristina la durata del filtro della stazione"
+      },
+      "reset_lifespan_trimmer_brush": {
+        "name": "Ripristina la durata della spazzola del tagliabordi"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "Ripristina la durata del disinfettante UV"
+      },
+      "reset_lifespan_water_sink": {
+        "name": "Ripristino della durata di vita del lavandino"
+      },
+      "reset_lifespan_weed_rope": {
+        "name": "Reimposta durata del filo per tagliabordi"
+      },
+      "station_action_clean_base": {
+        "name": "Base pulita"
+      },
+      "station_action_dry_mop": {
+        "name": "Mocio asciutto"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Svuota contenitore della polvere"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Ultimo lavoro",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Finito",
+              "finished_with_warnings": "Finito con avvertimenti",
+              "manually_stopped": "Arrestato manualmente"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Mappa"
+      }
+    },
+    "number": {
+      "cut_direction": {
+        "name": "Direzione di taglio"
+      },
+      "volume": {
+        "name": "Volume"
+      }
+    },
+    "select": {
+      "auto_empty": {
+        "name": "Frequenza di svuotamento automatico",
+        "state": {
+          "auto": "Automatico",
+          "min_10": "10 minuti",
+          "min_15": "15 minuti",
+          "min_25": "25 minuti",
+          "smart": "Intelligente"
+        }
+      },
+      "water_amount": {
+        "state": {
+          "high": "Alto/a",
+          "low": "Basso/a",
+          "medium": "Medio/a"
+        }
+      },
+      "work_mode": {
+        "state": {
+          "mop": "Mocio"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Errore",
+        "state_attributes": {
+          "description": {
+            "name": "Descrizione"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "Durata del deodorante per ambienti"
+      },
+      "lifespan_brush": {
+        "name": "Durata spazzola principale"
+      },
+      "lifespan_cleaning_solution": {
+        "name": "Durata della soluzione detergente"
+      },
+      "lifespan_dust_bag": {
+        "name": "Durata del sacchetto antipolvere"
+      },
+      "lifespan_filter": {
+        "name": "Durata filtro"
+      },
+      "lifespan_hand_filter": {
+        "name": "Durata del filtro manuale"
+      },
+      "lifespan_main_brush": {
+        "name": "Durata spazzola principale"
+      },
+      "lifespan_sewage_box": {
+        "name": "Durata di vita della cassetta di scarico"
+      },
+      "lifespan_side_brush": {
+        "name": "Durata spazzola laterale"
+      },
+      "lifespan_trimmer_brush": {
+        "name": "Durata della spazzola del tagliabordi"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "Durata del disinfettante UV"
+      },
+      "lifespan_water_sink": {
+        "name": "Durata di vita del lavandino"
+      },
+      "lifespan_weed_rope": {
+        "name": "Durata della linea del tagliabordi"
+      },
+      "network_ip": {
+        "name": "Indirizzo IP"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "SSID Wi-Fi"
+      },
+      "station_state": {
+        "state": {
+          "emptying_dustbin": "Svuotamento contenitore della polvere",
+          "idle": "Inattivo"
+        }
+      },
+      "stats_area": {
+        "name": "Area pulita"
+      },
+      "stats_time": {
+        "name": "Durata pulizia"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Modalità avanzata"
+      },
+      "border_spin": {
+        "name": "Rotazione del bordo"
+      },
+      "clean_preference": {
+        "name": "Preferenza di pulizia"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "normal": "Normale"
+            }
+          },
+          "rooms": {
+            "name": "Stanze"
+          }
+        }
+      }
+    }
+  }
+}

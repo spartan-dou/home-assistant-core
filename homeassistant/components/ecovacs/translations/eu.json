@@ -1,0 +1,91 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Kontua dagoeneko konfiguratuta dago",
+      "reauth_successful": "Berrautortzea arrakastatsua izan da"
+    },
+    "error": {
+      "cannot_connect": "Konexioak huts egin du",
+      "invalid_auth": "Autentifikazio baliogabea",
+      "invalid_url": "URL baliogabea",
+      "unknown": "Ustekabeko errorea"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Herrialdea",
+          "password": "Pasahitza",
+          "username": "Erabiltzaile-izena",
+          "verify_mqtt_certificate": "MQTT SSL ziurtagiria egiaztatu"
+        }
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Pasahitza"
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "Modua"
+        }
+      }
+    }
+  },
+  "entity": {
+    "event": {
+      "last_job": {
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Amaituta",
+              "finished_with_warnings": "Abixuekin amaituta"
+            }
+          }
+        }
+      }
+    },
+    "select": {
+      "auto_empty": {
+        "state": {
+          "min_10": "10 minutu",
+          "min_15": "15 minutu",
+          "min_25": "25 minutu"
+        }
+      },
+      "water_amount": {
+        "state": {
+          "high": "Altua",
+          "low": "Baxua"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "state_attributes": {
+          "description": {
+            "name": "Deskribapena"
+          }
+        }
+      },
+      "network_ip": {
+        "name": "IP helbidea"
+      },
+      "station_state": {
+        "state": {
+          "idle": "Inaktiboa"
+        }
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "normal": "Normala"
+            }
+          }
+        }
+      }
+    }
+  }
+}
