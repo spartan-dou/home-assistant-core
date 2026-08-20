@@ -35,6 +35,7 @@ from .const import (
     CONF_MIN_DUR,
     CONF_MIN_TEMP,
     CONF_OPENINGS,
+    CONF_OPENINGS_DEBOUNCE,
     CONF_OPENINGS_RESUME_DELAY,
     CONF_PRECISION,
     CONF_PRESETS,
@@ -87,6 +88,9 @@ OPTIONS_SCHEMA = {
             ],
             multiple=True,
         )
+    ),
+    probatio.Optional(CONF_OPENINGS_DEBOUNCE): selector.DurationSelector(
+        selector.DurationSelectorConfig(allow_negative=False)
     ),
     probatio.Optional(CONF_OPENINGS_RESUME_DELAY): selector.DurationSelector(
         selector.DurationSelectorConfig(allow_negative=False)
