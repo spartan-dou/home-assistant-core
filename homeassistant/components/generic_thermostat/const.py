@@ -40,10 +40,14 @@ CONF_SENSOR = "target_sensor"
 CONF_KEEP_ALIVE = "keep_alive"
 CONF_OPENINGS = "openings"
 CONF_OPENINGS_RESUME_DELAY = "openings_resume_delay"
+CONF_OPENINGS_DEBOUNCE = "openings_debounce"
 DEFAULT_TOLERANCE = 0.3
 # Wait this long after the openings close before resuming, so the room is not
 # heated while it is still airing out.
 DEFAULT_OPENINGS_RESUME_DELAY = timedelta(minutes=30)
+# Ignore an opening that closes again straight away: walking through a door
+# must not switch the heating off.
+DEFAULT_OPENINGS_DEBOUNCE = timedelta(seconds=1)
 
 ATTR_TARGET_TEMP_PRESET_NONE = "target_temp_preset_none"
 ATTR_OPENINGS_SAVED_HVAC_MODE = "openings_saved_hvac_mode"
