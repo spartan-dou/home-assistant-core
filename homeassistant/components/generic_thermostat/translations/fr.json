@@ -1,0 +1,30 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "openings": "Ouvertures",
+          "openings_resume_delay": "Délai de reprise après fermeture"
+        },
+        "data_description": {
+          "openings": "Éteindre le thermostat tant que l'une de ces portes ou fenêtres est ouverte.",
+          "openings_resume_delay": "Temps d'attente après la fermeture de toutes les ouvertures avant de revenir au mode précédent. 30 minutes par défaut."
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "openings": "Ouvertures",
+          "openings_resume_delay": "Délai de reprise après fermeture"
+        },
+        "data_description": {
+          "openings": "Éteindre le thermostat tant que l'une de ces portes ou fenêtres est ouverte.",
+          "openings_resume_delay": "Temps d'attente après la fermeture de toutes les ouvertures avant de revenir au mode précédent. 30 minutes par défaut."
+        }
+      }
+    }
+  }
+}
