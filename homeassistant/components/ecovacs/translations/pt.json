@@ -1,0 +1,365 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Conta já configurada",
+      "reauth_successful": "Reautenticação bem sucedida"
+    },
+    "error": {
+      "cannot_connect": "A ligação falhou",
+      "invalid_auth": "Autenticação inválida",
+      "invalid_url": "URL inválido",
+      "invalid_url_schema_override_mqtt_url": "Esquema de URL MQTT inválido.\nO URL deve começar com `mqtt://` ou `mqtts://`.",
+      "invalid_url_schema_override_rest_url": "Esquema de URL REST inválido.\nO URL deve começar com `http://` ou `https://`.",
+      "invalid_verification_code": "O código de verificação não é válido ou já expirou.",
+      "unknown": "Erro inesperado"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "País",
+          "override_mqtt_url": "URL MQTT",
+          "override_rest_url": "URL REST",
+          "password": "Palavra-passe",
+          "username": "Nome de Utilizador",
+          "verify_mqtt_certificate": "Verificar certificado SSL MQTT"
+        },
+        "data_description": {
+          "override_mqtt_url": "Introduza o URL MQTT da sua instância auto-hospedada, incluindo o esquema (mqtt/mqtts).",
+          "override_rest_url": "Introduza o URL REST da sua instância auto-hospedada, incluindo o esquema (http/https)."
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "Código de verificação"
+        },
+        "description": "Introduza o código de verificação que a Ecovacs enviou para {username} para confirmar o Home Assistant como um dispositivo de confiança."
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Palavra-passe"
+        },
+        "description": "Introduza a palavra-passe da Ecovacs para {username} para restabelecer a ligação da integração."
+      },
+      "user": {
+        "data": {
+          "mode": "Modo"
+        },
+        "data_description": {
+          "mode": "Selecione o modo que pretende utilizar para se ligar à Ecovacs. Se não tiver a certeza, selecione **Cloud**.\n\nSelecione **Auto-hospedado** apenas se tiver uma instância auto-hospedada a funcionar."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Mopa colocada"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "Mudar de local"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "Repor a vida útil do ambientador"
+      },
+      "reset_lifespan_blade": {
+        "name": "Repor o tempo de vida da lâmina"
+      },
+      "reset_lifespan_brush": {
+        "name": "Repor o tempo de vida da escova principal"
+      },
+      "reset_lifespan_cleaning_solution": {
+        "name": "Reiniciar a duração da solução de limpeza"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "Repor a vida útil do saco do pó"
+      },
+      "reset_lifespan_filter": {
+        "name": "Repor o tempo de vida do filtro"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "Repor o tempo de vida do filtro manual"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Repor o tempo de vida da escova da lente"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "Repor o tempo de vida da mopa redonda"
+      },
+      "reset_lifespan_sewage_box": {
+        "name": "Reiniciar a vida útil da caixa de esgoto"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Repor a vida útil da escova lateral"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "Reiniciar vida útil do filtro da estação"
+      },
+      "reset_lifespan_trimmer_brush": {
+        "name": "Reiniciar a vida útil da escova do aparador de bordas"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "Repor o tempo de vida da unidade de cuidados"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "Repor o tempo de vida do desinfetante UV"
+      },
+      "reset_lifespan_water_sink": {
+        "name": "Redefinir a vida útil do lavatório"
+      },
+      "reset_lifespan_weed_rope": {
+        "name": "Reiniciar a vida útil do fio do aparador de rebordos"
+      },
+      "station_action_clean_base": {
+        "name": "Base limpa"
+      },
+      "station_action_dry_mop": {
+        "name": "Mopa seca"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Esvaziar depósito do pó"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Último trabalho",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Concluído",
+              "finished_with_warnings": "Concluído com avisos",
+              "manually_stopped": "Parado manualmente"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Mapa"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "Contagem limpa"
+      },
+      "cut_direction": {
+        "name": "Direção de corte"
+      },
+      "volume": {
+        "name": "Volume"
+      },
+      "water_amount": {
+        "name": "Nível do caudal de água"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "Mapa ativo"
+      },
+      "auto_empty": {
+        "name": "Frequência de esvaziamento automático",
+        "state": {
+          "auto": "Auto",
+          "min_10": "10 minutos",
+          "min_15": "15 minutos",
+          "min_25": "25 minutos",
+          "smart": "Inteligente"
+        }
+      },
+      "water_amount": {
+        "name": "Nível do caudal de água",
+        "state": {
+          "high": "Alto",
+          "low": "Baixo",
+          "medium": "Médio",
+          "ultrahigh": "Ultra-alto"
+        }
+      },
+      "work_mode": {
+        "name": "Modo de trabalho",
+        "state": {
+          "mop": "Mopa",
+          "mop_after_vacuum": "Passar mopa depois de aspirar",
+          "vacuum": "Aspirar",
+          "vacuum_and_mop": "Aspirar e passar a mopa"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Erro",
+        "state_attributes": {
+          "description": {
+            "name": "Descrição"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "Vida útil do ambientador"
+      },
+      "lifespan_blade": {
+        "name": "Vida útil da lâmina"
+      },
+      "lifespan_brush": {
+        "name": "Vida útil da escova principal"
+      },
+      "lifespan_cleaning_solution": {
+        "name": "Tempo de vida útil da solução de limpeza"
+      },
+      "lifespan_dust_bag": {
+        "name": "Vida útil do saco de pó"
+      },
+      "lifespan_filter": {
+        "name": "Vida útil do filtro"
+      },
+      "lifespan_hand_filter": {
+        "name": "Vida útil do filtro de mão"
+      },
+      "lifespan_lens_brush": {
+        "name": "Vida útil da escova da lente"
+      },
+      "lifespan_main_brush": {
+        "name": "Vida útil da escova principal"
+      },
+      "lifespan_round_mop": {
+        "name": "Vida útil da mopa redonda"
+      },
+      "lifespan_sewage_box": {
+        "name": "Vida útil da caixa de esgotos"
+      },
+      "lifespan_side_brush": {
+        "name": "Vida útil da escova lateral"
+      },
+      "lifespan_trimmer_brush": {
+        "name": "Vida útil da escova do aparador de bordas"
+      },
+      "lifespan_unit_care": {
+        "name": "Tempo de vida da unidade de cuidados"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "Vida útil do desinfetante UV"
+      },
+      "lifespan_water_sink": {
+        "name": "Vida útil do lavatório"
+      },
+      "lifespan_weed_rope": {
+        "name": "Vida útil do fio do aparador de bordas"
+      },
+      "network_ip": {
+        "name": "Endereço IP"
+      },
+      "network_rssi": {
+        "name": "RSSI do Wi-Fi"
+      },
+      "network_ssid": {
+        "name": "SSID do Wi-Fi"
+      },
+      "station_state": {
+        "name": "Estado da estação",
+        "state": {
+          "drying_mop": "A secar a mopa",
+          "emptying_dustbin": "A esvaziar o depósito de pó",
+          "idle": "Inativo",
+          "washing_mop": "A lavar a mopa"
+        }
+      },
+      "stats_area": {
+        "name": "Área limpa"
+      },
+      "stats_time": {
+        "name": "Duração da limpeza"
+      },
+      "total_stats_area": {
+        "name": "Área total limpa"
+      },
+      "total_stats_cleanings": {
+        "name": "Total de limpezas"
+      },
+      "total_stats_time": {
+        "name": "Duração total da limpeza"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Modo avançado"
+      },
+      "border_spin": {
+        "name": "Giro de fronteira"
+      },
+      "border_switch": {
+        "name": "Comutador de fronteira"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "Sucção auto-reforçada para alcatifas"
+      },
+      "child_lock": {
+        "name": "Bloqueio infantil"
+      },
+      "clean_preference": {
+        "name": "Preferência de limpeza"
+      },
+      "continuous_cleaning": {
+        "name": "Limpeza contínua"
+      },
+      "cross_map_border_warning": {
+        "name": "Aviso de fronteira inter-mapas"
+      },
+      "move_up_warning": {
+        "name": "Aviso de mudança de direção"
+      },
+      "safe_protect": {
+        "name": "Proteção segura"
+      },
+      "true_detect": {
+        "name": "Deteção verdadeira"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Máx",
+              "max_plus": "Máx+",
+              "normal": "Normal",
+              "quiet": "Silencioso"
+            }
+          },
+          "rooms": {
+            "name": "Divisões"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "A obtenção das posições dos carregadores e do próprio dispositivo não é suportada"
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "O comando {command} não é suportado por {name}"
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "Os parâmetros têm de ser um dicionário e não uma lista"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "São necessários parâmetros para o comando: {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Nuvem",
+        "self_hosted": "Auto-hospedado"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Obtenha uma resposta crua para as posições dos carregadores e do próprio dispositivo.",
+      "name": "Obter posições brutas"
+    }
+  }
+}

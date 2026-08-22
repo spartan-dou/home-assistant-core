@@ -1,0 +1,380 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Účet je již nastaven",
+      "reauth_successful": "Opětovné ověření bylo úspěšné"
+    },
+    "error": {
+      "cannot_connect": "Nepodařilo se připojit",
+      "invalid_auth": "Neplatné ověření",
+      "invalid_url": "Neplatná URL",
+      "invalid_url_schema_override_mqtt_url": "Neplatné schéma adresy URL MQTT.\nAdresa URL by měla začínat \"mqtt://\" nebo \"mqtts://\".",
+      "invalid_url_schema_override_rest_url": "Neplatné schéma adresy URL REST.\nAdresa URL by měla začínat \"http://\" nebo \"https://\".",
+      "invalid_verification_code": "Ověřovací kód je neplatný nebo jeho platnost vypršela.",
+      "unknown": "Neočekávaná chyba"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Země",
+          "override_mqtt_url": "URL MQTT",
+          "override_rest_url": "URL REST",
+          "password": "Heslo",
+          "username": "Uživatelské jméno",
+          "verify_mqtt_certificate": "Ověřit certifikát SSL MQTT"
+        },
+        "data_description": {
+          "override_mqtt_url": "Zadejte adresu URL MQTT své vlastní hostované instance včetně schématu (mqtt/mqtts).",
+          "override_rest_url": "Zadejte adresu URL REST své vlastní hostované instance včetně schématu (http/https)."
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "Ověřovací kód"
+        },
+        "description": "Zadejte ověřovací kód, který vám Ecovacs zaslal na {username}, a potvrďte tak Home Assistanta jako důvěryhodné zařízení."
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Heslo"
+        },
+        "description": "Zadejte heslo k Ecovacs {username} pro opětovné připojení integrace."
+      },
+      "user": {
+        "data": {
+          "mode": "Režim"
+        },
+        "data_description": {
+          "mode": "Vyberte režim, který chcete použít pro připojení k Ecovacs. Pokud si nejste jisti, vyberte \"Cloud\".\n\nVyberte možnost \"Vlastní hosting\" jen v případě, že máte fungující instanci vlastního hostingu."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Mop připojen"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "Přemístit"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "Resetovat životnost osvěžovače vzduchu"
+      },
+      "reset_lifespan_blade": {
+        "name": "Resetovat životnost nože"
+      },
+      "reset_lifespan_brush": {
+        "name": "Resetovat životnost hlavního kartáče"
+      },
+      "reset_lifespan_cleaning_solution": {
+        "name": "Resetovat životnost čistícího roztoku"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "Resetovat životnost sáčku na prach"
+      },
+      "reset_lifespan_filter": {
+        "name": "Resetovat životnost filtru"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "Resetovat životnost ručního filtru"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Resetovat životnost kartáče čočky"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "Resetovat životnost kulatého mopu"
+      },
+      "reset_lifespan_sewage_box": {
+        "name": "Resetovat životnost odpadní nádoby"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Resetovat životnost bočního kartáče"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "Resetovat životnost filtru stanice"
+      },
+      "reset_lifespan_trimmer_brush": {
+        "name": "Resetovat životnost kartáče struny"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "Resetovat životnost jednotky péče"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "Resetovat životnost UV dezinfekci"
+      },
+      "reset_lifespan_water_sink": {
+        "name": "Resetovat životnost mycí vaničky"
+      },
+      "reset_lifespan_weed_rope": {
+        "name": "Resetovat životnost struny"
+      },
+      "station_action_clean_base": {
+        "name": "Vyčistit základnu"
+      },
+      "station_action_dry_mop": {
+        "name": "Vysušit mop"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Vyprázdnit zásobník na prach"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Poslední úloha",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Dokončeno",
+              "finished_with_warnings": "Dokončeno s varováními",
+              "manually_stopped": "Ručně zastaveno"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Mapa"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "Počet úklidů"
+      },
+      "cut_direction": {
+        "name": "Směr řezu"
+      },
+      "volume": {
+        "name": "Objem"
+      },
+      "water_amount": {
+        "name": "Úroveň průtoku vody"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "Aktivní mapa"
+      },
+      "auto_empty": {
+        "name": "Frekvence automatického vyprazdňování",
+        "state": {
+          "auto": "Automaticky",
+          "min_10": "10 minut",
+          "min_15": "15 minut",
+          "min_25": "25 minut",
+          "smart": "Chytře"
+        }
+      },
+      "water_amount": {
+        "name": "Úroveň průtoku vody",
+        "state": {
+          "high": "Vysoká",
+          "low": "Nízká",
+          "medium": "Střední",
+          "ultrahigh": "Ultravysoké"
+        }
+      },
+      "work_mode": {
+        "name": "Pracovní režim",
+        "state": {
+          "mop": "Vytírání",
+          "mop_after_vacuum": "Mopovat po vysávání",
+          "vacuum": "Vysávání",
+          "vacuum_and_mop": "Vysávat a mopovat"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Chyba",
+        "state_attributes": {
+          "description": {
+            "name": "Popis"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "Životnost osvěžovače vzduchu"
+      },
+      "lifespan_blade": {
+        "name": "Životnost nože"
+      },
+      "lifespan_brush": {
+        "name": "Životnost hlavního kartáče"
+      },
+      "lifespan_cleaning_solution": {
+        "name": "Životnost čistícího roztoku"
+      },
+      "lifespan_dust_bag": {
+        "name": "Životnost prachového sáčku"
+      },
+      "lifespan_filter": {
+        "name": "Životnost filtru"
+      },
+      "lifespan_hand_filter": {
+        "name": "Životnost ručního filtru"
+      },
+      "lifespan_lens_brush": {
+        "name": "Životnost kartáče čočky"
+      },
+      "lifespan_main_brush": {
+        "name": "Životnost hlavního kartáče"
+      },
+      "lifespan_round_mop": {
+        "name": "Životnost kulatého mopu"
+      },
+      "lifespan_sewage_box": {
+        "name": "Životnost odpoadní nádoby"
+      },
+      "lifespan_side_brush": {
+        "name": "Životnost bočního kartáče"
+      },
+      "lifespan_trimmer_brush": {
+        "name": "Životnost kartáče struny"
+      },
+      "lifespan_unit_care": {
+        "name": "Životnost jednotky péče"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "Životnost UV dezinfekce"
+      },
+      "lifespan_water_sink": {
+        "name": "Životnost mycí vaničky"
+      },
+      "lifespan_weed_rope": {
+        "name": "Životnost struny"
+      },
+      "network_ip": {
+        "name": "IP adresa"
+      },
+      "network_rssi": {
+        "name": "RSSI Wi-Fi"
+      },
+      "network_ssid": {
+        "name": "SSID Wi-Fi"
+      },
+      "station_state": {
+        "name": "Stav stanice",
+        "state": {
+          "drying_mop": "Sušící mop",
+          "emptying_dustbin": "Vyprazdňování zásobníku na prach",
+          "idle": "Nečinný",
+          "washing_mop": "Mycí mop"
+        }
+      },
+      "stats_area": {
+        "name": "Uklizená plocha"
+      },
+      "stats_area_mower": {
+        "name": "Oblast byla posečena"
+      },
+      "stats_time": {
+        "name": "Doba úklidu"
+      },
+      "stats_time_mower": {
+        "name": "Délka sečení"
+      },
+      "total_stats_area": {
+        "name": "Celková uklizená plocha"
+      },
+      "total_stats_area_mower": {
+        "name": "Celková posekaná plocha"
+      },
+      "total_stats_cleanings": {
+        "name": "Celkové úklidy"
+      },
+      "total_stats_cleanings_mower": {
+        "name": "Celkový počet sečení"
+      },
+      "total_stats_time": {
+        "name": "Celková doba úklidu"
+      },
+      "total_stats_time_mower": {
+        "name": "Celková doba sečení"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Pokročilý režim"
+      },
+      "border_spin": {
+        "name": "Otočení okraje"
+      },
+      "border_switch": {
+        "name": "Hraniční spínač"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "Automaticky zvýšit výkon sání koberce"
+      },
+      "child_lock": {
+        "name": "Dětský zámek"
+      },
+      "clean_preference": {
+        "name": "Preference úklidu"
+      },
+      "continuous_cleaning": {
+        "name": "Průběžný úklid"
+      },
+      "cross_map_border_warning": {
+        "name": "Upozornění na hranici mapy"
+      },
+      "move_up_warning": {
+        "name": "Upozornění na pohyb nahoru"
+      },
+      "safe_protect": {
+        "name": "Bezpečná ochrana"
+      },
+      "true_detect": {
+        "name": "Skutečná detekce"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Maximum",
+              "max_plus": "Maximum+",
+              "normal": "Normální",
+              "quiet": "Tichý"
+            }
+          },
+          "rooms": {
+            "name": "Pokoje"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "Získávání poloh nabíječek a samotného zařízení není podporováno"
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "Příkaz {command} není podporován {name}"
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "Parametry musí být slovník, nikoli seznam"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "Pro příkaz {command} jsou vyžadovány parametry"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Cloud",
+        "self_hosted": "Vlastní hosting"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Získá hrubou polohu nabíječek a samotného zařízení.",
+      "name": "Získat hrubou polohu"
+    }
+  }
+}

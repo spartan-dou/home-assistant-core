@@ -1,0 +1,60 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Račun že nastavljen"
+    },
+    "error": {
+      "cannot_connect": "Povezava ni uspela",
+      "invalid_auth": "Neveljavna avtentikacija",
+      "unknown": "Nepričakovana napaka"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "password": "Geslo",
+          "username": "Uporabniško ime"
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "Način"
+        }
+      }
+    }
+  },
+  "entity": {
+    "image": {
+      "map": {
+        "name": "Zemljevid"
+      }
+    },
+    "select": {
+      "auto_empty": {
+        "state": {
+          "auto": "Samodejno"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Napaka"
+      },
+      "station_state": {
+        "state": {
+          "idle": "Mirovanje"
+        }
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "quiet": "Tiho"
+            }
+          }
+        }
+      }
+    }
+  }
+}

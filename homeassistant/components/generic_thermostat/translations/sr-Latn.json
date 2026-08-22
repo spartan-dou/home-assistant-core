@@ -1,0 +1,100 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "Minimalno vreme rada mora biti manje od maksimalnog vremena rada."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivno",
+          "away_temp": "Van kuće",
+          "comfort_temp": "Udobno",
+          "eco_temp": "Eko",
+          "home_temp": "Kod kuće",
+          "sleep_temp": "Noćni režim"
+        },
+        "title": "Unapred podešene temperature"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Režim hlađenja",
+          "cold_tolerance": "Donja granica tolerancije",
+          "cycle_cooldown": "Period hlađenja nakon rada",
+          "heater": "Aktuatorski prekidač",
+          "hot_tolerance": "Gornja granica tolerancije",
+          "keep_alive": "Vreme održavanja aktivnosti",
+          "max_cycle_duration": "Maksimalno vreme rada",
+          "max_temp": "Maksimalna ciljna temperatura",
+          "min_cycle_duration": "Minimalno vreme rada",
+          "min_temp": "Minimalna ciljna temperatura",
+          "name": "Naziv",
+          "target_sensor": "Senzor temperature"
+        },
+        "data_description": {
+          "ac_mode": "Podesite izabrani aktuator da radi kao uređaj za hlađenje umesto kao uređaj za grejanje.",
+          "cold_tolerance": "Minimalna razlika između očitane i ciljne temperature koja je potrebna da bi se uređaj uključio. Na primer, ako je ciljna temperatura 25°C, a tolerancija 0,5°C, grejač će se uključiti kada temperatura padne ispod 24,5°C.",
+          "cycle_cooldown": "Minimalno vreme koje mora proteći nakon isključivanja pre ponovnog uključivanja.",
+          "heater": "Prekidački entitet koji se koristi za hlađenje ili grejanje, u zavisnosti od režima klime.",
+          "hot_tolerance": "Minimalna razlika između očitane i ciljne temperature koja je potrebna da bi se uređaj isključio. Na primer, ako je ciljna temperatura 25°C, a tolerancija 0,5°C, grejač će se isključiti kada senzor očita 25,5°C ili više.",
+          "keep_alive": "Periodično aktiviranje grejača kako bi se sprečio gubitak stanja uređaja.",
+          "max_cycle_duration": "Kada se uključi, maksimalno vreme koje može proteći pre nego što se isključi.",
+          "min_cycle_duration": "Minimalno vreme koje mora da prođe nakon uključivanja pre nego što se može isključiti.",
+          "target_sensor": "Senzor temperature koji prikazuje trenutnu temperaturu."
+        },
+        "description": "Kreirajte entitet klimatizacije koji kontroliše temperaturu pomoću prekidača i senzora.",
+        "title": "Kreiranje opšteg termostata"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "Minimalno vreme rada mora biti manje od maksimalnog vremena rada."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Režim hlađenja",
+          "cold_tolerance": "Donja granica tolerancije",
+          "cycle_cooldown": "Period hlađenja nakon rada",
+          "heater": "Aktuatorski prekidač",
+          "hot_tolerance": "Gornja granica tolerancije",
+          "keep_alive": "Vreme održavanja aktivnosti",
+          "max_cycle_duration": "Maksimalno vreme rada",
+          "max_temp": "Maksimalna ciljna temperatura",
+          "min_cycle_duration": "Minimalno vreme rada",
+          "min_temp": "Minimalna ciljna temperatura",
+          "target_sensor": "Senzor temperature"
+        },
+        "data_description": {
+          "ac_mode": "Podesite izabrani aktuator da radi kao uređaj za hlađenje umesto kao uređaj za grejanje.",
+          "cold_tolerance": "Minimalna razlika između očitane i ciljne temperature koja je potrebna da bi se uređaj uključio. Na primer, ako je ciljna temperatura 25°C, a tolerancija 0,5°C, grejač će se uključiti kada temperatura padne ispod 24,5°C.",
+          "cycle_cooldown": "Minimalno vreme koje mora proteći nakon isključivanja pre ponovnog uključivanja.",
+          "heater": "Prekidački entitet koji se koristi za hlađenje ili grejanje, u zavisnosti od režima klime.",
+          "hot_tolerance": "Minimalna razlika između očitane i ciljne temperature koja je potrebna da bi se uređaj isključio. Na primer, ako je ciljna temperatura 25°C, a tolerancija 0,5°C, grejač će se isključiti kada senzor očita 25,5°C ili više.",
+          "keep_alive": "Periodično aktiviranje grejača kako bi se sprečio gubitak stanja uređaja.",
+          "max_cycle_duration": "Kada se uključi, maksimalno vreme koje može proteći pre nego što se isključi.",
+          "min_cycle_duration": "Minimalno vreme koje mora da prođe nakon uključivanja pre nego što se može isključiti.",
+          "target_sensor": "Senzor temperature koji prikazuje trenutnu temperaturu."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivno",
+          "away_temp": "Van kuće",
+          "comfort_temp": "Udobno",
+          "eco_temp": "Eko",
+          "home_temp": "Kod kuće",
+          "sleep_temp": "Noćni režim"
+        },
+        "title": "Unapred podešene temperature"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Ponovo učitava opšte termostate iz YAML konfiguracije.",
+      "name": "Ponovo učitaj opšte termostate"
+    }
+  },
+  "title": "Opšti termostat"
+}

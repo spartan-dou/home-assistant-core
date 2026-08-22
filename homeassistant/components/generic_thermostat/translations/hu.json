@@ -1,0 +1,100 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "A minimális működési időnek rövidebbnek kell lennie a maximális működési időnél."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Tevékenység",
+          "away_temp": "Távol",
+          "comfort_temp": "Komfort",
+          "eco_temp": "Takarékos",
+          "home_temp": "Otthon",
+          "sleep_temp": "Alvás"
+        },
+        "title": "Hőmérsékleti profilok"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Hűtési mód",
+          "cold_tolerance": "Hidegtűrés",
+          "cycle_cooldown": "Lehűlési idő futás után",
+          "heater": "Működtető kapcsoló",
+          "hot_tolerance": "Hőtűrés",
+          "keep_alive": "Életben tartás időköze",
+          "max_cycle_duration": "Maximális futási idő",
+          "max_temp": "Maximális célhőmérséklet",
+          "min_cycle_duration": "Minimális futási idő",
+          "min_temp": "Minimális célhőmérséklet",
+          "name": "Elnevezés",
+          "target_sensor": "Hőmérséklet érzékelő"
+        },
+        "data_description": {
+          "ac_mode": "Állítsa be, hogy a megadott működtető (aktuátor) hűtőberendezésként legyen kezelve, ne pedig fűtőberendezésként.",
+          "cold_tolerance": "A hőmérséklet-érzékelő által mért érték és a célhőmérséklet közötti minimális különbség, amelynek el kell érnie ezt az értéket ahhoz, hogy a fűtés bekapcsoljon. Például, ha a célhőmérséklet 25 és a tűrés 0,5, akkor a fűtés akkor indul el, amikor az érzékelő 24,5 alá csökken.",
+          "cycle_cooldown": "Kikapcsolás után a minimális időtartam, amelynek el kell telnie, mielőtt újra bekapcsolható lenne.",
+          "heater": "Kapcsoló entitás, amelyet a hűtésre vagy fűtésre használnak az A/C mód függvényében.",
+          "hot_tolerance": "A hőmérsékletérzékelő által mért hőmérséklet és a célhőmérséklet közötti minimális eltérés, amelynek meg kell változnia a kikapcsolás előtt. Például, ha a célhőmérséklet 25, és a tolerancia 0,5, akkor a fűtés 25,5 foknál vagy afelett kapcsol ki.",
+          "keep_alive": "A fűtőberendezés időszakos aktiválása, hogy az eszközök ne veszítsék el az állapotukat.",
+          "max_cycle_duration": "Bekapcsolás után a maximális időtartam, amely eltelhet, mielőtt kikapcsolásra kerül.",
+          "min_cycle_duration": "Bekapcsolás után a minimális időtartam, amelynek el kell telnie, mielőtt kikapcsolható lenne.",
+          "target_sensor": "Hőmérséklet-érzékelő, amely a jelenlegi hőmérsékletet mutatja."
+        },
+        "description": "Hozzon létre egy klíma entitást, amely egy kapcsoló és egy érzékelő segítségével szabályozza a hőmérsékletet.",
+        "title": "Általános termosztát létrehozása"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "A minimális működési időnek rövidebbnek kell lennie a maximális működési időnél."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Hűtési mód",
+          "cold_tolerance": "Hidegtűrés",
+          "cycle_cooldown": "Lehűlési idő futás után",
+          "heater": "Működtető kapcsoló",
+          "hot_tolerance": "Hőtűrés",
+          "keep_alive": "Életben tartás időköze",
+          "max_cycle_duration": "Maximális futási idő",
+          "max_temp": "Maximális célhőmérséklet",
+          "min_cycle_duration": "Minimális futási idő",
+          "min_temp": "Minimális célhőmérséklet",
+          "target_sensor": "Hőmérséklet érzékelő"
+        },
+        "data_description": {
+          "ac_mode": "Állítsa be, hogy a megadott működtető (aktuátor) hűtőberendezésként legyen kezelve, ne pedig fűtőberendezésként.",
+          "cold_tolerance": "A hőmérséklet-érzékelő által mért érték és a célhőmérséklet közötti minimális különbség, amelynek el kell érnie ezt az értéket ahhoz, hogy a fűtés bekapcsoljon. Például, ha a célhőmérséklet 25 és a tűrés 0,5, akkor a fűtés akkor indul el, amikor az érzékelő 24,5 alá csökken.",
+          "cycle_cooldown": "Kikapcsolás után a minimális időtartam, amelynek el kell telnie, mielőtt újra bekapcsolható lenne.",
+          "heater": "Kapcsoló entitás, amelyet a hűtésre vagy fűtésre használnak az A/C mód függvényében.",
+          "hot_tolerance": "A hőmérsékletérzékelő által mért hőmérséklet és a célhőmérséklet közötti minimális eltérés, amelynek meg kell változnia a kikapcsolás előtt. Például, ha a célhőmérséklet 25, és a tolerancia 0,5, akkor a fűtés 25,5 foknál vagy afelett kapcsol ki.",
+          "keep_alive": "A fűtőberendezés időszakos aktiválása, hogy az eszközök ne veszítsék el az állapotukat.",
+          "max_cycle_duration": "Bekapcsolás után a maximális időtartam, amely eltelhet, mielőtt kikapcsolásra kerül.",
+          "min_cycle_duration": "Bekapcsolás után a minimális időtartam, amelynek el kell telnie, mielőtt kikapcsolható lenne.",
+          "target_sensor": "Hőmérséklet-érzékelő, amely a jelenlegi hőmérsékletet mutatja."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Tevékenység",
+          "away_temp": "Távol",
+          "comfort_temp": "Komfort",
+          "eco_temp": "Takarékos",
+          "home_temp": "Otthon",
+          "sleep_temp": "Alvás"
+        },
+        "title": "Hőmérsékleti profilok"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Újratölti az általános termosztátokat a YAML-konfigurációból.",
+      "name": "Általános termosztátok újratöltése"
+    }
+  },
+  "title": "Általános termosztát"
+}

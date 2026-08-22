@@ -1,0 +1,80 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "活动",
+          "away_temp": "离家",
+          "comfort_temp": "舒适",
+          "eco_temp": "节能",
+          "home_temp": "在家",
+          "sleep_temp": "睡眠"
+        },
+        "title": "温度预设"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "制冷模式",
+          "cold_tolerance": "耐寒性",
+          "heater": "执行器开关",
+          "hot_tolerance": "耐热性",
+          "keep_alive": "保持连接间隔",
+          "max_temp": "最高目标温度",
+          "min_temp": "最低目标温度",
+          "name": "名称",
+          "target_sensor": "温度传感器"
+        },
+        "data_description": {
+          "ac_mode": "将指定的执行器设置为制冷设备而不是供暖设备。",
+          "cold_tolerance": "温度传感器读取的温度与接通前必须改变的目标温度之间的最小差值。例如，如果目标温度为 25 ，差值为 0.5 ，当传感器低于 24.5 时，加热器将启动。",
+          "heater": "根据空调模式切换实体用于制冷或制热。",
+          "hot_tolerance": "温度传感器读取的温度与目标温度之间的最小差值，在关闭之前必须改变。例如，目标温度为 25 且公差为 0.5，则当传感器等于或超过 25.5 时，制热器将停止。",
+          "target_sensor": "反映当前温度的温度传感器。"
+        },
+        "description": "创建一个通过开关和传感器控制温度的空调实体。",
+        "title": "创建通用恒温器"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "制冷模式",
+          "cold_tolerance": "耐寒性",
+          "heater": "执行器开关",
+          "hot_tolerance": "耐热性",
+          "keep_alive": "保持连接间隔",
+          "max_temp": "最高目标温度",
+          "min_temp": "最低目标温度",
+          "target_sensor": "温度传感器"
+        },
+        "data_description": {
+          "ac_mode": "将指定的执行器设置为制冷设备而不是供暖设备。",
+          "cold_tolerance": "温度传感器读取的温度与接通前必须改变的目标温度之间的最小差值。例如，如果目标温度为 25 ，差值为 0.5 ，当传感器低于 24.5 时，加热器将启动。",
+          "heater": "根据空调模式切换实体用于制冷或制热。",
+          "hot_tolerance": "温度传感器读取的温度与目标温度之间的最小差值，在关闭之前必须改变。例如，目标温度为 25 且公差为 0.5，则当传感器等于或超过 25.5 时，制热器将停止。",
+          "target_sensor": "反映当前温度的温度传感器。"
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "活动",
+          "away_temp": "离家",
+          "comfort_temp": "舒适",
+          "eco_temp": "节能",
+          "home_temp": "在家",
+          "sleep_temp": "睡眠"
+        },
+        "title": "温度预设"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "从 YAML 配置重新加载通用恒温器。",
+      "name": "重载通用恒温器"
+    }
+  },
+  "title": "通用恒温器"
+}
