@@ -24,6 +24,10 @@
 # cluster, une veille quotidienne (`veille-home-assistant.yml`) surveille en
 # plus le résultat — le tag publié — pour couvrir les pannes qui empêchent ce
 # workflow de parler : cron désactivé, workflow coupé, jeton expiré.
+#
+# La poussée se fait avec le secret `PUSH_TOKEN`, et non avec le GITHUB_TOKEN :
+# voir l'étape « Vérifier le jeton de poussée » pour la raison, qui n'est pas
+# contournable par un réglage de `permissions:`.
 
 name: Rebase des patchs sur l'amont
 
@@ -76,11 +80,46 @@ jobs:
   rebase:
     runs-on: ubuntu-latest
     steps:
+      # Le GITHUB_TOKEN ne peut pas servir à pousser ici, et aucun réglage de
+      # `permissions:` n'y change rien : GitHub refuse qu'un jeton d'application
+      # crée ou modifie un fichier sous `.github/workflows/`, et `workflows`
+      # n'est pas une entrée du bloc `permissions:` — c'est une portée de PAT.
+      #
+      # Or la branche poussée est la série rebasée sur l'amont : elle embarque
+      # tout le dépôt Home Assistant, `.github/workflows/` compris, que presque
+      # chaque version mineure fait bouger. 2026.9.0 y ajoute `aw.json`, et la
+      # poussée est partie en « refusing to allow a GitHub App to create or
+      # update workflow .github/workflows/aw.json without workflows permission ».
+      # Les montées 2026.8.x ne touchaient aucun fichier de workflow : le
+      # problème est resté invisible un mois, puis a bloqué toutes les montées.
+      #
+      # Le secret attendu est un PAT sur ce dépôt, portées `repo` + `workflow`
+      # (jeton classique) ou Contents + Workflows en lecture-écriture (jeton à
+      # portée fine). Il est vérifié ici plutôt que laissé échouer plus loin :
+      # sans cette garde, `actions/checkout` retombe en silence sur le
+      # GITHUB_TOKEN et le refus ne tombe qu'à l'étape « Publier », après le
+      # rebase, les tests et la composition de l'artefact.
+      - name: Vérifier le jeton de poussée
+        env:
+          JETON: ${{ secrets.PUSH_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "$JETON" ]; then
+            echo "::error::le secret PUSH_TOKEN est absent. La poussée de la branche rebasée serait rejetée dès que l'amont touche à .github/workflows/. Portées attendues : repo + workflow."
+            exit 1
+          fi
+
       # persist-credentials reste à sa valeur par défaut (true) : ce workflow
-      # pousse la branche rebasée et les tags.
+      # pousse la branche rebasée et les tags, avec le jeton fourni ici.
+      #
+      # Effet de bord assumé : une poussée faite avec un PAT déclenche les
+      # workflows du dépôt, ce que le GITHUB_TOKEN ne fait pas. Sans risque de
+      # boucle ici — ce workflow ne se déclenche que sur `schedule` et
+      # `workflow_dispatch`, jamais sur `push`.
       - name: Récupérer la branche de patchs
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          token: ${{ secrets.PUSH_TOKEN }}
           ref: claude/home-assistant-custom-integrations-ai8zkb
           # Historique complet : le rebase rejoue des commits, et patches-base
           # doit être résolvable.
