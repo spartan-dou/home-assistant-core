@@ -14,9 +14,16 @@
 # patchs. Il est déplacé à chaque rebase réussi. S'il n'existe pas encore, le
 # renseigner une fois via l'entrée `base` d'un lancement manuel.
 #
-# En cas de conflit, rien n'est poussé et une issue est ouverte. C'est le seul
-# cas qui demande une intervention, et il est visible : côté cluster, la PR de
-# Renovate reste rouge tant que le tag n'existe pas.
+# Quand quelque chose échoue, rien n'est poussé et une issue est ouverte — pour
+# n'importe quel échec, pas seulement pour un conflit de rebase. Elle nomme
+# l'étape fautive, se met à jour tant que le blocage dure, et se referme au
+# premier succès.
+#
+# Ce n'était pas le cas au départ : seul le conflit de rebase était couvert, si
+# bien qu'un refus de poussée a bloqué les montées deux jours en silence. Côté
+# cluster, une veille quotidienne (`veille-home-assistant.yml`) surveille en
+# plus le résultat — le tag publié — pour couvrir les pannes qui empêchent ce
+# workflow de parler : cron désactivé, workflow coupé, jeton expiré.
 
 name: Rebase des patchs sur l'amont
 
@@ -61,6 +68,9 @@ env:
   # tests apprend quelque chose. Un domaine publié tel quel n'a rien de nouveau
   # à faire vérifier ici.
   TESTED: generic_thermostat
+  # Clé de déduplication de l'alerte : une seule issue ouverte à la fois, sinon
+  # c'est une issue par jour tant que le blocage dure.
+  ETIQUETTE: rebase-bloque
 
 jobs:
   rebase:
@@ -166,39 +176,6 @@ jobs:
             echo "FIN_CONFLITS"
           } >> "$GITHUB_OUTPUT"
           exit 1
-
-      - name: Signaler le conflit
-        if: failure() && steps.rebase.outcome == 'failure'
-        env:
-          GH_TOKEN: ${{ github.token }}
-          CIBLE: ${{ steps.plan.outputs.cible }}
-          CONFLITS: ${{ steps.rebase.outputs.conflits }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          set -euo pipefail
-          corps=$(printf '%s\n' \
-            "Le rebase automatique de \`$PATCH_BRANCH\` sur \`$CIBLE\` s'arrête sur un conflit." \
-            "Rien n'a été poussé et le tag \`patches/$CIBLE\` n'existe pas : côté cluster, la PR" \
-            "Renovate qui monte l'image restera rouge tant que ce n'est pas résolu." \
-            "" \
-            "Fichiers en conflit :" \
-            "" \
-            "$CONFLITS" \
-            "" \
-            "Pour reprendre à la main :" \
-            "" \
-            '```bash' \
-            "git fetch origin --tags" \
-            "git fetch https://github.com/home-assistant/core refs/tags/$CIBLE:refs/tags/$CIBLE" \
-            "git rebase --onto refs/tags/$CIBLE refs/tags/$BASE_TAG $PATCH_BRANCH" \
-            "# … résoudre, git add, git rebase --continue …" \
-            "git push --force-with-lease origin $PATCH_BRANCH" \
-            "git tag -f $BASE_TAG refs/tags/$CIBLE && git push -f origin refs/tags/$BASE_TAG" \
-            "git tag patches/$CIBLE $PATCH_BRANCH && git push origin refs/tags/patches/$CIBLE" \
-            '```' \
-            "" \
-            "Déclenché par [ce run]($RUN_URL).")
-          gh issue create --title "Rebase sur $CIBLE : conflit à résoudre à la main" --body "$corps"
 
       - name: Installer uv et Python
         if: steps.plan.outputs.afaire == 'oui'
@@ -362,3 +339,104 @@ jobs:
             echo "Tag déployable : \`patches/$CIBLE\`."
             echo "Renovate ouvrira la PR de montée côté \`cluster-config\`."
           } >> "$GITHUB_STEP_SUMMARY"
+
+      # Toute la notification tient dans ces deux étapes finales, et c'est
+      # délibéré : placée ici, elle couvre n'importe quelle étape du job, alors
+      # qu'un `if:` accroché à une étape précise ne couvre que celle-là.
+      #
+      # C'était le défaut de la version d'origine, qui ne signalait que le
+      # conflit de rebase. Le 03/09 et le 04/09, la montée en 2026.9.0 a échoué
+      # sur la poussée — dernière étape, après un rebase propre, des tests verts
+      # et l'artefact composé — et rien ne l'a dit. Le blocage n'était pas
+      # dangereux (sans tag, la CI côté cluster refuse la PR de montée), mais il
+      # était invisible : il s'est vu à l'absence de PR Renovate.
+      - name: Signaler l'échec
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CIBLE: ${{ steps.plan.outputs.cible }}
+          CONFLITS: ${{ steps.rebase.outputs.conflits }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -euo pipefail
+
+          # L'étape fautive est la seule information que le workflow ne peut pas
+          # déduire de lui-même, et c'est la première qu'on veut lire. Elle est
+          # relue sur le run en cours : les étapes déjà terminées y portent leur
+          # conclusion, celle qui vient d'échouer comprise.
+          #
+          # L'appel est toléré en échec : une alerte sans le nom de l'étape
+          # reste utile, une alerte perdue parce que l'API a hoqueté ne l'est
+          # pas. C'est le seul endroit du fichier où l'on avale une erreur.
+          etape=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/jobs" \
+            --jq '[.jobs[].steps[] | select(.conclusion == "failure") | .name] | first // empty' \
+            2>/dev/null || true)
+          etape=${etape:-inconnue}
+          cible=${CIBLE:-inconnue}
+
+          corps=$(printf '%s\n' \
+            "Le workflow de rebase a échoué à l'étape **$etape**, en visant \`$cible\`." \
+            "" \
+            "Rien n'a été poussé et le tag \`patches/$cible\` n'existe donc pas." \
+            "Côté cluster, la montée de Home Assistant est arrêtée : la CI de" \
+            "\`cluster-config\` refuse une PR qui monterait l'image sans le tag" \
+            "correspondant, et c'est voulu." \
+            "" \
+            "Détail dans [ce run]($RUN_URL).")
+
+          # Le conflit de rebase reste un cas particulier : lui seul a une
+          # marche à suivre écrivable d'avance.
+          if [ -n "${CONFLITS:-}" ]; then
+            corps=$(printf '%s\n' "$corps" \
+              "" \
+              "Fichiers en conflit :" \
+              "" \
+              "$CONFLITS" \
+              "" \
+              "Pour reprendre à la main :" \
+              "" \
+              '```bash' \
+              "git fetch origin --tags" \
+              "git fetch https://github.com/home-assistant/core refs/tags/$CIBLE:refs/tags/$CIBLE" \
+              "git rebase --onto refs/tags/$CIBLE refs/tags/$BASE_TAG $PATCH_BRANCH" \
+              "# … résoudre, git add, git rebase --continue …" \
+              "git push --force-with-lease origin $PATCH_BRANCH" \
+              "git tag -f $BASE_TAG refs/tags/$CIBLE && git push -f origin refs/tags/$BASE_TAG" \
+              "git tag patches/$CIBLE $PATCH_BRANCH && git push origin refs/tags/patches/$CIBLE" \
+              '```')
+          fi
+
+          # gh issue create refuse une étiquette inexistante ; --force rend la
+          # création idempotente d'un run à l'autre.
+          gh label create "$ETIQUETTE" --color B60205 \
+            --description "Le rebase des patchs ne publie plus" --force
+
+          # Commenter plutôt que rouvrir : l'historique du blocage reste au même
+          # endroit, et on évite une issue par jour pour la même panne.
+          numero=$(gh issue list --label "$ETIQUETTE" --state open --limit 1 \
+            --json number --jq '.[0].number // empty')
+          if [ -n "$numero" ]; then
+            gh issue comment "$numero" --body "$corps"
+          else
+            gh issue create --label "$ETIQUETTE" \
+              --title "Rebase des patchs bloqué sur $cible" --body "$corps"
+          fi
+
+      # Sans cette étape, l'issue survivrait au retour à la normale et il
+      # faudrait la refermer à la main — ce qu'on ne fait pas, si bien qu'une
+      # alerte périmée finit par ne plus rien vouloir dire.
+      #
+      # `success()` couvre aussi le cas « rien à faire » : série déjà posée sur
+      # la cible et tag déjà publié, c'est-à-dire précisément la bonne santé.
+      - name: Refermer l'alerte
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          CIBLE: ${{ steps.plan.outputs.cible }}
+        run: |
+          set -euo pipefail
+          numero=$(gh issue list --label "$ETIQUETTE" --state open --limit 1 \
+            --json number --jq '.[0].number // empty' 2>/dev/null || true)
+          [ -n "$numero" ] || exit 0
+          gh issue comment "$numero" --body "Le workflow repasse au vert sur \`$CIBLE\`."
+          gh issue close "$numero" --reason completed
