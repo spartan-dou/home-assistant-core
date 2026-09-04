@@ -1,34 +1,112 @@
 {
   "config": {
+    "error": {
+      "min_max_runtime": "La durée de fonctionnement minimale doit être inférieure à la durée de fonctionnement maximale."
+    },
     "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Activité",
+          "away_temp": "Absent",
+          "comfort_temp": "Confort",
+          "eco_temp": "Éco",
+          "home_temp": "Maison",
+          "sleep_temp": "Nuit"
+        },
+        "title": "Préréglages de température"
+      },
       "user": {
         "data": {
+          "ac_mode": "Mode refroidissement",
+          "cold_tolerance": "Tolérance froide",
+          "cycle_cooldown": "Période d'attente après fonctionnement",
+          "heater": "Interrupteur actionneur",
+          "hot_tolerance": "Tolérance chaude",
+          "keep_alive": "Intervalle de maintien en vie",
+          "max_cycle_duration": "Durée de fonctionnement maximale",
+          "max_temp": "Température cible maximale",
+          "min_cycle_duration": "Durée minimale d'un cycle",
+          "min_temp": "Température cible minimale",
+          "name": "Nom",
+          "target_sensor": "Capteur de température",
           "openings": "Ouvertures",
           "openings_resume_delay": "Délai de reprise après fermeture",
           "openings_debounce": "Délai avant coupure"
         },
         "data_description": {
+          "ac_mode": "Réglez l'actionneur spécifié pour qu'il soit traité comme un dispositif de refroidissement au lieu d'un dispositif de chauffage.",
+          "cold_tolerance": "Écart minimal entre la température mesurée par le capteur et la température cible devant être modifiée avant la mise en marche. Par exemple, si la température cible est de 25 °C et que la tolérance est de 0,5 °C, le chauffage démarrera lorsque la température du capteur descendra en dessous de 24,5 °C.",
+          "cycle_cooldown": "Après l'arrêt, durée minimale qui doit s'écouler avant un nouveau démarrage.",
+          "heater": "Entité interrupteur utilisée pour refroidir ou chauffer en fonction du mode climatisation.",
+          "hot_tolerance": "Différence minimale entre la température lue par le capteur de température et la température cible qui doit changer avant l'arrêt. Par exemple, si la température cible est de 25 et la tolérance est de 0,5, le chauffage s'arrêtera lorsque le capteur atteint ou dépasse 25,5.",
+          "keep_alive": "Déclenche le chauffage périodiquement pour éviter que les appareils ne perdent leur état.",
+          "max_cycle_duration": "Une fois démarré, durée maximale qui peut s'écouler avant l'arrêt.",
+          "min_cycle_duration": "Une fois démarré, durée minimale qui doit s'écouler avant l'arrêt.",
+          "target_sensor": "Capteur de température qui reflète la température actuelle.",
           "openings": "Éteindre le thermostat tant que l'une de ces portes ou fenêtres est ouverte.",
           "openings_resume_delay": "Temps d'attente après la fermeture de toutes les ouvertures avant de revenir au mode précédent. 30 minutes par défaut.",
           "openings_debounce": "Durée pendant laquelle une ouverture doit rester ouverte avant que le thermostat ne coupe. Évite qu'une porte que l'on franchit n'arrête le chauffage. 1 seconde par défaut."
-        }
+        },
+        "description": "Créez une entité climatique qui contrôle la température via un interrupteur et un capteur.",
+        "title": "Créer un thermostat générique"
       }
     }
   },
   "options": {
+    "error": {
+      "min_max_runtime": "La durée de fonctionnement minimale doit être inférieure à la durée de fonctionnement maximale."
+    },
     "step": {
       "init": {
         "data": {
+          "ac_mode": "Mode refroidissement",
+          "cold_tolerance": "Tolérance froide",
+          "cycle_cooldown": "Période d'attente après fonctionnement",
+          "heater": "Interrupteur actionneur",
+          "hot_tolerance": "Tolérance chaude",
+          "keep_alive": "Intervalle de maintien en vie",
+          "max_cycle_duration": "Durée de fonctionnement maximale",
+          "max_temp": "Température cible maximale",
+          "min_cycle_duration": "Durée minimale d'un cycle",
+          "min_temp": "Température cible minimale",
+          "target_sensor": "Capteur de température",
           "openings": "Ouvertures",
           "openings_resume_delay": "Délai de reprise après fermeture",
           "openings_debounce": "Délai avant coupure"
         },
         "data_description": {
+          "ac_mode": "Réglez l'actionneur spécifié pour qu'il soit traité comme un dispositif de refroidissement au lieu d'un dispositif de chauffage.",
+          "cold_tolerance": "Écart minimal entre la température mesurée par le capteur et la température cible devant être modifiée avant la mise en marche. Par exemple, si la température cible est de 25 °C et que la tolérance est de 0,5 °C, le chauffage démarrera lorsque la température du capteur descendra en dessous de 24,5 °C.",
+          "cycle_cooldown": "Après l'arrêt, durée minimale qui doit s'écouler avant un nouveau démarrage.",
+          "heater": "Entité interrupteur utilisée pour refroidir ou chauffer en fonction du mode climatisation.",
+          "hot_tolerance": "Différence minimale entre la température lue par le capteur de température et la température cible qui doit changer avant l'arrêt. Par exemple, si la température cible est de 25 et la tolérance est de 0,5, le chauffage s'arrêtera lorsque le capteur atteint ou dépasse 25,5.",
+          "keep_alive": "Déclenche le chauffage périodiquement pour éviter que les appareils ne perdent leur état.",
+          "max_cycle_duration": "Une fois démarré, durée maximale qui peut s'écouler avant l'arrêt.",
+          "min_cycle_duration": "Une fois démarré, durée minimale qui doit s'écouler avant l'arrêt.",
+          "target_sensor": "Capteur de température qui reflète la température actuelle.",
           "openings": "Éteindre le thermostat tant que l'une de ces portes ou fenêtres est ouverte.",
           "openings_resume_delay": "Temps d'attente après la fermeture de toutes les ouvertures avant de revenir au mode précédent. 30 minutes par défaut.",
           "openings_debounce": "Durée pendant laquelle une ouverture doit rester ouverte avant que le thermostat ne coupe. Évite qu'une porte que l'on franchit n'arrête le chauffage. 1 seconde par défaut."
         }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Activité",
+          "away_temp": "Absent",
+          "comfort_temp": "Confort",
+          "eco_temp": "Éco",
+          "home_temp": "Maison",
+          "sleep_temp": "Nuit"
+        },
+        "title": "Préréglages de température"
       }
     }
-  }
+  },
+  "services": {
+    "reload": {
+      "description": "Recharge les thermostats génériques à partir de la configuration YAML.",
+      "name": "Recharger les thermostats génériques"
+    }
+  },
+  "title": "Thermostat générique"
 }

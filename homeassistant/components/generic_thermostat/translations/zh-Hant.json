@@ -1,0 +1,100 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "最短執行時間必須小於最長執行時間。"
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "活動",
+          "away_temp": "離家",
+          "comfort_temp": "舒適",
+          "eco_temp": "節能",
+          "home_temp": "在家",
+          "sleep_temp": "睡眠"
+        },
+        "title": "溫度預置"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "冷氣模式",
+          "cold_tolerance": "耐冷性",
+          "cycle_cooldown": "執行後的冷卻期",
+          "heater": "致動器開關",
+          "hot_tolerance": "耐熱性",
+          "keep_alive": "保持連線間隔",
+          "max_cycle_duration": "最高執行時間",
+          "max_temp": "最高目標溫度",
+          "min_cycle_duration": "最低執行時間",
+          "min_temp": "最低目標溫度",
+          "name": "名稱",
+          "target_sensor": "溫度感測器"
+        },
+        "data_description": {
+          "ac_mode": "指定致動器設定為冷氣裝置，而非暖氣裝置。",
+          "cold_tolerance": "溫度感測器讀取的溫度與目標溫度之間必須改變的最小差值，然後才能開啟。例如目標溫度為 25，而容忍度為 0.5，則當感測器低於 24.5 時，暖氣將停止。",
+          "cycle_cooldown": "關閉後，必須經過的最短時間，才能重新開啟。",
+          "heater": "用於根據空調模式進行冷氣或暖氣的開關實體。",
+          "hot_tolerance": "溫度感測器讀取的溫度與目標溫度之間必須改變的最小差值，然後才能關閉。例如目標溫度為 25，而容忍度為 0.5，則當感測器等於或超過 25.5 時，暖氣將停止。",
+          "keep_alive": "定期觸發加熱器以防止裝置失去狀態。",
+          "max_cycle_duration": "開啟後，在關閉之前可經過的最長時間。",
+          "min_cycle_duration": "開啟後，必須經過的最短時間，之後才允許將其關閉。",
+          "target_sensor": "反應目前的溫度的溫度感測器"
+        },
+        "description": "新增一個可以通過開關與感測器控制溫度的空調實體。",
+        "title": "新增通用溫控器"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "最短執行時間必須小於最長執行時間。"
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "冷氣模式",
+          "cold_tolerance": "耐冷性",
+          "cycle_cooldown": "執行後的冷卻期",
+          "heater": "致動器開關",
+          "hot_tolerance": "耐熱性",
+          "keep_alive": "保持連線間隔",
+          "max_cycle_duration": "最高執行時間",
+          "max_temp": "最高目標溫度",
+          "min_cycle_duration": "最低執行時間",
+          "min_temp": "最低目標溫度",
+          "target_sensor": "溫度感測器"
+        },
+        "data_description": {
+          "ac_mode": "指定致動器設定為冷氣裝置，而非暖氣裝置。",
+          "cold_tolerance": "溫度感測器讀取的溫度與目標溫度之間必須改變的最小差值，然後才能開啟。例如目標溫度為 25，而容忍度為 0.5，則當感測器低於 24.5 時，暖氣將停止。",
+          "cycle_cooldown": "關閉後，必須經過的最短時間，才能重新開啟。",
+          "heater": "用於根據空調模式進行冷氣或暖氣的開關實體。",
+          "hot_tolerance": "溫度感測器讀取的溫度與目標溫度之間必須改變的最小差值，然後才能關閉。例如目標溫度為 25，而容忍度為 0.5，則當感測器等於或超過 25.5 時，暖氣將停止。",
+          "keep_alive": "定期觸發加熱器以防止裝置失去狀態。",
+          "max_cycle_duration": "開啟後，在關閉之前可經過的最長時間。",
+          "min_cycle_duration": "開啟後，必須經過的最短時間，之後才允許將其關閉。",
+          "target_sensor": "反應目前的溫度的溫度感測器"
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "活動",
+          "away_temp": "離家",
+          "comfort_temp": "舒適",
+          "eco_temp": "節能",
+          "home_temp": "在家",
+          "sleep_temp": "睡眠"
+        },
+        "title": "溫度預置"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "重新載入 YAML 設定通用溫控器。",
+      "name": "重新載入通用溫控器"
+    }
+  },
+  "title": "通用溫控器"
+}

@@ -1,0 +1,100 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "Minsta körtid måste vara kortare än maximal körtid."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivitet",
+          "away_temp": "Borta",
+          "comfort_temp": "Komfort",
+          "eco_temp": "Eko",
+          "home_temp": "Hemma",
+          "sleep_temp": "Viloläge"
+        },
+        "title": "Förinställda temperaturer"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Kylningsläge",
+          "cold_tolerance": "Kyltolerans",
+          "cycle_cooldown": "Nedkylningsperiod efter körning",
+          "heater": "Omkopplare för ställdon",
+          "hot_tolerance": "Värmetolerans",
+          "keep_alive": "Keep-alive-intervall",
+          "max_cycle_duration": "Maximal körtid",
+          "max_temp": "Högsta måltemperatur",
+          "min_cycle_duration": "Minsta körtid",
+          "min_temp": "Lägsta måltemperatur",
+          "name": "Namn",
+          "target_sensor": "Temperatursensor"
+        },
+        "data_description": {
+          "ac_mode": "Ställ in ställdonet så att det behandlas som en kylanordning i stället för en värmeanordning.",
+          "cold_tolerance": "Minsta skillnad mellan den temperatur som avläses av temperaturgivaren och den måltemperatur som måste ändras innan den slås på. Om måltemperaturen t.ex. är 25 och toleransen är 0,5 kommer värmaren att starta när givaren går under 24,5.",
+          "cycle_cooldown": "Den kortaste tid efter avstängning innan enheten kan slås på igen.",
+          "heater": "Brytarentitet som används för att kyla eller värma beroende på AC-läge.",
+          "hot_tolerance": "Minsta skillnad mellan den temperatur som avläses av temperaturgivaren och måltemperaturen som måste ändras innan den stängs av. Om måltemperaturen t.ex. är 25 och toleransen är 0,5 kommer värmaren att stanna när givaren är lika med eller överstiger 25,5.",
+          "keep_alive": "Utlöser värmaren periodiskt för att förhindra att enheterna förlorar sitt tillstånd.",
+          "max_cycle_duration": "Den maximala tiden från det att enheten slås på tills den stängs av.",
+          "min_cycle_duration": "Den kortaste tid efter att enheten har slagits på innan den får stängas av.",
+          "target_sensor": "Temperatursensor som återspeglar den aktuella temperaturen."
+        },
+        "description": "Skapa en klimatentitet som styr temperaturen via en brytare och en sensor.",
+        "title": "Skapa generisk termostat"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "Minsta körtid måste vara kortare än maximal körtid."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Kylningsläge",
+          "cold_tolerance": "Kyltolerans",
+          "cycle_cooldown": "Nedkylningsperiod efter körning",
+          "heater": "Omkopplare för ställdon",
+          "hot_tolerance": "Värmetolerans",
+          "keep_alive": "Keep-alive-intervall",
+          "max_cycle_duration": "Maximal körtid",
+          "max_temp": "Högsta måltemperatur",
+          "min_cycle_duration": "Minsta körtid",
+          "min_temp": "Lägsta måltemperatur",
+          "target_sensor": "Temperatursensor"
+        },
+        "data_description": {
+          "ac_mode": "Ställ in ställdonet så att det behandlas som en kylanordning i stället för en värmeanordning.",
+          "cold_tolerance": "Minsta skillnad mellan den temperatur som avläses av temperaturgivaren och den måltemperatur som måste ändras innan den slås på. Om måltemperaturen t.ex. är 25 och toleransen är 0,5 kommer värmaren att starta när givaren går under 24,5.",
+          "cycle_cooldown": "Den kortaste tid efter avstängning innan enheten kan slås på igen.",
+          "heater": "Brytarentitet som används för att kyla eller värma beroende på AC-läge.",
+          "hot_tolerance": "Minsta skillnad mellan den temperatur som avläses av temperaturgivaren och måltemperaturen som måste ändras innan den stängs av. Om måltemperaturen t.ex. är 25 och toleransen är 0,5 kommer värmaren att stanna när givaren är lika med eller överstiger 25,5.",
+          "keep_alive": "Utlöser värmaren periodiskt för att förhindra att enheterna förlorar sitt tillstånd.",
+          "max_cycle_duration": "Den maximala tiden från det att enheten slås på tills den stängs av.",
+          "min_cycle_duration": "Den kortaste tid efter att enheten har slagits på innan den får stängas av.",
+          "target_sensor": "Temperatursensor som återspeglar den aktuella temperaturen."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivitet",
+          "away_temp": "Borta",
+          "comfort_temp": "Komfort",
+          "eco_temp": "Eko",
+          "home_temp": "Hemma",
+          "sleep_temp": "Viloläge"
+        },
+        "title": "Förinställda temperaturer"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Laddar om generiska termostater från YAML-konfigurationen.",
+      "name": "Ladda om generiska termostater"
+    }
+  },
+  "title": "Generisk termostat"
+}

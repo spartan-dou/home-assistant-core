@@ -1,0 +1,90 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "Ní mór an t-am rith íosta a bheith níos lú ná an t-am rith uasta."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Gníomhaíocht",
+          "away_temp": "Ar shiúl",
+          "comfort_temp": "Chompord",
+          "eco_temp": "Éicea",
+          "home_temp": "Baile",
+          "sleep_temp": "Codladh"
+        },
+        "title": "Réamhshocruithe teochta"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Mód fuaraithe",
+          "cold_tolerance": "Fulangacht fuar",
+          "cycle_cooldown": "Tréimhse fuaraithe tar éis rith",
+          "heater": "Lasc gníomhaitheora",
+          "hot_tolerance": "Caoinfhulaingt teasa",
+          "keep_alive": "Eatramh coinnigh beo",
+          "max_cycle_duration": "Uasmhéid ama rith",
+          "max_temp": "Uasteocht sprice",
+          "min_temp": "Teocht sprice íosta",
+          "name": "Ainm",
+          "target_sensor": "Braiteoir teochta"
+        },
+        "data_description": {
+          "ac_mode": "Socraigh an t-achtuitheoir sonraithe le bheith á láimhseáil mar fheiste fuaraithe seachas mar fheiste téimh.",
+          "cold_tolerance": "An difríocht íosta idir an teocht a léann an braiteoir teochta agus an teocht sprice a chaithfidh athrú sula gcuirtear ar siúl í. Mar shampla, má tá an teocht sprice 25 agus an lamháltas 0.5, tosóidh an téitheoir nuair a théann an braiteoir faoi bhun 24.5.",
+          "cycle_cooldown": "Tar éis é a mhúchadh, an t-íosmhéid ama a chaithfidh a bheith caite sula bhféadfar é a chasadh air arís.",
+          "heater": "Eintiteas lasctha a úsáidtear chun fuarú nó téamh ag brath ar mhodh aerchóirithe.",
+          "hot_tolerance": "An difríocht íosta idir an teocht a léann an braiteoir teochta agus an teocht sprice a chaithfear a athrú sula múchtar í. Mar shampla, má tá an teocht sprice 25 agus an lamháltas 0.5, stopfaidh an téitheoir nuair a bhíonn an braiteoir cothrom le 25.5 nó os a chionn.",
+          "max_cycle_duration": "Nuair a bheidh sé casta air, an uasmhéid ama a fhéadfaidh dul thart sula múchfar é.",
+          "target_sensor": "Braiteoir teochta a léiríonn an teocht reatha."
+        },
+        "description": "Cruthaigh eintiteas aeráide a rialaíonn an teocht trí lasc agus braiteoir.",
+        "title": "Cruthaigh teirmeastat cineálach"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Mód fuaraithe",
+          "cold_tolerance": "Fulangacht fuar",
+          "cycle_cooldown": "Tréimhse fuaraithe tar éis rith",
+          "heater": "Lasc gníomhaitheora",
+          "hot_tolerance": "Caoinfhulaingt teasa",
+          "keep_alive": "Eatramh coinnigh beo",
+          "max_cycle_duration": "Uasmhéid ama rith",
+          "max_temp": "Uasteocht sprice",
+          "min_temp": "Teocht sprice íosta",
+          "target_sensor": "Braiteoir teochta"
+        },
+        "data_description": {
+          "ac_mode": "Socraigh an t-achtuitheoir sonraithe le bheith á láimhseáil mar fheiste fuaraithe seachas mar fheiste téimh.",
+          "cold_tolerance": "An difríocht íosta idir an teocht a léann an braiteoir teochta agus an teocht sprice a chaithfidh athrú sula gcuirtear ar siúl í. Mar shampla, má tá an teocht sprice 25 agus an lamháltas 0.5, tosóidh an téitheoir nuair a théann an braiteoir faoi bhun 24.5.",
+          "cycle_cooldown": "Tar éis é a mhúchadh, an t-íosmhéid ama a chaithfidh a bheith caite sula bhféadfar é a chasadh air arís.",
+          "heater": "Eintiteas lasctha a úsáidtear chun fuarú nó téamh ag brath ar mhodh aerchóirithe.",
+          "hot_tolerance": "An difríocht íosta idir an teocht a léann an braiteoir teochta agus an teocht sprice a chaithfear a athrú sula múchtar í. Mar shampla, má tá an teocht sprice 25 agus an lamháltas 0.5, stopfaidh an téitheoir nuair a bhíonn an braiteoir cothrom le 25.5 nó os a chionn.",
+          "max_cycle_duration": "Nuair a bheidh sé casta air, an uasmhéid ama a fhéadfaidh dul thart sula múchfar é.",
+          "target_sensor": "Braiteoir teochta a léiríonn an teocht reatha."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Gníomhaíocht",
+          "away_temp": "Ar shiúl",
+          "comfort_temp": "Chompord",
+          "eco_temp": "Éicea",
+          "home_temp": "Baile",
+          "sleep_temp": "Codladh"
+        },
+        "title": "Réamhshocruithe teochta"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Athlódálann sé teirmeastait ghinearálta ón chumraíocht YAML."
+    }
+  },
+  "title": "Teirmeastat cineálach"
+}

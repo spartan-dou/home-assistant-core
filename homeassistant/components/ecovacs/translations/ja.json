@@ -1,0 +1,321 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "アカウントはすでに設定されています"
+    },
+    "error": {
+      "cannot_connect": "接続に失敗しました",
+      "invalid_auth": "無効な認証",
+      "invalid_url": "無効なURL",
+      "invalid_url_schema_override_mqtt_url": "MQTT URL スキームが無効です。\n URL は `mqtt://` または `mqtts://` で始まる必要があります。",
+      "invalid_url_schema_override_rest_url": "REST URL スキームが無効です。\n URL は `http://` または`https://` で始まる必要があります。",
+      "unknown": "予期しないエラー"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "国",
+          "override_mqtt_url": "MQTT URL",
+          "override_rest_url": "REST URL",
+          "password": "パスワード",
+          "username": "ユーザー名",
+          "verify_mqtt_certificate": "MQTT SSL証明書を検証する"
+        },
+        "data_description": {
+          "override_mqtt_url": "スキーム (mqtt/mqtts) を含むセルフホスト インスタンスの MQTT URL を入力します。",
+          "override_rest_url": "スキーム (http/https) を含む自己ホスト型インスタンスの REST URL を入力します。"
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "モード"
+        },
+        "data_description": {
+          "mode": "Ecovacs への接続に使用するモードを選択します。不明な場合は、[**クラウド**] を選択します。\n\n動作中のセルフホスト インスタンスがある場合にのみ、[**セルフホスト**] を選択します。"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "モップ取り付け済"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "移転"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "芳香剤の寿命をリセットする"
+      },
+      "reset_lifespan_blade": {
+        "name": "ブレード寿命のリセット"
+      },
+      "reset_lifespan_brush": {
+        "name": "メインブラシの寿命をリセット"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "ダストバッグの寿命をリセットする"
+      },
+      "reset_lifespan_filter": {
+        "name": "フィルター寿命のリセット"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "ハンドフィルターの寿命をリセットする"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "レンズブラシの寿命をリセット"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "丸型モップの寿命リセットする"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "サイドブラシの寿命をリセット"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "ステーションフィルターの寿命をリセットする"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "ユニットケアの寿命をリセットする"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "UV消毒剤の寿命をリセットする"
+      },
+      "station_action_clean_base": {
+        "name": "クリーンベース"
+      },
+      "station_action_dry_mop": {
+        "name": "ドライモップ"
+      },
+      "station_action_empty_dustbin": {
+        "name": "ゴミ箱を空にする"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "最後のジョブ",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "終了した",
+              "finished_with_warnings": "警告付きで終了",
+              "manually_stopped": "手動停止"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "マップ"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "クリーンカウント"
+      },
+      "cut_direction": {
+        "name": "カット方向"
+      },
+      "volume": {
+        "name": "音量"
+      },
+      "water_amount": {
+        "name": "水流レベル"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "アクティブマップ"
+      },
+      "auto_empty": {
+        "name": "自動ゴミ回収頻度",
+        "state": {
+          "auto": "自動",
+          "min_10": "10分",
+          "min_15": "15分",
+          "min_25": "25分",
+          "smart": "スマート"
+        }
+      },
+      "water_amount": {
+        "name": "水流レベル",
+        "state": {
+          "high": "高",
+          "low": "低",
+          "medium": "中",
+          "ultrahigh": "超高"
+        }
+      },
+      "work_mode": {
+        "name": "作業モード",
+        "state": {
+          "mop": "モップ",
+          "mop_after_vacuum": "掃除機後のモップ",
+          "vacuum": "掃除機",
+          "vacuum_and_mop": "掃除機＆モップ"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "エラー",
+        "state_attributes": {
+          "description": {
+            "name": "説明"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "芳香剤の寿命"
+      },
+      "lifespan_blade": {
+        "name": "ブレードの寿命"
+      },
+      "lifespan_brush": {
+        "name": "メインブラシの寿命"
+      },
+      "lifespan_dust_bag": {
+        "name": "ダストバッグの寿命"
+      },
+      "lifespan_filter": {
+        "name": "フィルターの寿命"
+      },
+      "lifespan_hand_filter": {
+        "name": "ハンドフィルターの寿命"
+      },
+      "lifespan_lens_brush": {
+        "name": "レンズブラシの寿命"
+      },
+      "lifespan_main_brush": {
+        "name": "メインブラシの寿命"
+      },
+      "lifespan_round_mop": {
+        "name": "丸いモップの寿命"
+      },
+      "lifespan_side_brush": {
+        "name": "サイドブラシの寿命"
+      },
+      "lifespan_unit_care": {
+        "name": "ユニットケアの寿命"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "UV消毒剤の寿命"
+      },
+      "network_ip": {
+        "name": "IPアドレス"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fi SSID"
+      },
+      "station_state": {
+        "name": "ステーションの状態",
+        "state": {
+          "drying_mop": "モップ乾燥",
+          "emptying_dustbin": "ゴミ箱を空にする",
+          "idle": "待機中",
+          "washing_mop": "モップ洗濯"
+        }
+      },
+      "stats_area": {
+        "name": "清掃されたエリア"
+      },
+      "stats_time": {
+        "name": "クリーニング期間"
+      },
+      "total_stats_area": {
+        "name": "総クリーニング面積"
+      },
+      "total_stats_cleanings": {
+        "name": "合計クリーニング"
+      },
+      "total_stats_time": {
+        "name": "総クリーニング時間"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "アドバンストモード"
+      },
+      "border_spin": {
+        "name": "ボーダースピン"
+      },
+      "border_switch": {
+        "name": "ボーダースイッチ"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "カーペットオートブースト吸引"
+      },
+      "child_lock": {
+        "name": "チャイルドロック"
+      },
+      "clean_preference": {
+        "name": "クリーン設定"
+      },
+      "continuous_cleaning": {
+        "name": "連続クリーニング"
+      },
+      "cross_map_border_warning": {
+        "name": "地図境界線を越える警告"
+      },
+      "move_up_warning": {
+        "name": "上へ移動の警告"
+      },
+      "safe_protect": {
+        "name": "安全な保護"
+      },
+      "true_detect": {
+        "name": "真の検出"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "最大",
+              "max_plus": "最大＋",
+              "normal": "ノーマル",
+              "quiet": "静か"
+            }
+          },
+          "rooms": {
+            "name": "部屋"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "充電器とデバイス自体の位置の取得はサポートされていません"
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "{command} コマンドは、以下の環境ではサポートされていません。 {name}"
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "パラメータ はリストではなく辞書である必要があります"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "コマンドにはパラメータが必要です: {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "クラウド",
+        "self_hosted": "セルフホスト"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "充電器とデバイス自体の位置を含む生の応答を取得します。",
+      "name": "生の位置を取得"
+    }
+  }
+}

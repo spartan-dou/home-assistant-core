@@ -1,0 +1,318 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Hesap zaten yapılandırılmış"
+    },
+    "error": {
+      "cannot_connect": "Bağlanma hatası",
+      "invalid_auth": "Geçersiz kimlik doğrulama",
+      "invalid_url": "Geçersiz URL",
+      "invalid_url_schema_override_mqtt_url": "Geçersiz MQTT URL şeması.\n URL \"mqtt://\" veya \"mqtts://\" ile başlamalıdır.",
+      "invalid_url_schema_override_rest_url": "Geçersiz REST URL şeması.\n URL 'http://' veya 'https://' ile başlamalıdır.",
+      "unknown": "Beklenmeyen hata"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Ülke",
+          "override_mqtt_url": "MQTT URL'si",
+          "override_rest_url": "REST URL'si",
+          "password": "Şifre",
+          "username": "Kullanıcı Adı",
+          "verify_mqtt_certificate": "MQTT SSL sertifikasını doğrulayın"
+        },
+        "data_description": {
+          "override_mqtt_url": "Şema (mqtt/mqtts) dahil olmak üzere, şirket içinde barındırılan örneğinizin MQTT URL'sini girin.",
+          "override_rest_url": "Şema (http/https) dahil olmak üzere, şirket içinde barındırılan örneğinizin REST URL'sini girin."
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "Mod"
+        },
+        "data_description": {
+          "mode": "Ecovacs'a bağlanmak için kullanmak istediğiniz modu seçin. Emin değilseniz **Bulut**'u seçin. \n \n Yalnızca çalışan bir kendi kendine barındırılan örneğiniz varsa **Kendi kendine barındırılan**'ı seçin."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Paspas takılı"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "Yerini değiştir"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "Hava temizleyicinin kullanım ömrünü sıfırlayın"
+      },
+      "reset_lifespan_blade": {
+        "name": "Bıçak ömrünü sıfırla"
+      },
+      "reset_lifespan_brush": {
+        "name": "Ana fırça ömrünü sıfırla"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "Toz torbasının kullanım ömrünü sıfırlayın"
+      },
+      "reset_lifespan_filter": {
+        "name": "Filtre ömrünü sıfırla"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "El filtresinin kullanım ömrünü sıfırla"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Lens fırçası ömrünü sıfırla"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "Yuvarlak paspas ömrünü sıfırlayın"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Yan fırça ömrünü sıfırla"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "İstasyon filtresinin kullanım ömrünü sıfırla"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "Ünite bakım ömrünü sıfırlayın"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "UV dezenfektanının kullanım ömrünü sıfırlayın"
+      },
+      "station_action_clean_base": {
+        "name": "Temiz taban"
+      },
+      "station_action_dry_mop": {
+        "name": "Kuru paspas"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Boş çöp kutusu"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Son iş",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Bitti",
+              "finished_with_warnings": "Uyarılar tamamlandı",
+              "manually_stopped": "Manuel olarak durduruldu"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Harita"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "Sayacı temizle"
+      },
+      "cut_direction": {
+        "name": "Kesim yönü"
+      },
+      "volume": {
+        "name": "Ses"
+      },
+      "water_amount": {
+        "name": "Su akış seviyesi"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "Aktif harita"
+      },
+      "auto_empty": {
+        "name": "Otomatik boşaltma sıklığı",
+        "state": {
+          "auto": "Otomatik",
+          "min_10": "10 dakika",
+          "min_15": "15 dakika",
+          "min_25": "25 dakika",
+          "smart": "Akıllı"
+        }
+      },
+      "water_amount": {
+        "name": "Su akış seviyesi",
+        "state": {
+          "high": "Yüksek",
+          "low": "Düşük",
+          "medium": "Orta",
+          "ultrahigh": "Ultra yüksek"
+        }
+      },
+      "work_mode": {
+        "name": "Çalışma modu",
+        "state": {
+          "mop": "Paspas",
+          "mop_after_vacuum": "Süpürme sonrası paspas",
+          "vacuum": "Süpürme",
+          "vacuum_and_mop": "Süpürme ve paspas"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Hata",
+        "state_attributes": {
+          "description": {
+            "name": "Açıklama"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "Hava spreyi kullanım ömrü"
+      },
+      "lifespan_blade": {
+        "name": "Bıçak ömrü"
+      },
+      "lifespan_brush": {
+        "name": "Ana fırça ömrü"
+      },
+      "lifespan_dust_bag": {
+        "name": "Toz torbasının kullanım ömrü"
+      },
+      "lifespan_filter": {
+        "name": "Filtre ömrü"
+      },
+      "lifespan_hand_filter": {
+        "name": "El filtresinin kullanım ömrü"
+      },
+      "lifespan_lens_brush": {
+        "name": "Lens fırçasının ömrü"
+      },
+      "lifespan_main_brush": {
+        "name": "Ana fırça ömrü"
+      },
+      "lifespan_round_mop": {
+        "name": "Yuvarlak paspas ömrü"
+      },
+      "lifespan_side_brush": {
+        "name": "Yan fırça ömrü"
+      },
+      "lifespan_unit_care": {
+        "name": "Ünite bakım ömrü"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "UV dezenfektanının kullanım ömrü"
+      },
+      "network_ip": {
+        "name": "IP Adresi"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fi SSID"
+      },
+      "station_state": {
+        "name": "İstasyon durumu",
+        "state": {
+          "drying_mop": "Kurutma paspası",
+          "emptying_dustbin": "Çöp kovasının boşaltılması",
+          "idle": "Boşta",
+          "washing_mop": "Yıkama paspası"
+        }
+      },
+      "stats_area": {
+        "name": "Alan temizlendi"
+      },
+      "stats_time": {
+        "name": "Temizlik süresi"
+      },
+      "total_stats_area": {
+        "name": "Temizlenen toplam alan"
+      },
+      "total_stats_cleanings": {
+        "name": "Toplam temizlik"
+      },
+      "total_stats_time": {
+        "name": "Toplam temizlik süresi"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Gelişmiş mod"
+      },
+      "border_spin": {
+        "name": "Sınır dönüşü"
+      },
+      "border_switch": {
+        "name": "Sınır anahtarı"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "Halı otomatik takviyeli emme"
+      },
+      "child_lock": {
+        "name": "Çoçuk kilidi"
+      },
+      "clean_preference": {
+        "name": "Temiz tercih"
+      },
+      "continuous_cleaning": {
+        "name": "Sürekli temizlik"
+      },
+      "cross_map_border_warning": {
+        "name": "Harita sınırını geçme uyarısı"
+      },
+      "move_up_warning": {
+        "name": "Yukarı git uyarısı"
+      },
+      "safe_protect": {
+        "name": "Güvenli koruma"
+      },
+      "true_detect": {
+        "name": "Doğru tespit"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Maksimum",
+              "max_plus": "Maks+",
+              "normal": "Normal",
+              "quiet": "Sessiz"
+            }
+          },
+          "rooms": {
+            "name": "Odalar"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "Şarj cihazlarının ve cihazın kendisinin konumlarının alınması desteklenmiyor"
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "Param'lar liste değil sözlük olmalıdır"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "Komut için parametreler gereklidir: {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Bulut",
+        "self_hosted": "Kendi kendine barındırılan"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Şarj cihazlarının ve cihazın kendisinin konumlarını içeren ham bir yanıt alır.",
+      "name": "Ham pozisyonları alın"
+    }
+  }
+}

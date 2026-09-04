@@ -1,0 +1,365 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Paskyra jau sukonfigūruota",
+      "reauth_successful": "Pakartotinis autentifikavimas buvo sėkmingas"
+    },
+    "error": {
+      "cannot_connect": "Prisijungti nepavyko",
+      "invalid_auth": "Neteisingas autentifikavimas",
+      "invalid_url": "Netinkamas URL",
+      "invalid_url_schema_override_mqtt_url": "Netinkama MQTT URL schema.\n URL turi prasidėti „mqtt://“ arba „mqtts://“.",
+      "invalid_url_schema_override_rest_url": "Netinkama REST URL schema.\n URL turi prasidėti „http://“ arba „https://“.",
+      "invalid_verification_code": "Patvirtinimo kodas negalioja arba pasibaigė jo galiojimo laikas.",
+      "unknown": "Netikėta klaida"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Šalis",
+          "override_mqtt_url": "MQTT URL",
+          "override_rest_url": "REST URL",
+          "password": "Slaptažodis",
+          "username": "Naudotojo vardas",
+          "verify_mqtt_certificate": "Patvirtinkite MQTT SSL sertifikatą"
+        },
+        "data_description": {
+          "override_mqtt_url": "Įveskite savarankiškai priglobto egzemplioriaus MQTT URL, įskaitant schemą (mqtt/mqtts).",
+          "override_rest_url": "Įveskite savarankiškai priglobto egzemplioriaus REST URL, įskaitant schemą (http/https)."
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "Patvirtinimo kodas"
+        },
+        "description": "Įveskite patvirtinimo kodą, kurį Ecovacs atsiuntė adresu {username} kad patvirtintumėte Home Assistant kaip patikimą įrenginį."
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Slaptažodis"
+        },
+        "description": "Įveskite Ecovacs slaptažodį {username} kad vėl būtų galima atkurti integraciją."
+      },
+      "user": {
+        "data": {
+          "mode": "Režimas"
+        },
+        "data_description": {
+          "mode": "Pasirinkite režimą, kurį norite naudoti prisijungdami prie Ecovacs. Jei nesate tikri, pasirinkite **Debesis**. Pasirinkite **Savarankiškai priegloba**, tik jei turite veikiantį savarankiškai priglobtą egzempliorių."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Pritvirtinta šluostė"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "Perkelti"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "Atstatyti oro gaiviklio galiojimo laiką"
+      },
+      "reset_lifespan_blade": {
+        "name": "Iš naujo nustatykite ašmenų naudojimo trukmę"
+      },
+      "reset_lifespan_brush": {
+        "name": "Iš naujo nustatykite pagrindinio šepečio naudojimo trukmę"
+      },
+      "reset_lifespan_cleaning_solution": {
+        "name": "Atstatyti valymo tirpalo galiojimo laiką"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "Dulkių maišelio naudojimo laiko atstatymas"
+      },
+      "reset_lifespan_filter": {
+        "name": "Iš naujo nustatykite filtro tarnavimo laiką"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "Rankinio filtro tarnavimo laiko atstatymas"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Iš naujo nustatykite objektyvo šepetėlio tarnavimo laiką"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "Iš naujo nustatykite apvalios šluostės tarnavimo laiką"
+      },
+      "reset_lifespan_sewage_box": {
+        "name": "Atstatyti nuotekų rezervuaro tarnavimo laiką"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Iš naujo nustatykite šoninio šepečio tarnavimo laiką"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "Atstatyti stoties filtro naudojimo laiką"
+      },
+      "reset_lifespan_trimmer_brush": {
+        "name": "Atstatyti kraštų pjaustytuvo šepetėlio tarnavimo laiką"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "Iš naujo nustatykite prietaiso priežiūros trukmę"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "UV dezinfekavimo priemonės naudojimo laiko atstatymas"
+      },
+      "reset_lifespan_water_sink": {
+        "name": "Atstatyti vandens kriauklės tarnavimo laiką"
+      },
+      "reset_lifespan_weed_rope": {
+        "name": "Atstatyti kraštų pjovimo linijos tarnavimo laiką"
+      },
+      "station_action_clean_base": {
+        "name": "Švarus pagrindas"
+      },
+      "station_action_dry_mop": {
+        "name": "Sausa šluostė"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Tuščia šiukšlių dėžė"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Paskutinis darbas",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Baigta",
+              "finished_with_warnings": "Baigta įspėjimais",
+              "manually_stopped": "Sustojo rankiniu būdu"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Žemėlapis"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "Švarus skaičius"
+      },
+      "cut_direction": {
+        "name": "Pjovimo kryptis"
+      },
+      "volume": {
+        "name": "Apimtis"
+      },
+      "water_amount": {
+        "name": "Vandens srauto lygis"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "Aktyvus žemėlapis"
+      },
+      "auto_empty": {
+        "name": "Automatinio ištuštinimo dažnis",
+        "state": {
+          "auto": "Automatinis",
+          "min_10": "10 minučių",
+          "min_15": "15 minučių",
+          "min_25": "25 minutės",
+          "smart": "Išmanus"
+        }
+      },
+      "water_amount": {
+        "name": "Vandens srauto lygis",
+        "state": {
+          "high": "Aukštas",
+          "low": "Žemas",
+          "medium": "Vidutinis",
+          "ultrahigh": "Itin aukštas"
+        }
+      },
+      "work_mode": {
+        "name": "Darbo režimas",
+        "state": {
+          "mop": "Plauna",
+          "mop_after_vacuum": "Šluostyti po siurbimo",
+          "vacuum": "Siurbti",
+          "vacuum_and_mop": "Siurbti ir šluostyti"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Klaida",
+        "state_attributes": {
+          "description": {
+            "name": "Aprašymas"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "Oro gaiviklio galiojimo laikas"
+      },
+      "lifespan_blade": {
+        "name": "Ašmenų tarnavimo laikas"
+      },
+      "lifespan_brush": {
+        "name": "Pagrindinio šepečio tarnavimo laikas"
+      },
+      "lifespan_cleaning_solution": {
+        "name": "Valymo tirpalo naudojimo laikas"
+      },
+      "lifespan_dust_bag": {
+        "name": "Dulkių maišelio tarnavimo laikas"
+      },
+      "lifespan_filter": {
+        "name": "Filtro tarnavimo laikas"
+      },
+      "lifespan_hand_filter": {
+        "name": "Rankinio filtro tarnavimo laikas"
+      },
+      "lifespan_lens_brush": {
+        "name": "Objektyvo šepetėlio tarnavimo laikas"
+      },
+      "lifespan_main_brush": {
+        "name": "Pagrindinio šepečio tarnavimo laikas"
+      },
+      "lifespan_round_mop": {
+        "name": "Apvalios šluostės tarnavimo laikas"
+      },
+      "lifespan_sewage_box": {
+        "name": "Nuotekų dėžės tarnavimo laikas"
+      },
+      "lifespan_side_brush": {
+        "name": "Šoninio šepečio tarnavimo laikas"
+      },
+      "lifespan_trimmer_brush": {
+        "name": "Kraštų žoliapjovės šepečio tarnavimo laikas"
+      },
+      "lifespan_unit_care": {
+        "name": "Vieneto priežiūros tarnavimo laikas"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "UV dezinfekavimo priemonės tarnavimo laikas"
+      },
+      "lifespan_water_sink": {
+        "name": "Vandens kriauklės tarnavimo laikas"
+      },
+      "lifespan_weed_rope": {
+        "name": "Kraštų žoliapjovės valo tarnavimo laikas"
+      },
+      "network_ip": {
+        "name": "IP adresas"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fi SSID"
+      },
+      "station_state": {
+        "name": "Stoties būsena",
+        "state": {
+          "drying_mop": "Džiovinimo šluostė",
+          "emptying_dustbin": "Šiukšliadėžės ištuštinimas",
+          "idle": "Nedaroma nieko",
+          "washing_mop": "Skalbimo šluostė"
+        }
+      },
+      "stats_area": {
+        "name": "Teritorija išvalyta"
+      },
+      "stats_time": {
+        "name": "Valymo trukmė"
+      },
+      "total_stats_area": {
+        "name": "Visas plotas išvalytas"
+      },
+      "total_stats_cleanings": {
+        "name": "Visiškas valymas"
+      },
+      "total_stats_time": {
+        "name": "Bendra valymo trukmė"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Išplėstinis režimas"
+      },
+      "border_spin": {
+        "name": "Kraštinės sukimas"
+      },
+      "border_switch": {
+        "name": "Sienos jungiklis"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "Kilimų automatinis siurbimas"
+      },
+      "child_lock": {
+        "name": "Apsauga nuo vaikų"
+      },
+      "clean_preference": {
+        "name": "Švarus pasirinkimas"
+      },
+      "continuous_cleaning": {
+        "name": "Nuolatinis valymas"
+      },
+      "cross_map_border_warning": {
+        "name": "Perspėjimas apie sienos perėjimą žemėlapyje"
+      },
+      "move_up_warning": {
+        "name": "Perspėjimas judėti aukštyn"
+      },
+      "safe_protect": {
+        "name": "Saugi apsauga"
+      },
+      "true_detect": {
+        "name": "Tikras aptikimas"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Max",
+              "max_plus": "Max+",
+              "normal": "Normalus",
+              "quiet": "Tyliai"
+            }
+          },
+          "rooms": {
+            "name": "Kambariai"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "Įkroviklių ir paties įrenginio padėties nuskaitymas nepalaikomas"
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "The {command} komanda nepalaikoma {name}"
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "Paramos turi būti žodynas, o ne sąrašas"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "Parametrai reikalingi komandai: {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Debesis",
+        "self_hosted": "Savarankiškai priglobta"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Gauna neapdorotą atsakymą, kuriame yra įkroviklių ir paties įrenginio padėtis.",
+      "name": "Gaukite neapdorotas pozicijas"
+    }
+  }
+}
