@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Toiminta",
+          "away_temp": "Poissa",
+          "comfort_temp": "Mukavuus",
+          "eco_temp": "Eko",
+          "home_temp": "Kotona",
+          "sleep_temp": "Nukkuminen"
+        },
+        "title": "Lämpötilan esiasetukset"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Jäähdytystila",
+          "cold_tolerance": "Kylmyyden toleranssi",
+          "heater": "Toimilaitteen kytkin",
+          "hot_tolerance": "Kuumuuden toleranssi",
+          "max_temp": "Suurin tavoitelämpötila",
+          "min_temp": "Pienin tavoitelämpötila",
+          "name": "Nimi",
+          "target_sensor": "Lämpötila-anturi"
+        },
+        "data_description": {
+          "ac_mode": "Aseta toimilaite siten, että sitä käsitellään jäähdytyslaitteena lämmityslaitteen sijasta.",
+          "heater": "Kytkintä käytetään jäähdyttämiseen tai lämmittämiseen ilmastointitilan mukaan.",
+          "hot_tolerance": "Lämpötila-anturin lukeman lämpötilan ja tavoitelämpötilan välisen eron vähimmäismäärä, jonka on muututtava ennen kuin laite kytkeytyy pois päältä. Jos esimerkiksi tavoitelämpötila on 25 ja toleranssi on 0,5, lämmitin pysähtyy, kun lämpötila-anturi on yhtä suuri tai suurempi kuin 25,5.",
+          "target_sensor": "Lämpötila-anturi, joka esittää nykyistä lämpötilaa."
+        },
+        "description": "Luo ilmastokokonaisuus, joka säätelee lämpötilaa kytkimen ja anturin avulla.",
+        "title": "Luo yleinen termostaatti"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Jäähdytystila",
+          "cold_tolerance": "Kylmyyden toleranssi",
+          "heater": "Toimilaitteen kytkin",
+          "hot_tolerance": "Kuumuuden toleranssi",
+          "max_temp": "Suurin tavoitelämpötila",
+          "min_temp": "Pienin tavoitelämpötila",
+          "target_sensor": "Lämpötila-anturi"
+        },
+        "data_description": {
+          "ac_mode": "Aseta toimilaite siten, että sitä käsitellään jäähdytyslaitteena lämmityslaitteen sijasta.",
+          "heater": "Kytkintä käytetään jäähdyttämiseen tai lämmittämiseen ilmastointitilan mukaan.",
+          "hot_tolerance": "Lämpötila-anturin lukeman lämpötilan ja tavoitelämpötilan välisen eron vähimmäismäärä, jonka on muututtava ennen kuin laite kytkeytyy pois päältä. Jos esimerkiksi tavoitelämpötila on 25 ja toleranssi on 0,5, lämmitin pysähtyy, kun lämpötila-anturi on yhtä suuri tai suurempi kuin 25,5.",
+          "target_sensor": "Lämpötila-anturi, joka esittää nykyistä lämpötilaa."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Toiminta",
+          "away_temp": "Poissa",
+          "comfort_temp": "Mukavuus",
+          "eco_temp": "Eko",
+          "home_temp": "Kotona",
+          "sleep_temp": "Nukkuminen"
+        },
+        "title": "Lämpötilan esiasetukset"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Lataa yleiset termostaatit uudelleen YAML-konfiguraatiosta."
+    }
+  },
+  "title": "Yleinen termostaatti"
+}

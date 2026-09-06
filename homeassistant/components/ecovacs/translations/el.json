@@ -1,0 +1,220 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Ο λογαριασμός έχει ήδη διαμορφωθεί"
+    },
+    "error": {
+      "cannot_connect": "Αποτυχία σύνδεσης",
+      "invalid_auth": "Μη έγκυρος έλεγχος ταυτότητας",
+      "unknown": "Μη αναμενόμενο σφάλμα"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Χώρα",
+          "password": "Κωδικός πρόσβασης",
+          "username": "Ονομα χρήστη",
+          "verify_mqtt_certificate": "Επαλήθευση πιστοποιητικού SSL MQTT"
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "Λειτουργία"
+        },
+        "data_description": {
+          "mode": "Επιλέξτε τη λειτουργία που θέλετε να χρησιμοποιήσετε για να συνδεθείτε στο Ecovacs. Αν δεν είστε σίγουρος/η, επιλέξτε **Cloud**.\n\nΕπιλέξτε **Self-hosted** μόνο αν έχετε μια λειτουργική αυτο-φιλοξενημένη υπόσταση."
+        }
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "relocate": {
+        "name": "Μετεγκατάσταση"
+      },
+      "reset_lifespan_blade": {
+        "name": "Επαναφορά διάρκειας ζωής λεπίδας"
+      },
+      "reset_lifespan_brush": {
+        "name": "Επαναφορά διάρκειας ζωής κύριας βούρτσας"
+      },
+      "reset_lifespan_filter": {
+        "name": "Επαναφορά διάρκειας ζωής φίλτρου"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Επαναφορά της διάρκειας ζωής της βούρτσας φακού"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "Επαναφορά διάρκειας ζωής στρογγυλής σφουγγαρίστρας"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Επαναφορά διάρκειας ζωής πλευρικών βουρτσών"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "Επαναφορά διάρκειας ζωής μονάδας φροντίδας"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Αδειάστε τον κάδο απορριμμάτων"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Τελευταία εργασία",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Τελείωσε",
+              "finished_with_warnings": "Τελείωσε με προειδοποιήσεις",
+              "manually_stopped": "Σταμάτησε χειροκίνητα"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Χάρτης"
+      }
+    },
+    "number": {
+      "cut_direction": {
+        "name": "Κατεύθυνση κοπής"
+      }
+    },
+    "select": {
+      "water_amount": {
+        "state": {
+          "high": "Υψηλό",
+          "low": "Χαμηλό",
+          "medium": "Μέτριο"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Σφάλμα",
+        "state_attributes": {
+          "description": {
+            "name": "Περιγραφή"
+          }
+        }
+      },
+      "lifespan_blade": {
+        "name": "Διάρκεια ζωής λεπίδας"
+      },
+      "lifespan_brush": {
+        "name": "Διάρκεια ζωής κύριας βούρτσας"
+      },
+      "lifespan_filter": {
+        "name": "Διάρκεια ζωής φίλτρου"
+      },
+      "lifespan_lens_brush": {
+        "name": "Διάρκεια ζωής βούρτσας φακού"
+      },
+      "lifespan_main_brush": {
+        "name": "Διάρκεια ζωής κύριας βούρτσας"
+      },
+      "lifespan_round_mop": {
+        "name": "Διάρκεια ζωής στρογγυλής σφουγγαρίστρας"
+      },
+      "lifespan_side_brush": {
+        "name": "Διάρκεια ζωής πλευρικής βούρτσας"
+      },
+      "lifespan_unit_care": {
+        "name": "Διάρκεια ζωής της μονάδας φροντίδας"
+      },
+      "network_ip": {
+        "name": "Διεύθυνση IP"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fi SSID"
+      },
+      "station_state": {
+        "name": "Κατάσταση σταθμού",
+        "state": {
+          "emptying_dustbin": "Αδειασμα κάδου απορριμμάτων",
+          "idle": "Σε αδράνεια"
+        }
+      },
+      "stats_area": {
+        "name": "Καθαρισμένη περιοχή"
+      },
+      "stats_time": {
+        "name": "Διάρκεια καθαρισμού"
+      },
+      "total_stats_area": {
+        "name": "Συνολική καθαρισμένη περιοχή"
+      },
+      "total_stats_cleanings": {
+        "name": "Σύνολο καθαρισμών"
+      },
+      "total_stats_time": {
+        "name": "Συνολική διάρκεια καθαρισμού"
+      }
+    },
+    "switch": {
+      "carpet_auto_fan_boost": {
+        "name": "Αυτόματη ενίσχυση αναρρόφησης σε χαλιά"
+      },
+      "child_lock": {
+        "name": "Κλείδωμα για παιδιά"
+      },
+      "move_up_warning": {
+        "name": "Προειδοποίηση μετακίνησης προς τα πάνω"
+      },
+      "safe_protect": {
+        "name": "Ασφαλής προστασία"
+      },
+      "true_detect": {
+        "name": "Αληθινή ανίχνευση"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Μέγιστο",
+              "max_plus": "Μέγιστο+",
+              "normal": "Κανονικό",
+              "quiet": "Ησυχο"
+            }
+          },
+          "rooms": {
+            "name": "Δωμάτια"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "Η ανάκτηση των θέσεων των φορτιστών και της ίδιας της συσκευής δεν υποστηρίζεται"
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "Η εντολή {command} δεν υποστηρίζεται από το {name}"
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "Οι παράμετροι πρέπει να είναι λεξικό και όχι λίστα"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "Οι παράμετροι απαιτούνται για την εντολή: {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Cloud"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Λαμβάνει μια ακατέργαστη απάντηση που περιέχει τις θέσεις των φορτιστών και της ίδιας της συσκευής.",
+      "name": "Λάβετε ακατέργαστες θέσεις"
+    }
+  }
+}
