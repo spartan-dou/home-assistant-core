@@ -1,0 +1,22 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "away_temp": "Надвор од Дома",
+          "home_temp": "Дома"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "presets": {
+        "data": {
+          "away_temp": "Надвор од Дома",
+          "home_temp": "Дома"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,119 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Акаунтът вече е конфигуриран",
+      "reauth_successful": "Повторната автентикация беше успешна"
+    },
+    "error": {
+      "cannot_connect": "Неуспешно свързване",
+      "invalid_auth": "Невалидна автентикация",
+      "invalid_url": "Невалиден URL",
+      "invalid_verification_code": "Кодът за потвърждение е невалиден или е с изтекъл срок на валидност.",
+      "unknown": "Неочаквана грешка"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "override_mqtt_url": "MQTT URL",
+          "password": "Парола",
+          "username": "Потребителско име"
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "Код за потвърждение"
+        }
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Парола"
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "Режим"
+        }
+      }
+    }
+  },
+  "entity": {
+    "event": {
+      "last_job": {
+        "name": "Последна работа"
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Карта"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "Активна карта"
+      },
+      "auto_empty": {
+        "state": {
+          "auto": "Автоматично",
+          "min_10": "10 минути",
+          "min_15": "15 минути",
+          "min_25": "25 минути"
+        }
+      },
+      "water_amount": {
+        "state": {
+          "medium": "Средно"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Грешка",
+        "state_attributes": {
+          "description": {
+            "name": "Описание"
+          }
+        }
+      },
+      "network_ip": {
+        "name": "IP адрес"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fi SSID"
+      },
+      "station_state": {
+        "state": {
+          "idle": "Празен ход"
+        }
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Разширен режим"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "rooms": {
+            "name": "Стаи"
+          }
+        }
+      }
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Облак"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "name": "Получаване на необработени позиции"
+    }
+  }
+}

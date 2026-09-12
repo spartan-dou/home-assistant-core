@@ -1,0 +1,35 @@
+{
+  "entity": {
+    "sensor": {
+      "error": {
+        "state_attributes": {
+          "description": {
+            "name": "Опис"
+          }
+        }
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "normal": "Нормално"
+            }
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "Враќањето на позициите на полначите и самиот уред не е поддржано"
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Вчитува необработен одговор кој ги содржи позициите на полначите и самиот уред.",
+      "name": "Добијте сурови позиции"
+    }
+  }
+}

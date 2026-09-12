@@ -1,0 +1,80 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Activiteit",
+          "away_temp": "Afwezig",
+          "comfort_temp": "Comfort",
+          "eco_temp": "Eco",
+          "home_temp": "Thuis",
+          "sleep_temp": "Slapen"
+        },
+        "title": "Vooraf ingestelde temperatuur"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Koelmodus",
+          "cold_tolerance": "Tolerantie voor kou",
+          "heater": "Actuatorschakelaar",
+          "hot_tolerance": "Tolerantie voor warmte",
+          "max_temp": "Maximale doeltemperatuur",
+          "min_temp": "Minimale doeltemperatuur",
+          "name": "Naam",
+          "target_sensor": "Temperatuursensor"
+        },
+        "data_description": {
+          "ac_mode": "Stel de opgegeven actuator in als koelapparaat in plaats van als verwarmingsapparaat.",
+          "cycle_cooldown": "Na het uitschakelen, de minimale tijd die moet verstrijken voordat het weer kan worden ingeschakeld.",
+          "heater": "Schakelentiteit die wordt gebruikt om te koelen of te verwarmen, afhankelijk van de aircomodus.",
+          "hot_tolerance": "De minimale hoeveelheid verschil tussen de temperatuur die door de temperatuursensor wordt afgelezen en de doeltemperatuur die moet veranderen voordat de verwarming wordt uitgeschakeld. Als de doeltemperatuur bijvoorbeeld 25 is en de tolerantie 0,5, dan wordt de verwarming uitgeschakeld als de sensor gelijk is aan, of boven de 25,5 komt.",
+          "max_cycle_duration": "Na het inschakelen, de maximale tijd die kan verstrijken voordat het wordt uitgeschakeld.",
+          "target_sensor": "Temperatuursensor die de huidige temperatuur weergeeft."
+        },
+        "description": "Maak een klimaatentiteit die de temperatuur regelt via een schakelaar en sensor.",
+        "title": "Generieke thermostaat maken"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Koelmodus",
+          "cold_tolerance": "Tolerantie voor kou",
+          "heater": "Actuatorschakelaar",
+          "hot_tolerance": "Tolerantie voor warmte",
+          "max_temp": "Maximale doeltemperatuur",
+          "min_temp": "Minimale doeltemperatuur",
+          "target_sensor": "Temperatuursensor"
+        },
+        "data_description": {
+          "ac_mode": "Stel de opgegeven actuator in als koelapparaat in plaats van als verwarmingsapparaat.",
+          "cycle_cooldown": "Na het uitschakelen, de minimale tijd die moet verstrijken voordat het weer kan worden ingeschakeld.",
+          "heater": "Schakelentiteit die wordt gebruikt om te koelen of te verwarmen, afhankelijk van de aircomodus.",
+          "hot_tolerance": "De minimale hoeveelheid verschil tussen de temperatuur die door de temperatuursensor wordt afgelezen en de doeltemperatuur die moet veranderen voordat de verwarming wordt uitgeschakeld. Als de doeltemperatuur bijvoorbeeld 25 is en de tolerantie 0,5, dan wordt de verwarming uitgeschakeld als de sensor gelijk is aan, of boven de 25,5 komt.",
+          "max_cycle_duration": "Na het inschakelen, de maximale tijd die kan verstrijken voordat het wordt uitgeschakeld.",
+          "target_sensor": "Temperatuursensor die de huidige temperatuur weergeeft."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Activiteit",
+          "away_temp": "Afwezig",
+          "comfort_temp": "Comfort",
+          "eco_temp": "Eco",
+          "home_temp": "Thuis",
+          "sleep_temp": "Slapen"
+        },
+        "title": "Vooraf ingestelde temperatuur"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Herlaadt generieke thermostaten vanuit de YAML configuratie.",
+      "name": "Generieke thermostaten opnieuw laden"
+    }
+  },
+  "title": "Generieke thermostaat"
+}

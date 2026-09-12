@@ -1,0 +1,139 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Kontua dagoeneko konfiguratuta dago",
+      "reauth_successful": "Berrautortzea arrakastatsua izan da"
+    },
+    "error": {
+      "cannot_connect": "Konexioak huts egin du",
+      "invalid_auth": "Autentifikazio baliogabea",
+      "invalid_url": "URL baliogabea",
+      "invalid_verification_code": "Egiaztapen kodea baligabea edo iraungi egin da.",
+      "unknown": "Ustekabeko errorea"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Herrialdea",
+          "password": "Pasahitza",
+          "username": "Erabiltzaile-izena",
+          "verify_mqtt_certificate": "MQTT SSL ziurtagiria egiaztatu"
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "Egiaztapen kodea"
+        },
+        "description": "Home Assistant konfiantzako gailu gisa baieztatzen duen Ecovacs {username}-i bidali dion egiaztapen kodea sartu."
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Pasahitza"
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "Modua"
+        }
+      }
+    }
+  },
+  "entity": {
+    "event": {
+      "last_job": {
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Amaituta",
+              "finished_with_warnings": "Abixuekin amaituta"
+            }
+          }
+        }
+      }
+    },
+    "number": {
+      "volume": {
+        "name": "Bolumena"
+      }
+    },
+    "select": {
+      "auto_empty": {
+        "state": {
+          "min_10": "10 minutu",
+          "min_15": "15 minutu",
+          "min_25": "25 minutu",
+          "smart": "Adimentsua"
+        }
+      },
+      "water_amount": {
+        "state": {
+          "high": "Altua",
+          "low": "Baxua",
+          "medium": "Ertaina"
+        }
+      },
+      "work_mode": {
+        "state": {
+          "vacuum": "Xurgagailua"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Errorea",
+        "state_attributes": {
+          "description": {
+            "name": "Deskribapena"
+          }
+        }
+      },
+      "network_ip": {
+        "name": "IP helbidea"
+      },
+      "network_rssi": {
+        "name": "Wi-Fiaren RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fiaren SSID"
+      },
+      "station_state": {
+        "state": {
+          "idle": "Inaktiboa"
+        }
+      },
+      "stats_area": {
+        "name": "Gunea garbitua"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Modu aurreratua"
+      },
+      "child_lock": {
+        "name": "Haur-blokeoa"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Max",
+              "normal": "Normala"
+            }
+          },
+          "rooms": {
+            "name": "Gelak"
+          }
+        }
+      }
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Hodeia"
+      }
+    }
+  }
+}

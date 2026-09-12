@@ -1,0 +1,100 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "El tiempo mínimo de funcionamiento debe ser inferior al tiempo máximo de funcionamiento."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Actividad",
+          "away_temp": "Fuera",
+          "comfort_temp": "Confort",
+          "eco_temp": "Eco",
+          "home_temp": "En casa",
+          "sleep_temp": "Dormir"
+        },
+        "title": "Preajustes de temperatura"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Modo de enfriamiento",
+          "cold_tolerance": "Tolerancia al frío",
+          "cycle_cooldown": "Periodo de enfriamiento después de funcionar",
+          "heater": "Interruptor del actuador",
+          "hot_tolerance": "Tolerancia al calor",
+          "keep_alive": "Intervalo de Keep-alive",
+          "max_cycle_duration": "Tiempo máximo de funcionamiento",
+          "max_temp": "Temperatura máxima deseada",
+          "min_cycle_duration": "Tiempo mínimo de funcionamiento",
+          "min_temp": "Temperatura mínima deseada",
+          "name": "Nombre",
+          "target_sensor": "Sensor de temperatura"
+        },
+        "data_description": {
+          "ac_mode": "Configura el actuador especificado para que se trate como un dispositivo de refrigeración en lugar de un dispositivo de calefacción.",
+          "cold_tolerance": "Diferencia mínima entre la temperatura leída por el sensor y la temperatura objetivo que debe cambiar antes de encenderse. Por ejemplo, si la temperatura objetivo es de 25 °C y la tolerancia es de 0,5 °C, el calentador se encenderá cuando el sensor baje de 24,5 °C.",
+          "cycle_cooldown": "Tras apagarlo, es el tiempo mínimo que debe transcurrir antes de poder volver a encenderlo.",
+          "heater": "Entidad interruptor utilizada para enfriar o calentar dependiendo del modo A/C.",
+          "hot_tolerance": "Cantidad mínima de diferencia entre la temperatura leída por el sensor de temperatura y la temperatura objetivo que debe cambiar antes de apagarse. Por ejemplo, si la temperatura objetivo es 25 y la tolerancia es 0,5, el calefactor se detendrá cuando el sensor iguale o supere 25,5.",
+          "keep_alive": "Dispara el calentador periódicamente para evitar que los dispositivos pierdan el estado.",
+          "max_cycle_duration": "Una vez encendido, el tiempo máximo que puede transcurrir antes de que se apague.",
+          "min_cycle_duration": "Una vez encendido, es el tiempo mínimo que debe transcurrir antes de poder apagarlo.",
+          "target_sensor": "Sensor de temperatura que refleja la temperatura actual."
+        },
+        "description": "Crea una entidad climática que controla la temperatura mediante un interruptor y un sensor.",
+        "title": "Crear termostato genérico"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "El tiempo mínimo de funcionamiento debe ser inferior al tiempo máximo de funcionamiento."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Modo de enfriamiento",
+          "cold_tolerance": "Tolerancia al frío",
+          "cycle_cooldown": "Periodo de enfriamiento después de funcionar",
+          "heater": "Interruptor del actuador",
+          "hot_tolerance": "Tolerancia al calor",
+          "keep_alive": "Intervalo de Keep-alive",
+          "max_cycle_duration": "Tiempo máximo de funcionamiento",
+          "max_temp": "Temperatura máxima deseada",
+          "min_cycle_duration": "Tiempo mínimo de funcionamiento",
+          "min_temp": "Temperatura mínima deseada",
+          "target_sensor": "Sensor de temperatura"
+        },
+        "data_description": {
+          "ac_mode": "Configura el actuador especificado para que se trate como un dispositivo de refrigeración en lugar de un dispositivo de calefacción.",
+          "cold_tolerance": "Diferencia mínima entre la temperatura leída por el sensor y la temperatura objetivo que debe cambiar antes de encenderse. Por ejemplo, si la temperatura objetivo es de 25 °C y la tolerancia es de 0,5 °C, el calentador se encenderá cuando el sensor baje de 24,5 °C.",
+          "cycle_cooldown": "Tras apagarlo, es el tiempo mínimo que debe transcurrir antes de poder volver a encenderlo.",
+          "heater": "Entidad interruptor utilizada para enfriar o calentar dependiendo del modo A/C.",
+          "hot_tolerance": "Cantidad mínima de diferencia entre la temperatura leída por el sensor de temperatura y la temperatura objetivo que debe cambiar antes de apagarse. Por ejemplo, si la temperatura objetivo es 25 y la tolerancia es 0,5, el calefactor se detendrá cuando el sensor iguale o supere 25,5.",
+          "keep_alive": "Dispara el calentador periódicamente para evitar que los dispositivos pierdan el estado.",
+          "max_cycle_duration": "Una vez encendido, el tiempo máximo que puede transcurrir antes de que se apague.",
+          "min_cycle_duration": "Una vez encendido, es el tiempo mínimo que debe transcurrir antes de poder apagarlo.",
+          "target_sensor": "Sensor de temperatura que refleja la temperatura actual."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Actividad",
+          "away_temp": "Fuera",
+          "comfort_temp": "Confort",
+          "eco_temp": "Eco",
+          "home_temp": "En casa",
+          "sleep_temp": "Dormir"
+        },
+        "title": "Preajustes de temperatura"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Recarga los termostatos genéricos de la configuración YAML.",
+      "name": "Recargar termostatos genéricos"
+    }
+  },
+  "title": "Termostato genérico"
+}
