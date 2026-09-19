@@ -1,0 +1,380 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Kontot är redan konfigurerat",
+      "reauth_successful": "Återautentisering lyckades"
+    },
+    "error": {
+      "cannot_connect": "Det gick inte att ansluta",
+      "invalid_auth": "Ogiltig autentisering",
+      "invalid_url": "Ogiltig URL",
+      "invalid_url_schema_override_mqtt_url": "Ogiltigt MQTT-URL-schema. \nURL:en ska börja med `mqtt://` eller `mqtts://`.",
+      "invalid_url_schema_override_rest_url": "Ogiltigt REST URL-schema.\nURL:en ska börja med `http://` eller `https://`.",
+      "invalid_verification_code": "Verifieringskoden är ogiltig eller har gått ut.",
+      "unknown": "Oväntat fel"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Land",
+          "override_mqtt_url": "MQTT-URL",
+          "override_rest_url": "REST-URL",
+          "password": "Lösenord",
+          "username": "Användarnamn",
+          "verify_mqtt_certificate": "Verifiera MQTT-SSL-certifikat"
+        },
+        "data_description": {
+          "override_mqtt_url": "Ange MQTT-URL:en för din lokalt installerade instans, inklusive schemat (mqtt/mqtts).",
+          "override_rest_url": "Ange REST-URL:en för din lokalt installerade instans, inklusive schemat (http/https)."
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "Verifieringskod"
+        },
+        "description": "Ange verifieringskoden som Ecovacs har skickat till {username} för att bekräfta Home Assistant som en betrodd enhet."
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Lösenord"
+        },
+        "description": "Ange Ecovacs-lösenordet för {username} för att återansluta integrationen."
+      },
+      "user": {
+        "data": {
+          "mode": "Läge"
+        },
+        "data_description": {
+          "mode": "Välj det läge som du vill använda för att ansluta till Ecovacs. Om du är osäker väljer du \"Cloud\".\n\nVälj \"Självhanterad\" endast om du har en fungerande självhanterad instans."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Moppen monterad"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "Omlokalisera"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "Återställ luftfräscharens livslängd"
+      },
+      "reset_lifespan_blade": {
+        "name": "Återställ bladets livslängd"
+      },
+      "reset_lifespan_brush": {
+        "name": "Återställ huvudborstens livslängd"
+      },
+      "reset_lifespan_cleaning_solution": {
+        "name": "Återställ rengöringslösningens livslängd"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "Återställ dammpåsens livslängd"
+      },
+      "reset_lifespan_filter": {
+        "name": "Återställ filtrets livslängd"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "Återställ handfiltrets livslängd"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Återställ linsborstens livslängd"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "Återställ livslängd för rund mopp"
+      },
+      "reset_lifespan_sewage_box": {
+        "name": "Återställ avloppsbehållarens livslängd"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Återställ sidoborstens livslängd"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "Återställ stationsfiltrets livslängd"
+      },
+      "reset_lifespan_trimmer_brush": {
+        "name": "Återställ kanttrimmerborstens livslängd"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "Återställ livslängd för enhetsvård"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "Återställ UV-desinfektionsmedlets livslängd"
+      },
+      "reset_lifespan_water_sink": {
+        "name": "Återställ vattenvaskens livslängd"
+      },
+      "reset_lifespan_weed_rope": {
+        "name": "Återställ kanttrimmerlinans livslängd"
+      },
+      "station_action_clean_base": {
+        "name": "Rengör bas"
+      },
+      "station_action_dry_mop": {
+        "name": "Torrmopp"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Töm dammbehållare"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Senaste jobb",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Färdig",
+              "finished_with_warnings": "Färdig med varningar",
+              "manually_stopped": "Manuellt stoppad"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Karta"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "Antal rengöringar"
+      },
+      "cut_direction": {
+        "name": "Klippriktning"
+      },
+      "volume": {
+        "name": "Volym"
+      },
+      "water_amount": {
+        "name": "Vattenflödes nivå"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "Aktiv karta"
+      },
+      "auto_empty": {
+        "name": "Automatisk tömningsfrekvens",
+        "state": {
+          "auto": "Auto",
+          "min_10": "10 minuter",
+          "min_15": "15 minuter",
+          "min_25": "25 minuter",
+          "smart": "Smart"
+        }
+      },
+      "water_amount": {
+        "name": "Vattenflödes nivå",
+        "state": {
+          "high": "Hög",
+          "low": "Låg",
+          "medium": "Medel",
+          "ultrahigh": "Ultrahög"
+        }
+      },
+      "work_mode": {
+        "name": "Arbetsläge",
+        "state": {
+          "mop": "Moppa",
+          "mop_after_vacuum": "Moppa efter dammsugning",
+          "vacuum": "Dammsug",
+          "vacuum_and_mop": "Dammsug och moppa"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Fel",
+        "state_attributes": {
+          "description": {
+            "name": "Beskrivning"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "Luftfräscharens livslängd"
+      },
+      "lifespan_blade": {
+        "name": "Bladets livslängd"
+      },
+      "lifespan_brush": {
+        "name": "Huvudborstens livslängd"
+      },
+      "lifespan_cleaning_solution": {
+        "name": "Rengöringslösningens livslängd"
+      },
+      "lifespan_dust_bag": {
+        "name": "Dammpåsens livslängd"
+      },
+      "lifespan_filter": {
+        "name": "Filtrets livslängd"
+      },
+      "lifespan_hand_filter": {
+        "name": "Handfiltrets livslängd"
+      },
+      "lifespan_lens_brush": {
+        "name": "Linsborstens livslängd"
+      },
+      "lifespan_main_brush": {
+        "name": "Huvudborstens livslängd"
+      },
+      "lifespan_round_mop": {
+        "name": "Livslängd för rund mopp"
+      },
+      "lifespan_sewage_box": {
+        "name": "Avloppsbehållarens livslängd"
+      },
+      "lifespan_side_brush": {
+        "name": "Sidoborstens livslängd"
+      },
+      "lifespan_trimmer_brush": {
+        "name": "Kanttrimmerborstens livslängd"
+      },
+      "lifespan_unit_care": {
+        "name": "Livslängd för enhetsvård"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "UV-desinfektionsmedlets livslängd"
+      },
+      "lifespan_water_sink": {
+        "name": "Livslängd för vattenvask"
+      },
+      "lifespan_weed_rope": {
+        "name": "Kanttrimmerlinans livslängd"
+      },
+      "network_ip": {
+        "name": "IP-adress"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi-RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fi-SSID"
+      },
+      "station_state": {
+        "name": "Stationens tillstånd",
+        "state": {
+          "drying_mop": "Tork mopp",
+          "emptying_dustbin": "Tömmer dammbehållare",
+          "idle": "Inaktiv",
+          "washing_mop": "Tvätt mopp"
+        }
+      },
+      "stats_area": {
+        "name": "Rengjort område"
+      },
+      "stats_area_mower": {
+        "name": "Klippt yta"
+      },
+      "stats_time": {
+        "name": "Rengöringstid"
+      },
+      "stats_time_mower": {
+        "name": "Klipptid"
+      },
+      "total_stats_area": {
+        "name": "Total yta som rengjorts"
+      },
+      "total_stats_area_mower": {
+        "name": "Total klippt yta"
+      },
+      "total_stats_cleanings": {
+        "name": "Totalt antal rengöringar"
+      },
+      "total_stats_cleanings_mower": {
+        "name": "Totalt antal klippningar"
+      },
+      "total_stats_time": {
+        "name": "Total rengöringstid"
+      },
+      "total_stats_time_mower": {
+        "name": "Total klipptid"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Avancerat läge"
+      },
+      "border_spin": {
+        "name": "Kantsnurr"
+      },
+      "border_switch": {
+        "name": "Gränsbrytare"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "Automatisk sugförstärkning för mattor"
+      },
+      "child_lock": {
+        "name": "Barnlås"
+      },
+      "clean_preference": {
+        "name": "Rengöringspreferens"
+      },
+      "continuous_cleaning": {
+        "name": "Kontinuerlig rengöring"
+      },
+      "cross_map_border_warning": {
+        "name": "Varning för korsande kartkant"
+      },
+      "move_up_warning": {
+        "name": "Varning för att flytta upp"
+      },
+      "safe_protect": {
+        "name": "Säkert skydd"
+      },
+      "true_detect": {
+        "name": "Sann detektering"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Max",
+              "max_plus": "Max+",
+              "normal": "Normal",
+              "quiet": "Tyst"
+            }
+          },
+          "rooms": {
+            "name": "Rum"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "Att hämta positionerna för laddarna och själva enheten stöds inte"
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "Kommandot `{command}` stöds inte av {name}"
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "Params måste vara en dictionary istället för lista"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "Params krävs för kommandot: {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Moln",
+        "self_hosted": "Lokal installation"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Hämtar ett svar i råformat som innehåller positionerna för laddarna och själva enheten.",
+      "name": "Hämta råpositioner"
+    }
+  }
+}

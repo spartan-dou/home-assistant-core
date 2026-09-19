@@ -1,0 +1,100 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "최소 실행 시간은 최대 실행 시간보다 짧아야 합니다."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "활동",
+          "away_temp": "외출",
+          "comfort_temp": "쾌적",
+          "eco_temp": "절약",
+          "home_temp": "재실",
+          "sleep_temp": "취침"
+        },
+        "title": "온도 설정"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "냉각 모드",
+          "cold_tolerance": "내한성",
+          "cycle_cooldown": "실행 후 쿨다운 기간",
+          "heater": "액추에이터 스위치",
+          "hot_tolerance": "고온 내성",
+          "keep_alive": "유지 간격",
+          "max_cycle_duration": "최대 실행 시간",
+          "max_temp": "최대 목표 온도",
+          "min_cycle_duration": "최소 실행 시간",
+          "min_temp": "최소 목표 온도",
+          "name": "이름",
+          "target_sensor": "온도 센서"
+        },
+        "data_description": {
+          "ac_mode": "지정된 액추에이터를 가열 기기가 아닌 냉각 기기로 처리하도록 설정하세요.",
+          "cold_tolerance": "온도 센서가 측정한 온도와 목표 온도 사이의 최소 차이 값입니다. 예를 들어, 목표 온도가 25도이고 허용 오차가 0.5도인 경우, 센서가 24.5도 아래로 내려가면 히터가 작동하기 시작합니다.",
+          "cycle_cooldown": "전원을 끈 후 다시 켜기까지 최소 경과해야 하는 시간.",
+          "heater": "에어컨 모드에 따라 냉방 또는 난방을 조절하는 데 사용되는 스위치입니다.",
+          "hot_tolerance": "온도 센서가 측정한 온도와 목표 온도 사이의 최소 차이 값입니다. 예를 들어, 목표 온도가 25도이고 허용 오차가 0.5도인 경우, 센서가 측정한 온도가 25.5도 이상이 되면 히터가 정지합니다.",
+          "keep_alive": "기기의 상태 손실을 방지하기 위해 히터를 주기적으로 작동시키십시오.",
+          "max_cycle_duration": "일단 켜지면 자동으로 꺼지기까지 경과할 수 있는 최대 시간입니다.",
+          "min_cycle_duration": "일단 켜지면, 끌 수 있기까지 최소한 일정 시간이 경과해야 합니다.",
+          "target_sensor": "현재 온도를 반영하는 온도 센서."
+        },
+        "description": "스위치와 센서를 통해 온도를 제어하는 ​​온도 조절 엔티티를 생성하세요.",
+        "title": "범용 온도 조절기 생성"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "최소 실행 시간은 최대 실행 시간보다 짧아야 합니다."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "냉각 모드",
+          "cold_tolerance": "내한성",
+          "cycle_cooldown": "실행 후 쿨다운 기간",
+          "heater": "액추에이터 스위치",
+          "hot_tolerance": "고온 내성",
+          "keep_alive": "유지 간격",
+          "max_cycle_duration": "최대 실행 시간",
+          "max_temp": "최대 목표 온도",
+          "min_cycle_duration": "최소 실행 시간",
+          "min_temp": "최소 목표 온도",
+          "target_sensor": "온도 센서"
+        },
+        "data_description": {
+          "ac_mode": "지정된 액추에이터를 가열 기기가 아닌 냉각 기기로 처리하도록 설정하세요.",
+          "cold_tolerance": "온도 센서가 측정한 온도와 목표 온도 사이의 최소 차이 값입니다. 예를 들어, 목표 온도가 25도이고 허용 오차가 0.5도인 경우, 센서가 24.5도 아래로 내려가면 히터가 작동하기 시작합니다.",
+          "cycle_cooldown": "전원을 끈 후 다시 켜기까지 최소 경과해야 하는 시간.",
+          "heater": "에어컨 모드에 따라 냉방 또는 난방을 조절하는 데 사용되는 스위치입니다.",
+          "hot_tolerance": "온도 센서가 측정한 온도와 목표 온도 사이의 최소 차이 값입니다. 예를 들어, 목표 온도가 25도이고 허용 오차가 0.5도인 경우, 센서가 측정한 온도가 25.5도 이상이 되면 히터가 정지합니다.",
+          "keep_alive": "기기의 상태 손실을 방지하기 위해 히터를 주기적으로 작동시키십시오.",
+          "max_cycle_duration": "일단 켜지면 자동으로 꺼지기까지 경과할 수 있는 최대 시간입니다.",
+          "min_cycle_duration": "일단 켜지면, 끌 수 있기까지 최소한 일정 시간이 경과해야 합니다.",
+          "target_sensor": "현재 온도를 반영하는 온도 센서."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "활동",
+          "away_temp": "외출",
+          "comfort_temp": "쾌적",
+          "eco_temp": "절약",
+          "home_temp": "재실",
+          "sleep_temp": "취침"
+        },
+        "title": "온도 설정"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "YAML 구성에서 일반 온도 조절기를 다시 로드합니다.",
+      "name": "새로고침"
+    }
+  },
+  "title": "일반 온도 조절기"
+}

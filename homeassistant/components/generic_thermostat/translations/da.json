@@ -1,0 +1,81 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "Den mindste drifttid skal være kortere end den maksimale drifttid."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivitet",
+          "away_temp": "Ude",
+          "comfort_temp": "Komfort",
+          "eco_temp": "Øko",
+          "home_temp": "Hjemme",
+          "sleep_temp": "Sove"
+        },
+        "title": "Forudindstillede temperaturer"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Køletilstand",
+          "cold_tolerance": "Kuldetolerance",
+          "cycle_cooldown": "Nedkølingsperiode efter drift",
+          "heater": "Aktuatorkontakt",
+          "hot_tolerance": "Varmtolerance",
+          "keep_alive": "Keep-alive-interval",
+          "max_cycle_duration": "Maksimal drifttid",
+          "max_temp": "Maksimal måltemperatur",
+          "min_cycle_duration": "Minimum drifttid",
+          "min_temp": "Minimum måltemperatur",
+          "name": "Navn",
+          "target_sensor": "Temperatursensor"
+        },
+        "data_description": {
+          "target_sensor": "Temperatursensor, der afspejler den aktuelle temperatur."
+        },
+        "description": "Opret en klimaentitet, der styrer temperaturen via en kontakt og sensor.",
+        "title": "Opret en generisk termostat"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "Den mindste drifttid skal være kortere end den maksimale drifttid."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Køletilstand",
+          "cold_tolerance": "Kuldetolerance",
+          "cycle_cooldown": "Nedkølingsperiode efter drift",
+          "heater": "Aktuatorkontakt",
+          "hot_tolerance": "Varmtolerance",
+          "keep_alive": "Keep-alive-interval",
+          "max_cycle_duration": "Maksimal drifttid",
+          "max_temp": "Maksimal måltemperatur",
+          "min_cycle_duration": "Minimum drifttid",
+          "min_temp": "Minimum måltemperatur",
+          "target_sensor": "Temperatursensor"
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivitet",
+          "away_temp": "Ude",
+          "comfort_temp": "Komfort",
+          "eco_temp": "Øko",
+          "home_temp": "Hjemme",
+          "sleep_temp": "Sove"
+        },
+        "title": "Forudindstillede temperaturer"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Genindlæser generiske termostater fra YAML-konfigurationen.",
+      "name": "Genindlæs generiske termostater"
+    }
+  },
+  "title": "Generisk termostat"
+}

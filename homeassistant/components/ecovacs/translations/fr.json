@@ -1,0 +1,365 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Le compte est déjà configuré",
+      "reauth_successful": "La réauthentification a réussi"
+    },
+    "error": {
+      "cannot_connect": "Échec de la connexion",
+      "invalid_auth": "Authentification non valide",
+      "invalid_url": "URL non valide",
+      "invalid_url_schema_override_mqtt_url": "Schéma d'URL MQTT non valide.\nL'URL doit commencer par `mqtt://` ou `mqtts://`.",
+      "invalid_url_schema_override_rest_url": "Schéma d'URL REST non valide.\nL'URL doit commencer par `http://` ou `https://`.",
+      "invalid_verification_code": "Le code de vérification est incorrect ou a expiré.",
+      "unknown": "Erreur inattendue"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Pays",
+          "override_mqtt_url": "URL MQTT",
+          "override_rest_url": "URL REST",
+          "password": "Mot de passe",
+          "username": "Nom d'utilisateur",
+          "verify_mqtt_certificate": "Vérifier le certificat SSL MQTT"
+        },
+        "data_description": {
+          "override_mqtt_url": "Saisissez l'URL MQTT de votre instance auto-hébergée, y compris le schéma (mqtt/mqtts).",
+          "override_rest_url": "Saisissez l'URL REST de votre instance auto-hébergée, y compris le schéma (http/https)."
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "Code de vérification"
+        },
+        "description": "Saisissez le code de vérification qu'Ecovacs a envoyé à {username} pour confirmer Home Assistant comme appareil de confiance."
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Mot de passe"
+        },
+        "description": "Saisissez le mot de passe Ecovacs de {username} pour reconnecter l'intégration."
+      },
+      "user": {
+        "data": {
+          "mode": "Mode"
+        },
+        "data_description": {
+          "mode": "Sélectionnez le mode que vous souhaitez utiliser pour vous connecter à Ecovacs. Si vous n'êtes pas sûr, sélectionnez **Cloud**.\n\nSélectionnez **Auto-hébergé** uniquement si vous disposez d'une instance auto-hébergée fonctionnelle."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Serpillière fixée"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "Repositionner"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "Réinitialiser la durée de vie du désodorisant"
+      },
+      "reset_lifespan_blade": {
+        "name": "Réinitialiser la durée de vie de la lame"
+      },
+      "reset_lifespan_brush": {
+        "name": "Réinitialiser la durée de vie de la brosse principale"
+      },
+      "reset_lifespan_cleaning_solution": {
+        "name": "Réinitialiser la durée de vie de la solution de nettoyage"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "Réinitialiser la durée de vie du sac à poussière"
+      },
+      "reset_lifespan_filter": {
+        "name": "Réinitialiser la durée de vie du filtre"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "Réinitialiser la durée de vie du filtre à main"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Réinitialiser la durée de vie de la brosse de l'objectif"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "Réinitialiser la durée de vie de la serpillière rotative"
+      },
+      "reset_lifespan_sewage_box": {
+        "name": "Réinitialiser la durée de vie du bac à eaux usées"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Réinitialiser la durée de vie de la brosse latérale"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "Réinitialiser la durée de vie du filtre de la station"
+      },
+      "reset_lifespan_trimmer_brush": {
+        "name": "Réinitialiser la durée de vie de la brosse du coupe-bordure"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "Réinitialiser la durée de vie de l'entretien de l'appareil"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "Réinitialiser la durée de vie du stérilisateur UV"
+      },
+      "reset_lifespan_water_sink": {
+        "name": "Réinitialiser la durée de vie du bac à eau"
+      },
+      "reset_lifespan_weed_rope": {
+        "name": "Réinitialiser la durée de vie du fil du coupe-bordure"
+      },
+      "station_action_clean_base": {
+        "name": "Nettoyer la base"
+      },
+      "station_action_dry_mop": {
+        "name": "Sécher la serpillière"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Vider le bac à poussière"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Dernière tâche",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Terminé",
+              "finished_with_warnings": "Terminé avec des avertissements",
+              "manually_stopped": "Arrêté manuellement"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Carte"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "Compteur de nettoyage"
+      },
+      "cut_direction": {
+        "name": "Direction de coupe"
+      },
+      "volume": {
+        "name": "Volume"
+      },
+      "water_amount": {
+        "name": "Niveau de débit d'eau"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "Carte active"
+      },
+      "auto_empty": {
+        "name": "Fréquence de vidage automatique",
+        "state": {
+          "auto": "Auto",
+          "min_10": "10 minutes",
+          "min_15": "15 minutes",
+          "min_25": "25 minutes",
+          "smart": "Intelligent"
+        }
+      },
+      "water_amount": {
+        "name": "Niveau de débit d'eau",
+        "state": {
+          "high": "Élevé",
+          "low": "Faible",
+          "medium": "Moyen",
+          "ultrahigh": "Très élevé"
+        }
+      },
+      "work_mode": {
+        "name": "Mode de travail",
+        "state": {
+          "mop": "Serpillière",
+          "mop_after_vacuum": "Serpillière après aspiration",
+          "vacuum": "Aspirateur",
+          "vacuum_and_mop": "Aspirateur et serpillière"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Erreur",
+        "state_attributes": {
+          "description": {
+            "name": "Description"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "Durée de vie du désodorisant"
+      },
+      "lifespan_blade": {
+        "name": "Durée de vie de la lame"
+      },
+      "lifespan_brush": {
+        "name": "Durée de vie de la brosse principale"
+      },
+      "lifespan_cleaning_solution": {
+        "name": "Durée de vie de la solution de nettoyage"
+      },
+      "lifespan_dust_bag": {
+        "name": "Durée de vie du sac à poussière"
+      },
+      "lifespan_filter": {
+        "name": "Durée de vie du filtre"
+      },
+      "lifespan_hand_filter": {
+        "name": "Durée de vie du filtre à main"
+      },
+      "lifespan_lens_brush": {
+        "name": "Durée de vie de la brosse de l'objectif"
+      },
+      "lifespan_main_brush": {
+        "name": "Durée de vie de la brosse principale"
+      },
+      "lifespan_round_mop": {
+        "name": "Durée de vie de la serpillière rotative"
+      },
+      "lifespan_sewage_box": {
+        "name": "Durée de vie du bac à eaux usées"
+      },
+      "lifespan_side_brush": {
+        "name": "Durée de vie de la brosse latérale"
+      },
+      "lifespan_trimmer_brush": {
+        "name": "Durée de vie de la brosse du coupe-bordure"
+      },
+      "lifespan_unit_care": {
+        "name": "Durée de vie de l'entretien de l'appareil"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "Durée de vie du stérilisateur UV"
+      },
+      "lifespan_water_sink": {
+        "name": "Durée de vie du bac à eau"
+      },
+      "lifespan_weed_rope": {
+        "name": "Durée de vie du fil du coupe-bordure"
+      },
+      "network_ip": {
+        "name": "Adresse IP"
+      },
+      "network_rssi": {
+        "name": "RSSI Wi-Fi"
+      },
+      "network_ssid": {
+        "name": "SSID Wi-Fi"
+      },
+      "station_state": {
+        "name": "État de la station",
+        "state": {
+          "drying_mop": "Séchage de la serpillière",
+          "emptying_dustbin": "Vidage du bac à poussière",
+          "idle": "Inactif",
+          "washing_mop": "Lavage de la serpillière"
+        }
+      },
+      "stats_area": {
+        "name": "Surface nettoyée"
+      },
+      "stats_time": {
+        "name": "Durée de nettoyage"
+      },
+      "total_stats_area": {
+        "name": "Surface totale nettoyée"
+      },
+      "total_stats_cleanings": {
+        "name": "Nombre total de nettoyages"
+      },
+      "total_stats_time": {
+        "name": "Durée totale de nettoyage"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Mode avancé"
+      },
+      "border_spin": {
+        "name": "Rotation des bordures"
+      },
+      "border_switch": {
+        "name": "Interrupteur de bordure"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "Aspiration auto-boost pour tapis"
+      },
+      "child_lock": {
+        "name": "Sécurité enfant"
+      },
+      "clean_preference": {
+        "name": "Préférence de nettoyage"
+      },
+      "continuous_cleaning": {
+        "name": "Nettoyage en continu"
+      },
+      "cross_map_border_warning": {
+        "name": "Avertissement de franchissement de bordure de carte"
+      },
+      "move_up_warning": {
+        "name": "Avertissement de soulèvement"
+      },
+      "safe_protect": {
+        "name": "Protection de sécurité"
+      },
+      "true_detect": {
+        "name": "TrueDetect"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Max",
+              "max_plus": "Max+",
+              "normal": "Normal",
+              "quiet": "Silencieux"
+            }
+          },
+          "rooms": {
+            "name": "Pièces"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "La récupération des positions des chargeurs et de l'appareil lui-même n'est pas prise en charge"
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "La commande {command} n'est pas prise en charge par {name}"
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "Les paramètres doivent être un dictionnaire et non une liste"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "Des paramètres sont nécessaires pour la commande : {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Cloud",
+        "self_hosted": "Auto-hébergé"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Récupère une réponse brute contenant les positions des chargeurs et de l'appareil lui-même.",
+      "name": "Obtenir les positions brutes"
+    }
+  }
+}

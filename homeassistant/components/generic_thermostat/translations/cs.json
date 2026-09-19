@@ -1,0 +1,100 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "Minimální doba běhu musí být kratší než maximální doba běhu."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivita",
+          "away_temp": "Pryč",
+          "comfort_temp": "Komfort",
+          "eco_temp": "ECO",
+          "home_temp": "Doma",
+          "sleep_temp": "Spánek"
+        },
+        "title": "Předvolby teploty"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Režim chlazení",
+          "cold_tolerance": "Tolerance chladu",
+          "cycle_cooldown": "Doba ochlazení po běhu",
+          "heater": "Spínač aktuátoru",
+          "hot_tolerance": "Tolerance tepla",
+          "keep_alive": "Interval udržování aktivity",
+          "max_cycle_duration": "Maximální doba běhu",
+          "max_temp": "Maximální cílová teplota",
+          "min_cycle_duration": "Minimální doba běhu",
+          "min_temp": "Minimální cílová teplota",
+          "name": "Název",
+          "target_sensor": "Senzor teploty"
+        },
+        "data_description": {
+          "ac_mode": "Nastavte akční člen, který má být považován za chladicí zařízení místo topného zařízení.",
+          "cold_tolerance": "Minimální rozdíl mezi teplotou snímanou teplotním čidlem a cílovou teplotou, která se musí před zapnutím změnit. Pokud je například cílová teplota 25 a tolerance 0.5, ohřívač se spustí, když se senzor rovná nebo klesne pod 24.5.",
+          "cycle_cooldown": "Minimální doba, která musí uplynout po vypnutí, než jej lze znovu zapnout.",
+          "heater": "Přepínací entita používaná k chlazení nebo topení v závislosti na režimu klimatizace.",
+          "hot_tolerance": "Minimální rozdíl mezi teplotou snímanou teplotním čidlem a cílovou teplotou, která se musí před vypnutím změnit. Pokud je například cílová teplota 25 a tolerance 0.5, ohřívač se zastaví, když se senzor rovná nebo překročí 25.5.",
+          "keep_alive": "Pravidelně spusťte ohřívač, aby nedošlo ke ztrátě stavu zařízení.",
+          "max_cycle_duration": "Po zapnutí je to maximální doba, která musí uplynout před vypnutím.",
+          "min_cycle_duration": "Po zapnutí je to minimální doba, která musí uplynout před vypnutím.",
+          "target_sensor": "Teplotní senzor, který odráží aktuální teplotu."
+        },
+        "description": "Vytvořtí klimatickou entitu, která řídí teplotu pomocí spínače a senzoru.",
+        "title": "Vytvořit obecný termostat"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "Minimální doba běhu musí být kratší než maximální doba běhu."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Režim chlazení",
+          "cold_tolerance": "Tolerance chladu",
+          "cycle_cooldown": "Doba ochlazení po běhu",
+          "heater": "Spínač aktuátoru",
+          "hot_tolerance": "Tolerance tepla",
+          "keep_alive": "Interval udržování aktivity",
+          "max_cycle_duration": "Maximální doba běhu",
+          "max_temp": "Maximální cílová teplota",
+          "min_cycle_duration": "Minimální doba běhu",
+          "min_temp": "Minimální cílová teplota",
+          "target_sensor": "Senzor teploty"
+        },
+        "data_description": {
+          "ac_mode": "Nastavte akční člen, který má být považován za chladicí zařízení místo topného zařízení.",
+          "cold_tolerance": "Minimální rozdíl mezi teplotou snímanou teplotním čidlem a cílovou teplotou, která se musí před zapnutím změnit. Pokud je například cílová teplota 25 a tolerance 0.5, ohřívač se spustí, když se senzor rovná nebo klesne pod 24.5.",
+          "cycle_cooldown": "Minimální doba, která musí uplynout po vypnutí, než jej lze znovu zapnout.",
+          "heater": "Přepínací entita používaná k chlazení nebo topení v závislosti na režimu klimatizace.",
+          "hot_tolerance": "Minimální rozdíl mezi teplotou snímanou teplotním čidlem a cílovou teplotou, která se musí před vypnutím změnit. Pokud je například cílová teplota 25 a tolerance 0.5, ohřívač se zastaví, když se senzor rovná nebo překročí 25.5.",
+          "keep_alive": "Pravidelně spusťte ohřívač, aby nedošlo ke ztrátě stavu zařízení.",
+          "max_cycle_duration": "Po zapnutí je to maximální doba, která musí uplynout před vypnutím.",
+          "min_cycle_duration": "Po zapnutí je to minimální doba, která musí uplynout před vypnutím.",
+          "target_sensor": "Teplotní senzor, který odráží aktuální teplotu."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivita",
+          "away_temp": "Pryč",
+          "comfort_temp": "Komfort",
+          "eco_temp": "ECO",
+          "home_temp": "Doma",
+          "sleep_temp": "Spánek"
+        },
+        "title": "Předvolby teploty"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Znovu načte obecné termostaty z nastavení YAML.",
+      "name": "Znovu načíst generické termostaty"
+    }
+  },
+  "title": "Obecný termostat"
+}

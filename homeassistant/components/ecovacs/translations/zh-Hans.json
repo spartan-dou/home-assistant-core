@@ -1,0 +1,329 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "账户已配置",
+      "reauth_successful": "重新认证成功"
+    },
+    "error": {
+      "cannot_connect": "连接失败",
+      "invalid_auth": "身份验证无效",
+      "invalid_url": "网址无效",
+      "invalid_url_schema_override_mqtt_url": "MQTT URL 方案无效。\nURL 应当以 mqtt:// 或 mqtts:// 开头。",
+      "invalid_url_schema_override_rest_url": "REST URL 方案无效。\nURL 应当以 http:// 或 https:// 开头。",
+      "unknown": "意外错误"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "国家或地区",
+          "override_mqtt_url": "MQTT URL",
+          "override_rest_url": "REST URL",
+          "password": "密码",
+          "username": "用户名",
+          "verify_mqtt_certificate": "验证 MQTT SSL 证书"
+        },
+        "data_description": {
+          "override_mqtt_url": "输入您的自托管实例的 MQTT URL，包括方案 (mqtt/mqtts)。",
+          "override_rest_url": "输入您的自托管实例的 REST URL，包括方案 (http/https) 。"
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "验证码"
+        }
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "密码"
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "模式"
+        },
+        "data_description": {
+          "mode": "选择您想要用于连接 Ecovacs 的模式。如果您不确定，请选择“云”。 \n\n仅当您拥有可运行的自托管实例时才选择“自托管”。"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "附有拖把"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "重新定位"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "重置空气清新剂寿命"
+      },
+      "reset_lifespan_blade": {
+        "name": "重置刀片寿命"
+      },
+      "reset_lifespan_brush": {
+        "name": "重置主刷寿命"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "重置尘袋寿命"
+      },
+      "reset_lifespan_filter": {
+        "name": "重置滤芯寿命"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "重置手持过滤器寿命"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "重置镜头刷寿命"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "重置圆形拖把的使用寿命"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "重置边刷寿命"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "重置基站过滤器寿命"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "重置单元护理寿命"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "重置紫外线消毒器寿命"
+      },
+      "station_action_clean_base": {
+        "name": "清洁基座"
+      },
+      "station_action_dry_mop": {
+        "name": "烘干拖布"
+      },
+      "station_action_empty_dustbin": {
+        "name": "清空垃圾桶"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "上次作业",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "已完成",
+              "finished_with_warnings": "已完成但有警告",
+              "manually_stopped": "手动停止"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "地图"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "清扫次数"
+      },
+      "cut_direction": {
+        "name": "切割方向"
+      },
+      "volume": {
+        "name": "音量"
+      },
+      "water_amount": {
+        "name": "水流级别"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "活动地图"
+      },
+      "auto_empty": {
+        "name": "自动清空频率",
+        "state": {
+          "auto": "自动",
+          "min_10": "10 分钟",
+          "min_15": "15 分钟",
+          "min_25": "25 分钟",
+          "smart": "智能"
+        }
+      },
+      "water_amount": {
+        "name": "水流级别",
+        "state": {
+          "high": "高",
+          "low": "低",
+          "medium": "中",
+          "ultrahigh": "超高"
+        }
+      },
+      "work_mode": {
+        "name": "工作模式",
+        "state": {
+          "mop": "拖地",
+          "mop_after_vacuum": "吸尘后拖地",
+          "vacuum": "吸尘",
+          "vacuum_and_mop": "吸尘和拖地"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "错误",
+        "state_attributes": {
+          "description": {
+            "name": "描述"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "空气清新剂寿命"
+      },
+      "lifespan_blade": {
+        "name": "刀片寿命"
+      },
+      "lifespan_brush": {
+        "name": "主刷寿命"
+      },
+      "lifespan_dust_bag": {
+        "name": "防尘袋寿命"
+      },
+      "lifespan_filter": {
+        "name": "滤芯寿命"
+      },
+      "lifespan_hand_filter": {
+        "name": "手持过滤器寿命"
+      },
+      "lifespan_lens_brush": {
+        "name": "镜头刷寿命"
+      },
+      "lifespan_main_brush": {
+        "name": "主刷寿命"
+      },
+      "lifespan_round_mop": {
+        "name": "圆形拖把使用寿命"
+      },
+      "lifespan_side_brush": {
+        "name": "边刷寿命"
+      },
+      "lifespan_unit_care": {
+        "name": "单元护理寿命"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "紫外线消毒器寿命"
+      },
+      "network_ip": {
+        "name": "IP 地址"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "无线网络 SSID"
+      },
+      "station_state": {
+        "name": "站点状态",
+        "state": {
+          "drying_mop": "烘干拖布",
+          "emptying_dustbin": "清空垃圾箱",
+          "idle": "空闲",
+          "washing_mop": "清洗拖布"
+        }
+      },
+      "stats_area": {
+        "name": "清扫区域"
+      },
+      "stats_time": {
+        "name": "清扫时长"
+      },
+      "total_stats_area": {
+        "name": "总清扫面积"
+      },
+      "total_stats_cleanings": {
+        "name": "总清扫次数"
+      },
+      "total_stats_time": {
+        "name": "总清洁时长"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "高级模式"
+      },
+      "border_spin": {
+        "name": "边境旋转"
+      },
+      "border_switch": {
+        "name": "边界开关"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "地毯自动增强吸力"
+      },
+      "child_lock": {
+        "name": "儿童锁"
+      },
+      "clean_preference": {
+        "name": "清扫首选项"
+      },
+      "continuous_cleaning": {
+        "name": "持续清扫"
+      },
+      "cross_map_border_warning": {
+        "name": "跨越地图边界警告"
+      },
+      "move_up_warning": {
+        "name": "上移警告"
+      },
+      "safe_protect": {
+        "name": "安全保护"
+      },
+      "true_detect": {
+        "name": "真实检测"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "最大",
+              "max_plus": "最大+",
+              "normal": "正常",
+              "quiet": "安静"
+            }
+          },
+          "rooms": {
+            "name": "房间"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "不支持检索充电器和设备本身的位置"
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "参数必须是字典，而不是列表"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "命令需要参数：{command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "云",
+        "self_hosted": "自托管"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "检索包含充电器和设备本身位置的原始响应。",
+      "name": "获取原始位置"
+    }
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Налог је већ конфигурисан"
+    },
+    "error": {
+      "cannot_connect": "Повезивање није успело",
+      "invalid_auth": "Неисправна пријава",
+      "unknown": "Неочекивана грешка"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "password": "Лозинка",
+          "username": "Корисничко име"
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "Режим"
+        }
+      }
+    }
+  },
+  "entity": {
+    "select": {
+      "water_amount": {
+        "state": {
+          "high": "Висок",
+          "low": "Низак",
+          "medium": "Srednji"
+        }
+      }
+    },
+    "sensor": {
+      "station_state": {
+        "state": {
+          "idle": "Мировање"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "aktywność",
+          "away_temp": "poza domem",
+          "comfort_temp": "komfort",
+          "eco_temp": "eko",
+          "home_temp": "w domu",
+          "sleep_temp": "sen"
+        },
+        "title": "Wstępne ustawienia temperatury"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Tryb chłodzenia",
+          "cold_tolerance": "Tolerancja zimna",
+          "heater": "Przełącznik siłownika",
+          "hot_tolerance": "Tolerancja gorąca",
+          "max_temp": "Maksymalna temperatura docelowa",
+          "min_temp": "Minimalna temperatura docelowa",
+          "name": "Nazwa",
+          "target_sensor": "Sensor temperatury"
+        },
+        "data_description": {
+          "ac_mode": "Ustaw określony siłownik, aby był traktowany jako urządzenie chłodzące zamiast urządzenia grzewczego.",
+          "heater": "Przełącznik encji używany do chłodzenia lub ogrzewania, w zależności od trybu klimatyzacji.",
+          "hot_tolerance": "Minimalna różnica między temperaturą odczytaną przez sensor temperatury a temperaturą docelową, która musi się zmienić przed wyłączeniem. Np. jeśli docelowa temperatura wynosi 25, a tolerancja wynosi 0,5, grzejnik wyłączy się, gdy sensor osiągnie lub przekroczy 25,5.",
+          "target_sensor": "Sensor temperatury, który odzwierciedla aktualną temperaturę."
+        },
+        "description": "Utwórz encję klimatyczną, która kontroluje temperaturę za pomocą przełącznika i sensora.",
+        "title": "Utwórz pomocnika termostatu ogólnego"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Tryb chłodzenia",
+          "cold_tolerance": "Tolerancja zimna",
+          "heater": "Przełącznik siłownika",
+          "hot_tolerance": "Tolerancja gorąca",
+          "target_sensor": "Sensor temperatury"
+        },
+        "data_description": {
+          "ac_mode": "Ustaw określony siłownik, aby był traktowany jako urządzenie chłodzące zamiast urządzenia grzewczego.",
+          "heater": "Przełącznik encji używany do chłodzenia lub ogrzewania, w zależności od trybu klimatyzacji.",
+          "hot_tolerance": "Minimalna różnica między temperaturą odczytaną przez sensor temperatury a temperaturą docelową, która musi się zmienić przed wyłączeniem. Np. jeśli docelowa temperatura wynosi 25, a tolerancja wynosi 0,5, grzejnik wyłączy się, gdy sensor osiągnie lub przekroczy 25,5.",
+          "target_sensor": "Sensor temperatury, który odzwierciedla aktualną temperaturę."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "aktywność",
+          "away_temp": "poza domem",
+          "comfort_temp": "komfort",
+          "eco_temp": "eko",
+          "home_temp": "w domu",
+          "sleep_temp": "sen"
+        },
+        "title": "Wstępne ustawienia temperatury"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Ponownie ładuje termostaty ogólne z konfiguracji YAML."
+    }
+  },
+  "title": "Termostat ogólny"
+}

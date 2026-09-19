@@ -1,0 +1,100 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "Die Mindestlaufzeit muss unter der Höchstlaufzeit liegen."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivität",
+          "away_temp": "Abwesend",
+          "comfort_temp": "Komfort",
+          "eco_temp": "Eco",
+          "home_temp": "Zuhause",
+          "sleep_temp": "Schlafen"
+        },
+        "title": "Temperatur-Voreinstellungen"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Kühlbetrieb",
+          "cold_tolerance": "Kältetoleranz",
+          "cycle_cooldown": "Abkühlzeit nach dem Betrieb",
+          "heater": "Stellschalter",
+          "hot_tolerance": "Hitzetoleranz",
+          "keep_alive": "Keep-alive-Intervall",
+          "max_cycle_duration": "Höchstlaufzeit",
+          "max_temp": "Maximale Soll-Temperatur",
+          "min_cycle_duration": "Mindestlaufzeit",
+          "min_temp": "Minimale Soll-Temperatur",
+          "name": "Name",
+          "target_sensor": "Temperatursensor"
+        },
+        "data_description": {
+          "ac_mode": "Betreibt den ausgewählten Stellschalter als Kühlgerät statt als Heizgerät.",
+          "cold_tolerance": "Nötige Mindestdifferenz zwischen der vom Sensor gemessenen Ist-Temperatur und der Soll-Temperatur, bevor die Heizung eingeschaltet wird. Beträgt die Soll-Temperatur beispielsweise 25 und die Toleranz 0,5, startet der Heizvorgang, wenn der Sensor 24,5 unterschreitet.",
+          "cycle_cooldown": "Mindestzeit, die nach dem Ausschalten vergehen muss, bevor es wieder eingeschaltet werden kann.",
+          "heater": "Schalter-Entität zum Kühlen oder Heizen, je nach Klimamodus.",
+          "hot_tolerance": "Nötige Mindestdifferenz zwischen der vom Sensor gemessenen Ist-Temperatur und der Soll-Temperatur, bevor die Heizung ausgeschaltet wird. Beträgt die Soll-Temperatur beispielsweise 25 und die Toleranz 0,5, stoppt der Heizvorgang, wenn der Sensorwert 25,5 erreicht oder überschreitet.",
+          "keep_alive": "Die Heizung regelmäßig aktivieren, um zu verhindern, dass Geräte ihren Zustand verlieren.",
+          "max_cycle_duration": "Die maximale Zeitspanne, die nach dem Einschalten vergehen darf, bevor es wieder ausgeschaltet wird.",
+          "min_cycle_duration": "Die minimale Zeitspanne, die nach dem Einschalten vergehen muss, bevor es wieder ausgeschaltet werden kann.",
+          "target_sensor": "Temperatursensor, der die Ist-Temperatur abbildet."
+        },
+        "description": "Erstellt eine Klima-Entität, die die Temperatur über einen Stellschalter und einen Sensor regelt.",
+        "title": "Generischen Thermostat erstellen"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "Die Mindestlaufzeit muss unter der Höchstlaufzeit liegen."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Kühlbetrieb",
+          "cold_tolerance": "Kältetoleranz",
+          "cycle_cooldown": "Abkühlzeit nach dem Betrieb",
+          "heater": "Stellschalter",
+          "hot_tolerance": "Hitzetoleranz",
+          "keep_alive": "Keep-alive-Intervall",
+          "max_cycle_duration": "Höchstlaufzeit",
+          "max_temp": "Maximale Soll-Temperatur",
+          "min_cycle_duration": "Mindestlaufzeit",
+          "min_temp": "Minimale Soll-Temperatur",
+          "target_sensor": "Temperatursensor"
+        },
+        "data_description": {
+          "ac_mode": "Betreibt den ausgewählten Stellschalter als Kühlgerät statt als Heizgerät.",
+          "cold_tolerance": "Nötige Mindestdifferenz zwischen der vom Sensor gemessenen Ist-Temperatur und der Soll-Temperatur, bevor die Heizung eingeschaltet wird. Beträgt die Soll-Temperatur beispielsweise 25 und die Toleranz 0,5, startet der Heizvorgang, wenn der Sensor 24,5 unterschreitet.",
+          "cycle_cooldown": "Mindestzeit, die nach dem Ausschalten vergehen muss, bevor es wieder eingeschaltet werden kann.",
+          "heater": "Schalter-Entität zum Kühlen oder Heizen, je nach Klimamodus.",
+          "hot_tolerance": "Nötige Mindestdifferenz zwischen der vom Sensor gemessenen Ist-Temperatur und der Soll-Temperatur, bevor die Heizung ausgeschaltet wird. Beträgt die Soll-Temperatur beispielsweise 25 und die Toleranz 0,5, stoppt der Heizvorgang, wenn der Sensorwert 25,5 erreicht oder überschreitet.",
+          "keep_alive": "Die Heizung regelmäßig aktivieren, um zu verhindern, dass Geräte ihren Zustand verlieren.",
+          "max_cycle_duration": "Die maximale Zeitspanne, die nach dem Einschalten vergehen darf, bevor es wieder ausgeschaltet wird.",
+          "min_cycle_duration": "Die minimale Zeitspanne, die nach dem Einschalten vergehen muss, bevor es wieder ausgeschaltet werden kann.",
+          "target_sensor": "Temperatursensor, der die Ist-Temperatur abbildet."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivität",
+          "away_temp": "Abwesend",
+          "comfort_temp": "Komfort",
+          "eco_temp": "Eco",
+          "home_temp": "Zuhause",
+          "sleep_temp": "Schlafen"
+        },
+        "title": "Temperatur-Voreinstellungen"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Lädt generische Thermostate aus der YAML-Konfiguration neu.",
+      "name": "Generische Thermostate neu laden"
+    }
+  },
+  "title": "Generischer Thermostat"
+}

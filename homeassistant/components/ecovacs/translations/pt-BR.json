@@ -1,0 +1,61 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "A conta já está configurada"
+    },
+    "error": {
+      "cannot_connect": "Falha ao conectar",
+      "invalid_auth": "Autenticação inválida",
+      "unknown": "Erro inesperado"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "password": "Senha",
+          "username": "Usuário"
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "Modo"
+        }
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "station_action_empty_dustbin": {
+        "name": "Esvaziar a lixeira"
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Mapa"
+      }
+    },
+    "number": {
+      "volume": {
+        "name": "Volume"
+      }
+    },
+    "select": {
+      "work_mode": {
+        "state": {
+          "vacuum": "Aspirador"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Erro"
+      },
+      "station_state": {
+        "name": "Estado da estação",
+        "state": {
+          "emptying_dustbin": "Esvaziando a lixeira",
+          "idle": "Ocioso"
+        }
+      }
+    }
+  }
+}

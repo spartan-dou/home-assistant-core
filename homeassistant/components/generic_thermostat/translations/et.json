@@ -1,0 +1,100 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "Minimaalne tööaeg peab olema lühem kui maksimaalne tööaeg."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Tegevus",
+          "away_temp": "Eemal",
+          "comfort_temp": "Mugav",
+          "eco_temp": "Öko",
+          "home_temp": "Kodus",
+          "sleep_temp": "Uneaeg"
+        },
+        "title": "Temperatuuri eelseaded"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Jahutusrežiim",
+          "cold_tolerance": "Jahutuse täpsus",
+          "cycle_cooldown": "Jahutusperiood pärast töötamist",
+          "heater": "Täiturmehhanismi lüliti",
+          "hot_tolerance": "Kütmise täpsus",
+          "keep_alive": "Keep-alive intervall",
+          "max_cycle_duration": "Maksimaalne tööaeg",
+          "max_temp": "Maksimaalne sihttemperatuur",
+          "min_cycle_duration": "Minimaalne tööaeg",
+          "min_temp": "Minimaalne sihttemperatuur",
+          "name": "Nimi",
+          "target_sensor": "Temperatuuriandur"
+        },
+        "data_description": {
+          "ac_mode": "Seadista ajam mida käsitletakse kütteseadme asemel jahutusseadmena.",
+          "cold_tolerance": "Minimaalne erinevus temperatuurianduri loetud temperatuuri ja sihttemperatuuri vahel, mis peab muutuma enne sisselülitamist. Näiteks kui sihttemperatuur on 25 ja tolerants on 0,5, käivitub kütteseade kui anduri näit langeb alla 24.5 kraadi.",
+          "cycle_cooldown": "Pärast väljalülitamist minimaalne ajavahemik, mis peab mööduma, enne kui seda saab uuesti sisse lülitada.",
+          "heater": "Sõltuvalt kliimaseadme režiimist jahutamiseks või soojendamiseks kasutatav lüliti.",
+          "hot_tolerance": "Minimaalne erinevus temperatuurianduri loetud temperatuuri ja sihttemperatuuri vahel, mis peab muutuma enne väljalülitamist. Näiteks kui sihttemperatuur on 25 °C ja tolerants on 0,5, siis kütteseade seiskub kui andur on võrdne 25,5 või üle selle.",
+          "keep_alive": "Käivita kütteseade perioodiliselt, et seadmed oma olekut ei kaotaks.",
+          "max_cycle_duration": "Kui seade on sisse lülitatud, siis maksimaalne aeg, mis võib mööduda enne väljalülitamist.",
+          "min_cycle_duration": "Määra minimaalne aeg, mille jooksul määratud lüliti peab enne välja- või sisselülitamist oma praeguses olekus olema.",
+          "target_sensor": "Temperatuuriandur mis kajastab praegust temperatuuri."
+        },
+        "description": "Loo kliimaüksus, mis juhib temperatuuri lüliti ja anduri kaudu.",
+        "title": "Loo üldistatud termostaat"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "Minimaalne tööaeg peab olema lühem kui maksimaalne tööaeg."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Jahutusrežiim",
+          "cold_tolerance": "Jahutuse täpsus",
+          "cycle_cooldown": "Jahutusperiood pärast töötamist",
+          "heater": "Täiturmehhanismi lüliti",
+          "hot_tolerance": "Kütmise täpsus",
+          "keep_alive": "Keep-alive intervall",
+          "max_cycle_duration": "Maksimaalne tööaeg",
+          "max_temp": "Maksimaalne sihttemperatuur",
+          "min_cycle_duration": "Minimaalne tööaeg",
+          "min_temp": "Minimaalne sihttemperatuur",
+          "target_sensor": "Temperatuuriandur"
+        },
+        "data_description": {
+          "ac_mode": "Seadista ajam mida käsitletakse kütteseadme asemel jahutusseadmena.",
+          "cold_tolerance": "Minimaalne erinevus temperatuurianduri loetud temperatuuri ja sihttemperatuuri vahel, mis peab muutuma enne sisselülitamist. Näiteks kui sihttemperatuur on 25 ja tolerants on 0,5, käivitub kütteseade kui anduri näit langeb alla 24.5 kraadi.",
+          "cycle_cooldown": "Pärast väljalülitamist minimaalne ajavahemik, mis peab mööduma, enne kui seda saab uuesti sisse lülitada.",
+          "heater": "Sõltuvalt kliimaseadme režiimist jahutamiseks või soojendamiseks kasutatav lüliti.",
+          "hot_tolerance": "Minimaalne erinevus temperatuurianduri loetud temperatuuri ja sihttemperatuuri vahel, mis peab muutuma enne väljalülitamist. Näiteks kui sihttemperatuur on 25 °C ja tolerants on 0,5, siis kütteseade seiskub kui andur on võrdne 25,5 või üle selle.",
+          "keep_alive": "Käivita kütteseade perioodiliselt, et seadmed oma olekut ei kaotaks.",
+          "max_cycle_duration": "Kui seade on sisse lülitatud, siis maksimaalne aeg, mis võib mööduda enne väljalülitamist.",
+          "min_cycle_duration": "Määra minimaalne aeg, mille jooksul määratud lüliti peab enne välja- või sisselülitamist oma praeguses olekus olema.",
+          "target_sensor": "Temperatuuriandur mis kajastab praegust temperatuuri."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Tegevus",
+          "away_temp": "Eemal",
+          "comfort_temp": "Mugav",
+          "eco_temp": "Öko",
+          "home_temp": "Kodus",
+          "sleep_temp": "Uneaeg"
+        },
+        "title": "Temperatuuri eelseaded"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Taaslaeb üldised termostaadid YAML-konfiguratsioonist.",
+      "name": "Taaslae termostaadi üksused"
+    }
+  },
+  "title": "Üldine termostaat"
+}

@@ -1,0 +1,71 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "תצורת החשבון כבר נקבעה",
+      "reauth_successful": "האימות מחדש הצליח"
+    },
+    "error": {
+      "cannot_connect": "ההתחברות נכשלה",
+      "invalid_auth": "אימות לא חוקי",
+      "unknown": "שגיאה בלתי צפויה"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "מדינה",
+          "password": "סיסמה",
+          "username": "שם משתמש"
+        }
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "סיסמה"
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "מצב"
+        }
+      }
+    }
+  },
+  "entity": {
+    "image": {
+      "map": {
+        "name": "מפה"
+      }
+    },
+    "select": {
+      "water_amount": {
+        "state": {
+          "high": "גבוה",
+          "low": "נמוך",
+          "medium": "בינוני"
+        }
+      },
+      "work_mode": {
+        "state": {
+          "mop": "סחבה"
+        }
+      }
+    },
+    "sensor": {
+      "station_state": {
+        "state": {
+          "idle": "מצב סרק"
+        }
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "normal": "רגיל"
+            }
+          }
+        }
+      }
+    }
+  }
+}

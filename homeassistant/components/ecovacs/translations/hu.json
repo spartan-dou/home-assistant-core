@@ -1,0 +1,321 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "A fiók már konfigurálva van"
+    },
+    "error": {
+      "cannot_connect": "Sikertelen csatlakozás",
+      "invalid_auth": "Érvénytelen hitelesítés",
+      "invalid_url": "Érvénytelen URL",
+      "invalid_url_schema_override_mqtt_url": "Érvénytelen MQTT URL séma.\nAz URL-nek `mqtt://` vagy `mqtts://`-el kell kezdődnie.",
+      "invalid_url_schema_override_rest_url": "Érvénytelen REST URL séma.\nAz URL-nek `http://` -vel vagy `https://` -el kell kezdődnie.",
+      "unknown": "Váratlan hiba"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Ország",
+          "override_mqtt_url": "MQTT URL",
+          "override_rest_url": "REST URL",
+          "password": "Jelszó",
+          "username": "Felhasználónév",
+          "verify_mqtt_certificate": "MQTT SSL-tanúsítvány ellenőrzése"
+        },
+        "data_description": {
+          "override_mqtt_url": "Adja meg a saját üzemeltetésű példány MQTT URL-címét, beleértve a sémát (mqtt/mqtts).",
+          "override_rest_url": "Adja meg a saját üzemeltetésű példány REST URL-címét, beleértve a sémát (http/https)."
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "Mód"
+        },
+        "data_description": {
+          "mode": "Válassza ki azt a módot, amelyet használni szeretne az Ecovacs-hoz való csatlakozáshoz. Ha nem biztos benne, válassza a **Felhő** lehetőséget.\n\nA **Saját üzemeltetésű** opciót csak akkor válassza, ha rendelkezik egy működő saját hosztolt példánnyal."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Felmosó párna csatlakoztatva"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "Újrapozícionálás"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "Légfrissítő élettartamának visszaállítása"
+      },
+      "reset_lifespan_blade": {
+        "name": "Penge élettartamának visszaállítása"
+      },
+      "reset_lifespan_brush": {
+        "name": "Főkefe élettartamának nullázása"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "Porzsák élettartamának visszaállítása"
+      },
+      "reset_lifespan_filter": {
+        "name": "Szűrő élettartamának nullázása"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "Kéziszűrő élettartamának visszaállítása"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Objektívkefe élettartamának visszaállítása"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "Kerek felmosó párna élettartamának visszaállítása"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Oldalkefe élettartamának nullázása"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "Dokkolószűrő élettartamának visszaállítása"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "Eszközkarbantartás élettartamának visszaállítása"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "UV fertőtlenítő élettartamának visszaállítása"
+      },
+      "station_action_clean_base": {
+        "name": "Dokkoló tisztítása"
+      },
+      "station_action_dry_mop": {
+        "name": "Felmosó párna szárítása"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Portartály kiürítése"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Utolsó feladat",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Befejezve",
+              "finished_with_warnings": "Figyelmeztetésekkel befejezve",
+              "manually_stopped": "Manuálisan leállítva"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Térkép"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "Tisztítási szám"
+      },
+      "cut_direction": {
+        "name": "Vágási irány"
+      },
+      "volume": {
+        "name": "Hangerő"
+      },
+      "water_amount": {
+        "name": "Vízhozam szintje"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "Aktív térkép"
+      },
+      "auto_empty": {
+        "name": "Automatikus ürítés gyakorisága",
+        "state": {
+          "auto": "Automatikus",
+          "min_10": "10 perc",
+          "min_15": "15 perc",
+          "min_25": "25 perc",
+          "smart": "Intelligens"
+        }
+      },
+      "water_amount": {
+        "name": "Vízhozam szintje",
+        "state": {
+          "high": "Magas",
+          "low": "Alacsony",
+          "medium": "Közepes",
+          "ultrahigh": "Nagyon magas"
+        }
+      },
+      "work_mode": {
+        "name": "Munka üzemmód",
+        "state": {
+          "mop": "Felmosás",
+          "mop_after_vacuum": "Porszívózás után felmosás",
+          "vacuum": "Porszívózás",
+          "vacuum_and_mop": "Porszívózás és felmosás"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Hiba",
+        "state_attributes": {
+          "description": {
+            "name": "Leírás"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "Légfrissítő élettartama"
+      },
+      "lifespan_blade": {
+        "name": "Penge élettartama"
+      },
+      "lifespan_brush": {
+        "name": "Főkefe élettartam"
+      },
+      "lifespan_dust_bag": {
+        "name": "Porzsák élettartama"
+      },
+      "lifespan_filter": {
+        "name": "Szűrő élettartam"
+      },
+      "lifespan_hand_filter": {
+        "name": "Kéziszűrő élettartama"
+      },
+      "lifespan_lens_brush": {
+        "name": "Tisztítókefe élettartam"
+      },
+      "lifespan_main_brush": {
+        "name": "Főkefe élettartam"
+      },
+      "lifespan_round_mop": {
+        "name": "Kerek felmosó párna élettartama"
+      },
+      "lifespan_side_brush": {
+        "name": "Oldalkefe élettartam"
+      },
+      "lifespan_unit_care": {
+        "name": "Eszközkarbantartás élettartama"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "UV fertőtlenítő élettartama"
+      },
+      "network_ip": {
+        "name": "IP-cím"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fi SSID"
+      },
+      "station_state": {
+        "name": "Dokkoló állapota",
+        "state": {
+          "drying_mop": "Felmosó párna szárítása",
+          "emptying_dustbin": "Portartály kiürítése",
+          "idle": "Tétlen",
+          "washing_mop": "Felmosó párna mosása"
+        }
+      },
+      "stats_area": {
+        "name": "Tisztított terület"
+      },
+      "stats_time": {
+        "name": "Tisztított idő"
+      },
+      "total_stats_area": {
+        "name": "Teljes megtisztított terület"
+      },
+      "total_stats_cleanings": {
+        "name": "Összes tisztítás"
+      },
+      "total_stats_time": {
+        "name": "Teljes tisztítási idő"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Haladó üzemmód"
+      },
+      "border_spin": {
+        "name": "Szélpörgés"
+      },
+      "border_switch": {
+        "name": "Határ kapcsoló"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "Szőnyegen automatikus ventilátor sebességnövelés"
+      },
+      "child_lock": {
+        "name": "Gyerekzár"
+      },
+      "clean_preference": {
+        "name": "Takarítási preferencia"
+      },
+      "continuous_cleaning": {
+        "name": "Folyamatos tisztítás"
+      },
+      "cross_map_border_warning": {
+        "name": "Térképhatár-átmenet figyelmeztetés"
+      },
+      "move_up_warning": {
+        "name": "Mozgatás felfelé figyelmeztetés"
+      },
+      "safe_protect": {
+        "name": "Biztonságos védelem"
+      },
+      "true_detect": {
+        "name": "Valódi érzékelés"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Max",
+              "max_plus": "Max+",
+              "normal": "Normál",
+              "quiet": "Csendes"
+            }
+          },
+          "rooms": {
+            "name": "Szobák"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "A töltők és az eszköz pozícióinak lekérése nem támogatott"
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "A(z) {command} parancsot a(z) {name} nem támogatja."
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "A paramétereknek szótárnak kell lenniük, nem listának"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "A következő parancshoz paraméterek szükségesek: {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Felhő",
+        "self_hosted": "Saját üzemeltetésű"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Lekéri a töltők és az eszköz pozícióit tartalmazó nyers választ.",
+      "name": "Nyers pozíciók lekérése"
+    }
+  }
+}
