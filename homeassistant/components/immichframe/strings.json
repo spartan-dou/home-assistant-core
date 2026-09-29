@@ -1,0 +1,72 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]"
+    },
+    "error": {
+      "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
+      "unknown": "[%key:common::config_flow::error::unknown%]"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "api_key": "Authentication secret",
+          "url": "[%key:common::config_flow::data::url%]"
+        },
+        "data_description": {
+          "api_key": "The AuthenticationSecret of the frame, if it has one.",
+          "url": "Address of the frame, such as http://192.168.1.166:8080."
+        },
+        "description": "The frame must run the ImmichFrame fork, which adds the API this integration uses."
+      }
+    }
+  },
+  "entity": {
+    "switch": {
+      "memories": {
+        "name": "Memories"
+      }
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "The frame could not be reached."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "sensors": "Values shown under the clock"
+        },
+        "data_description": {
+          "sensors": "A climate entity shows its current temperature, anything else its state. The emoji goes before the value."
+        }
+      }
+    }
+  },
+  "services": {
+    "show_notification": {
+      "description": "Shows a message on top of the slideshow, with an optional link and end.",
+      "fields": {
+        "duration": {
+          "description": "Minutes before the notification hides itself. Empty or 0 keeps it until the next one.",
+          "name": "Duration"
+        },
+        "link": {
+          "description": "Opened on tap: /path opens that Home Assistant view, homeassistant:// and https:// links are opened as they are.",
+          "name": "Link"
+        },
+        "message": {
+          "description": "Text to show. An empty message clears the notification.",
+          "name": "Message"
+        },
+        "replace": {
+          "description": "Replace the notification shown. Off, the message is ignored while another one is still shown.",
+          "name": "Replace"
+        }
+      },
+      "name": "Show notification"
+    }
+  }
+}

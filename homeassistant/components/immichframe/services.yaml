@@ -1,0 +1,27 @@
+show_notification:
+  target:
+    entity:
+      integration: immichframe
+      domain: notify
+  fields:
+    message:
+      required: true
+      example: "📦 Colis déposé devant la porte"
+      selector:
+        text:
+          multiline: true
+    link:
+      example: /lovelace/cameras
+      selector:
+        text:
+    duration:
+      selector:
+        number:
+          min: 0
+          max: 10080
+          unit_of_measurement: min
+          mode: box
+    replace:
+      default: true
+      selector:
+        boolean:
