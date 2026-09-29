@@ -1,0 +1,17 @@
+{
+  "entity": {
+    "switch": {
+      "memories": {
+        "default": "mdi:image-multiple",
+        "state": {
+          "off": "mdi:image-off"
+        }
+      }
+    }
+  },
+  "services": {
+    "show_notification": {
+      "service": "mdi:message-badge-outline"
+    }
+  }
+}
