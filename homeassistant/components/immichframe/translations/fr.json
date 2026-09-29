@@ -1,0 +1,72 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Ce cadre est déjà configuré"
+    },
+    "error": {
+      "cannot_connect": "Impossible de joindre le cadre",
+      "unknown": "Erreur inattendue"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "api_key": "Secret d'authentification",
+          "url": "URL"
+        },
+        "data_description": {
+          "api_key": "L'AuthenticationSecret du cadre, s'il en a un.",
+          "url": "Adresse du cadre, par exemple http://192.168.1.166:8080."
+        },
+        "description": "Le cadre doit tourner sur le fork d'ImmichFrame, qui ajoute l'API utilisée par cette intégration."
+      }
+    }
+  },
+  "entity": {
+    "switch": {
+      "memories": {
+        "name": "Souvenirs"
+      }
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "Impossible de joindre le cadre."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "sensors": "Valeurs affichées sous l'heure"
+        },
+        "data_description": {
+          "sensors": "Une entité climate affiche sa température actuelle, toute autre entité son état. L'emoji précède la valeur."
+        }
+      }
+    }
+  },
+  "services": {
+    "show_notification": {
+      "description": "Affiche un message au-dessus du diaporama, avec un lien et une fin facultatifs.",
+      "fields": {
+        "duration": {
+          "description": "Minutes avant que la notification se masque. Vide ou 0 : jusqu'à la suivante.",
+          "name": "Durée"
+        },
+        "link": {
+          "description": "Ouvert au toucher : /chemin ouvre cet écran de Home Assistant, les liens homeassistant:// et https:// sont ouverts tels quels.",
+          "name": "Lien"
+        },
+        "message": {
+          "description": "Texte à afficher. Un message vide efface la notification.",
+          "name": "Message"
+        },
+        "replace": {
+          "description": "Remplacer la notification affichée. Désactivé, le message est ignoré tant qu'une autre est affichée.",
+          "name": "Remplacer"
+        }
+      },
+      "name": "Afficher une notification"
+    }
+  }
+}

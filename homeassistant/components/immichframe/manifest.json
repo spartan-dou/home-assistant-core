@@ -1,0 +1,10 @@
+{
+  "domain": "immichframe",
+  "name": "ImmichFrame",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://github.com/spartan-dou/ImmichFrame/blob/patches/FORK.md",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "requirements": []
+}
