@@ -1,13 +1,15 @@
-"""Memories switch of the ImmichFrame integration."""
+"""Memories switches of the ImmichFrame integration."""
 
+from collections.abc import Awaitable, Callable
+from dataclasses import dataclass
 from typing import Any
 
-from homeassistant.components.switch import SwitchEntity
+from homeassistant.components.switch import SwitchEntity, SwitchEntityDescription
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
-from .api import ImmichFrameConnectionError
+from .api import ImmichFrameClient, ImmichFrameConnectionError
 from .const import DOMAIN
 from .coordinator import ImmichFrameConfigEntry, ImmichFrameCoordinator
 from .entity import ImmichFrameEntity
@@ -15,44 +17,78 @@ from .entity import ImmichFrameEntity
 PARALLEL_UPDATES = 1
 
 
+@dataclass(frozen=True, kw_only=True)
+class ImmichFrameSwitchEntityDescription(SwitchEntityDescription):
+    """A switch the frame keeps across restarts."""
+
+    state_key: str
+    set_fn: Callable[[ImmichFrameClient, bool], Awaitable[None]]
+
+
+SWITCHES: tuple[ImmichFrameSwitchEntityDescription, ...] = (
+    ImmichFrameSwitchEntityDescription(
+        key="memories",
+        translation_key="memories",
+        state_key="memoriesEnabled",
+        set_fn=lambda client, on: client.set_memories(enabled=on),
+    ),
+    # Wins over the memories switch; the frame falls back to the usual photos on
+    # a day without memories.
+    ImmichFrameSwitchEntityDescription(
+        key="memories_only",
+        translation_key="memories_only",
+        state_key="memoriesOnly",
+        set_fn=lambda client, on: client.set_memories(only=on),
+    ),
+)
+
+
 async def async_setup_entry(
     hass: HomeAssistant,
     entry: ImmichFrameConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up the memories switch."""
-    async_add_entities([ImmichFrameMemoriesSwitch(entry.runtime_data.coordinator)])
+    """Set up the memories switches."""
+    coordinator = entry.runtime_data.coordinator
+    async_add_entities(
+        ImmichFrameSwitch(coordinator, description) for description in SWITCHES
+    )
 
 
-class ImmichFrameMemoriesSwitch(ImmichFrameEntity, SwitchEntity):
-    """Shows or hides memories; the frame keeps the state across restarts."""
+class ImmichFrameSwitch(ImmichFrameEntity, SwitchEntity):
+    """A switch whose state lives on the frame."""
 
-    _attr_translation_key = "memories"
+    entity_description: ImmichFrameSwitchEntityDescription
 
-    def __init__(self, coordinator: ImmichFrameCoordinator) -> None:
+    def __init__(
+        self,
+        coordinator: ImmichFrameCoordinator,
+        description: ImmichFrameSwitchEntityDescription,
+    ) -> None:
         """Initialize the switch."""
-        super().__init__(coordinator, "memories")
+        super().__init__(coordinator, description.key)
+        self.entity_description = description
 
     @property
     def is_on(self) -> bool:
-        """Return whether memories are shown."""
-        return bool(self.coordinator.data.get("memoriesEnabled"))
+        """Return the state the frame reports."""
+        return bool(self.coordinator.data.get(self.entity_description.state_key))
 
     async def async_turn_on(self, **kwargs: Any) -> None:
-        """Show memories."""
+        """Turn the switch on."""
         await self._async_set(True)
 
     async def async_turn_off(self, **kwargs: Any) -> None:
-        """Hide memories."""
+        """Turn the switch off."""
         await self._async_set(False)
 
-    async def _async_set(self, enabled: bool) -> None:
+    async def _async_set(self, on: bool) -> None:
         try:
-            await self.coordinator.client.set_memories(enabled)
+            await self.entity_description.set_fn(self.coordinator.client, on)
         except ImmichFrameConnectionError as err:
             raise HomeAssistantError(
                 translation_domain=DOMAIN, translation_key="cannot_connect"
             ) from err
         self.coordinator.async_set_updated_data(
-            {**self.coordinator.data, "memoriesEnabled": enabled}
+            {**self.coordinator.data, self.entity_description.state_key: on}
         )

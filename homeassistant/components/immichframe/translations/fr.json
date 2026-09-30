@@ -25,6 +25,9 @@
     "switch": {
       "memories": {
         "name": "Souvenirs"
+      },
+      "memories_only": {
+        "name": "Souvenirs uniquement"
       }
     }
   },
