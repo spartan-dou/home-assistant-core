@@ -25,6 +25,9 @@
     "switch": {
       "memories": {
         "name": "Memories"
+      },
+      "memories_only": {
+        "name": "Memories only"
       }
     }
   },

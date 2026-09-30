@@ -6,6 +6,9 @@
         "state": {
           "off": "mdi:image-off"
         }
+      },
+      "memories_only": {
+        "default": "mdi:history"
       }
     }
   },
