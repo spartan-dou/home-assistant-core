@@ -39,7 +39,7 @@ class ImmichFrameClient:
         return json_loads(body) if body else None
 
     async def get_overlay(self) -> dict[str, Any]:
-        """Return what the frame currently shows: memories, notification, sensors."""
+        """Return what the frame currently shows: memories, notifications, sensors."""
         return await self._request("GET", "api/Overlay")
 
     async def get_memories(self) -> bool:
@@ -51,24 +51,14 @@ class ImmichFrameClient:
         await self._request("PUT", "api/Memories", {"enabled": enabled})
 
     async def send_notification(
-        self,
-        message: str,
-        link: str | None = None,
-        duration: float | None = None,
-        replace: bool = True,
-    ) -> bool:
-        """Show a notification; an empty message clears it. Return whether it is shown."""
-        result = await self._request(
+        self, message: str, link: str | None = None, duration: float | None = None
+    ) -> None:
+        """Put a notification on top of the ones shown; an empty message clears them all."""
+        await self._request(
             "POST",
             "api/Notification",
-            {
-                "message": message,
-                "link": link,
-                "duration": duration,
-                "replace": replace,
-            },
+            {"message": message, "link": link, "duration": duration},
         )
-        return bool(result and result.get("shown"))
 
     async def set_sensors(self, sensors: list[dict[str, Any]]) -> None:
         """Replace the values shown under the clock."""
