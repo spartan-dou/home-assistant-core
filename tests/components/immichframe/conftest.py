@@ -17,6 +17,7 @@ OVERLAY = {
     "sensors": [],
     "notifications": [],
     "memoriesEnabled": True,
+    "memoriesOnly": False,
 }
 
 

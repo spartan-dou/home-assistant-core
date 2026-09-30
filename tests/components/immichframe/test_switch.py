@@ -1,4 +1,4 @@
-"""Tests for the memories switch of the ImmichFrame integration."""
+"""Tests for the memories switches of the ImmichFrame integration."""
 
 import aiohttp
 import pytest
@@ -18,6 +18,16 @@ from tests.common import MockConfigEntry
 from tests.test_util.aiohttp import AiohttpClientMocker
 
 ENTITY_ID = "switch.immichframe_memories"
+ONLY_ENTITY_ID = "switch.immichframe_memories_only"
+
+
+def memories_updates(frame: AiohttpClientMocker) -> list[dict]:
+    """Payloads sent to change the memories switches, oldest first."""
+    return [
+        call[2]
+        for call in frame.mock_calls
+        if str(call[1]) == f"{URL}/api/Memories" and call[0].lower() == "put"
+    ]
 
 
 async def test_switch_follows_and_sets_the_frame(
@@ -34,9 +44,25 @@ async def test_switch_follows_and_sets_the_frame(
     )
 
     assert hass.states.get(ENTITY_ID).state == STATE_OFF
-    put = [call for call in frame.mock_calls if str(call[1]) == f"{URL}/api/Memories"]
-    assert put[-1][0].lower() == "put"
-    assert put[-1][2] == {"enabled": False}
+    assert memories_updates(frame)[-1] == {"enabled": False}
+
+
+async def test_memories_only_switch_leaves_memories_alone(
+    hass: HomeAssistant, frame: AiohttpClientMocker, mock_config_entry: MockConfigEntry
+) -> None:
+    """Memories only sends its own field: the memories switch keeps its state."""
+    mock_config_entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(mock_config_entry.entry_id)
+    await hass.async_block_till_done()
+    assert hass.states.get(ONLY_ENTITY_ID).state == STATE_OFF
+
+    await hass.services.async_call(
+        SWITCH_DOMAIN, SERVICE_TURN_ON, {ATTR_ENTITY_ID: ONLY_ENTITY_ID}, blocking=True
+    )
+
+    assert hass.states.get(ONLY_ENTITY_ID).state == STATE_ON
+    assert hass.states.get(ENTITY_ID).state == STATE_ON
+    assert memories_updates(frame)[-1] == {"only": True}
 
 
 async def test_switch_error_is_reported(
