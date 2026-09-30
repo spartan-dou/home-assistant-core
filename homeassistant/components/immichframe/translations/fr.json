@@ -47,10 +47,10 @@
   },
   "services": {
     "show_notification": {
-      "description": "Affiche un message au-dessus du diaporama, avec un lien et une fin facultatifs.",
+      "description": "Affiche un message au-dessus du diaporama, sur les notifications déjà affichées, avec un lien et une fin facultatifs. Le cadre garde les trois plus récentes.",
       "fields": {
         "duration": {
-          "description": "Minutes avant que la notification se masque. Vide ou 0 : jusqu'à la suivante.",
+          "description": "Minutes avant que la notification se masque. Vide ou 0 : jusqu'à ce que de plus récentes la chassent.",
           "name": "Durée"
         },
         "link": {
@@ -58,12 +58,8 @@
           "name": "Lien"
         },
         "message": {
-          "description": "Texte à afficher. Un message vide efface la notification.",
+          "description": "Texte à afficher. Un message déjà affiché remonte en haut. Un message vide les efface toutes.",
           "name": "Message"
-        },
-        "replace": {
-          "description": "Remplacer la notification affichée. Désactivé, le message est ignoré tant qu'une autre est affichée.",
-          "name": "Remplacer"
         }
       },
       "name": "Afficher une notification"
