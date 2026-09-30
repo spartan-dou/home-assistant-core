@@ -46,9 +46,16 @@ class ImmichFrameClient:
         """Return whether memories are shown."""
         return bool((await self._request("GET", "api/Memories"))["enabled"])
 
-    async def set_memories(self, enabled: bool) -> None:
-        """Show or hide memories."""
-        await self._request("PUT", "api/Memories", {"enabled": enabled})
+    async def set_memories(
+        self, *, enabled: bool | None = None, only: bool | None = None
+    ) -> None:
+        """Change the memories switches; one left out keeps its value."""
+        state = {"enabled": enabled, "only": only}
+        await self._request(
+            "PUT",
+            "api/Memories",
+            {field: value for field, value in state.items() if value is not None},
+        )
 
     async def send_notification(
         self, message: str, link: str | None = None, duration: float | None = None
