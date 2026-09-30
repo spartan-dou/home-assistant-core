@@ -21,7 +21,3 @@ show_notification:
           max: 10080
           unit_of_measurement: min
           mode: box
-    replace:
-      default: true
-      selector:
-        boolean:
