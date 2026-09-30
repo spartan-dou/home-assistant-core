@@ -67,11 +67,11 @@ env:
   # côté cluster-config : c'est la liste des dossiers que le tag doit rendre
   # autosuffisants. Un écart ne casse rien de grave, il fait juste apparaître
   # des clés brutes à la place du texte traduit.
-  PATCH_DOMAINS: ecovacs generic_thermostat
+  PATCH_DOMAINS: ecovacs generic_thermostat immichframe
   # Sous-ensemble portant réellement des patchs : les seules dont la suite de
   # tests apprend quelque chose. Un domaine publié tel quel n'a rien de nouveau
   # à faire vérifier ici.
-  TESTED: generic_thermostat
+  TESTED: generic_thermostat immichframe
   # Clé de déduplication de l'alerte : une seule issue ouverte à la fois, sinon
   # c'est une issue par jour tant que le blocage dure.
   ETIQUETTE: rebase-bloque
