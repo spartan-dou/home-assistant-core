@@ -53,7 +53,6 @@ async def test_send_message(hass: HomeAssistant, frame: AiohttpClientMocker) -> 
         "message": "📦\nColis déposé",
         "link": None,
         "duration": None,
-        "replace": True,
     }
 
 
@@ -61,7 +60,7 @@ async def test_send_message(hass: HomeAssistant, frame: AiohttpClientMocker) -> 
 async def test_show_notification(
     hass: HomeAssistant, frame: AiohttpClientMocker
 ) -> None:
-    """The action passes the link, the duration and the replace flag."""
+    """The action passes the link and the duration."""
     await hass.services.async_call(
         DOMAIN,
         SERVICE_SHOW_NOTIFICATION,
@@ -70,7 +69,6 @@ async def test_show_notification(
             "message": "Colis",
             "link": "/lovelace/cameras",
             "duration": 30,
-            "replace": False,
         },
         blocking=True,
     )
@@ -79,7 +77,6 @@ async def test_show_notification(
         "message": "Colis",
         "link": "/lovelace/cameras",
         "duration": 30.0,
-        "replace": False,
     }
 
 
