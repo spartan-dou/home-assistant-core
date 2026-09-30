@@ -47,10 +47,10 @@
   },
   "services": {
     "show_notification": {
-      "description": "Shows a message on top of the slideshow, with an optional link and end.",
+      "description": "Shows a message on top of the slideshow, above the ones already shown, with an optional link and end. The frame keeps the latest three.",
       "fields": {
         "duration": {
-          "description": "Minutes before the notification hides itself. Empty or 0 keeps it until the next one.",
+          "description": "Minutes before the notification hides itself. Empty or 0 keeps it until newer ones push it out.",
           "name": "Duration"
         },
         "link": {
@@ -58,12 +58,8 @@
           "name": "Link"
         },
         "message": {
-          "description": "Text to show. An empty message clears the notification.",
+          "description": "Text to show. A message already shown moves back to the top. An empty message clears them all.",
           "name": "Message"
-        },
-        "replace": {
-          "description": "Replace the notification shown. Off, the message is ignored while another one is still shown.",
-          "name": "Replace"
         }
       },
       "name": "Show notification"
