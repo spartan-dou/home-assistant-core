@@ -6,5 +6,6 @@
   "documentation": "https://github.com/spartan-dou/ImmichFrame/blob/patches/FORK.md",
   "integration_type": "device",
   "iot_class": "local_polling",
-  "requirements": []
+  "requirements": [],
+  "version": "2026.9.4+da91d153b90"
 }

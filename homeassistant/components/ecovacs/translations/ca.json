@@ -1,0 +1,123 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "El compte ja està configurat",
+      "reauth_successful": "Re-autenticació realitzada correctament"
+    },
+    "error": {
+      "cannot_connect": "Ha fallat la connexió",
+      "invalid_auth": "Autenticació invàlida",
+      "invalid_url": "URL invàlid",
+      "unknown": "Error inesperat"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "País",
+          "override_mqtt_url": "URL MQTT",
+          "password": "Contrasenya",
+          "username": "Nom d'usuari"
+        }
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Contrasenya"
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "Mode"
+        }
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "reset_lifespan_side_brush": {
+        "name": "Restableix la vida útil del raspall lateral"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Buida la paperera"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Última tasca",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Acabat",
+              "finished_with_warnings": "Acabat amb alertes",
+              "manually_stopped": "Aturat manualment"
+            }
+          }
+        }
+      }
+    },
+    "number": {
+      "cut_direction": {
+        "name": "Direcció de tall"
+      },
+      "volume": {
+        "name": "Volum"
+      }
+    },
+    "select": {
+      "water_amount": {
+        "state": {
+          "high": "Alt/a",
+          "low": "Baix/a",
+          "medium": "Mitjà/na"
+        }
+      }
+    },
+    "sensor": {
+      "lifespan_side_brush": {
+        "name": "Vida útil del raspall lateral"
+      },
+      "network_ip": {
+        "name": "Adreça IP"
+      },
+      "network_rssi": {
+        "name": "RSSI Wi-Fi"
+      },
+      "network_ssid": {
+        "name": "SSID Wi-Fi"
+      },
+      "station_state": {
+        "name": "Estat de l'estació",
+        "state": {
+          "emptying_dustbin": "Buidant paperera",
+          "idle": "Inactiu"
+        }
+      },
+      "stats_area": {
+        "name": "Àrea netejada"
+      },
+      "total_stats_time": {
+        "name": "Durada total de la neteja"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Mode avançat"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Màx.",
+              "max_plus": "Màx. +",
+              "normal": "Normal"
+            }
+          },
+          "rooms": {
+            "name": "Habitacions"
+          }
+        }
+      }
+    }
+  }
+}

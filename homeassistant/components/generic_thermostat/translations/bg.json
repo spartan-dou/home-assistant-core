@@ -1,0 +1,38 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Активност",
+          "comfort_temp": "Комфорт",
+          "eco_temp": "Еко",
+          "sleep_temp": "Сън"
+        }
+      },
+      "user": {
+        "data": {
+          "max_temp": "Максимална желана температура",
+          "min_temp": "Минимална желана температура"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "max_temp": "Максимална желана температура",
+          "min_temp": "Минимална желана температура"
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Активност",
+          "comfort_temp": "Комфорт",
+          "eco_temp": "Еко",
+          "sleep_temp": "Сън"
+        }
+      }
+    }
+  }
+}

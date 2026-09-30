@@ -1,0 +1,380 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Nalog je već podešen",
+      "reauth_successful": "Ponovna prijava je uspešna"
+    },
+    "error": {
+      "cannot_connect": "Povezivanje nije uspelo",
+      "invalid_auth": "Nevažeći podaci za prijavu",
+      "invalid_url": "Neispravna URL adresa",
+      "invalid_url_schema_override_mqtt_url": "Neispravna MQTT šema URL-a.\nURL treba da počinje sa `mqtt://` ili `mqtts://`.",
+      "invalid_url_schema_override_rest_url": "Neispravna REST šema URL-a.\nURL treba da počinje sa `http://` ili `https://`.",
+      "invalid_verification_code": "Verifikacioni kod je nevažeći ili je istekao.",
+      "unknown": "Neočekivana greška"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Država",
+          "override_mqtt_url": "MQTT URL",
+          "override_rest_url": "REST URL",
+          "password": "Lozinka",
+          "username": "Korisničko ime",
+          "verify_mqtt_certificate": "Proveri MQTT SSL potvrdu"
+        },
+        "data_description": {
+          "override_mqtt_url": "Unesite MQTT URL vaše samostalno hostovane instance, uključujući šemu (mqtt/mqtts).",
+          "override_rest_url": "Unesite REST URL vaše samostalno hostovane instance, uključujući šemu (http/https)."
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "Verifikacioni kod"
+        },
+        "description": "Unesite verifikacioni kod koji je Ecovacs poslao na {username} da biste potvrdili Home Assistant kao pouzdan uređaj."
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Lozinka"
+        },
+        "description": "Unesite Ecovacs lozinku za {username} da biste ponovo povezali integraciju."
+      },
+      "user": {
+        "data": {
+          "mode": "Režim"
+        },
+        "data_description": {
+          "mode": "Izaberite režim koji želite da koristite za povezivanje sa Ecovacs. Ako niste sigurni, izaberite Cloud.  \n\nIzaberite Samostalno hostovano samo ako imate funkcionalnu samostalno hostovanu instancu."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Mop je postavljen"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "Ponovno pozicioniranje"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "Resetuj trajanje osveživača vazduha"
+      },
+      "reset_lifespan_blade": {
+        "name": "Resetuj vek trajanja noževa"
+      },
+      "reset_lifespan_brush": {
+        "name": "Resetuj vek trajanja glavne četke"
+      },
+      "reset_lifespan_cleaning_solution": {
+        "name": "Resetuj životni vek sredstva za čišćenje"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "Resetuj trajanje vreće za prašinu"
+      },
+      "reset_lifespan_filter": {
+        "name": "Resetuj vek trajanja filtera"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "Resetuj trajanje ručnog filtera"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Resetuj vek trajanja četkice za sočivo"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "Resetuj vek trajanja okruglog mopa"
+      },
+      "reset_lifespan_sewage_box": {
+        "name": "Resetuj životni vek posude za prljavu vodu"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Resetuj vek trajanja bočne četke"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "Resetujte životni vek filtera stanice"
+      },
+      "reset_lifespan_trimmer_brush": {
+        "name": "Resetuj životni vek četke trimera"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "Resetuj vek održavanja uređaja"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "Resetujte vek trajanja UV sredstva za dezinfekciju"
+      },
+      "reset_lifespan_water_sink": {
+        "name": "Resetuj životni vek rezervoara za čistu vodu"
+      },
+      "reset_lifespan_weed_rope": {
+        "name": "Resetuj životni vek strune trimera"
+      },
+      "station_action_clean_base": {
+        "name": "Očistite bazu"
+      },
+      "station_action_dry_mop": {
+        "name": "Suva krpa za brisanje"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Pražnjenje posude"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Poslednji zadatak",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Završeno",
+              "finished_with_warnings": "Završeno uz upozorenja",
+              "manually_stopped": "Ručno zaustavljeno"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Mapa"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "Broj čišćenja"
+      },
+      "cut_direction": {
+        "name": "Smer košenja"
+      },
+      "volume": {
+        "name": "Jačina zvuka"
+      },
+      "water_amount": {
+        "name": "Nivo protoka vode"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "Aktivna mapa"
+      },
+      "auto_empty": {
+        "name": "Frekvencija automatskog pražnjenja",
+        "state": {
+          "auto": "Automatski",
+          "min_10": "10 minuta",
+          "min_15": "15 minuta",
+          "min_25": "25 minuta",
+          "smart": "Pametno"
+        }
+      },
+      "water_amount": {
+        "name": "Nivo protoka vode",
+        "state": {
+          "high": "Visok",
+          "low": "Nizak",
+          "medium": "Srednji",
+          "ultrahigh": "Ultra visoko"
+        }
+      },
+      "work_mode": {
+        "name": "Radni režim",
+        "state": {
+          "mop": "Brisanje",
+          "mop_after_vacuum": "Brisanje nakon usisavanja",
+          "vacuum": "Usisavanje",
+          "vacuum_and_mop": "Usisavanje i brisanje"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Greška",
+        "state_attributes": {
+          "description": {
+            "name": "Opis"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "Životni vek osveživača vazduha"
+      },
+      "lifespan_blade": {
+        "name": "Vek trajanja noževa"
+      },
+      "lifespan_brush": {
+        "name": "Vek trajanja glavne četke"
+      },
+      "lifespan_cleaning_solution": {
+        "name": "Životni vek sredstva za čišćenje"
+      },
+      "lifespan_dust_bag": {
+        "name": "Vek trajanja vrećice za prašinu"
+      },
+      "lifespan_filter": {
+        "name": "Vek trajanja filtera"
+      },
+      "lifespan_hand_filter": {
+        "name": "Vek trajanja ručnog filtera"
+      },
+      "lifespan_lens_brush": {
+        "name": "Vek trajanja četkice za sočivo"
+      },
+      "lifespan_main_brush": {
+        "name": "Vek trajanja glavne četke"
+      },
+      "lifespan_round_mop": {
+        "name": "Vek trajanja okruglog mopa"
+      },
+      "lifespan_sewage_box": {
+        "name": "Životni vek posude za prljavu vodu"
+      },
+      "lifespan_side_brush": {
+        "name": "Vek trajanja bočne četke"
+      },
+      "lifespan_trimmer_brush": {
+        "name": "Životni vek četke trimera za ivice"
+      },
+      "lifespan_unit_care": {
+        "name": "Vek trajanja za održavanje uređaja"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "Vek trajanja UV dezinfekcionog sredstva"
+      },
+      "lifespan_water_sink": {
+        "name": "Životni vek rezervoara za čistu vodu"
+      },
+      "lifespan_weed_rope": {
+        "name": "Životni vek strune trimera za ivice"
+      },
+      "network_ip": {
+        "name": "IP adresa"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fi SSID"
+      },
+      "station_state": {
+        "name": "Status stanice",
+        "state": {
+          "drying_mop": "Krpa za sušenje",
+          "emptying_dustbin": "Pražnjenje posude",
+          "idle": "Mirovanje",
+          "washing_mop": "Pranje mopa"
+        }
+      },
+      "stats_area": {
+        "name": "Očišćena površina"
+      },
+      "stats_area_mower": {
+        "name": "Pokošena površina"
+      },
+      "stats_time": {
+        "name": "Trajanje čišćenja"
+      },
+      "stats_time_mower": {
+        "name": "Trajanje košenja"
+      },
+      "total_stats_area": {
+        "name": "Ukupna očišćena površina"
+      },
+      "total_stats_area_mower": {
+        "name": "Ukupna pokošena površina"
+      },
+      "total_stats_cleanings": {
+        "name": "Ukupan broj čišćenja"
+      },
+      "total_stats_cleanings_mower": {
+        "name": "Ukupan broj košenja"
+      },
+      "total_stats_time": {
+        "name": "Ukupno trajanje čišćenja"
+      },
+      "total_stats_time_mower": {
+        "name": "Ukupno trajanje košenja"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Napredni režim"
+      },
+      "border_spin": {
+        "name": "Rotacija ivice"
+      },
+      "border_switch": {
+        "name": "Prekidač za ivicu"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "Automatsko pojačanje na tepihu"
+      },
+      "child_lock": {
+        "name": "Dečija zaštita"
+      },
+      "clean_preference": {
+        "name": "Prilagođeno čišćenje"
+      },
+      "continuous_cleaning": {
+        "name": "Kontinuirano čišćenje"
+      },
+      "cross_map_border_warning": {
+        "name": "Upozorenje pri prelasku granice mape"
+      },
+      "move_up_warning": {
+        "name": "Upozorenje pri pomeranju nagore"
+      },
+      "safe_protect": {
+        "name": "Zaštita sefa"
+      },
+      "true_detect": {
+        "name": "Precizno izbegavanje prepreka"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Maksimalno",
+              "max_plus": "Maksimalno+",
+              "normal": "Normalno",
+              "quiet": "Tiho"
+            }
+          },
+          "rooms": {
+            "name": "Prostorije"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "Preuzimanje lokacija punjača i samog uređaja nije podržano"
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "Komanda {command} nije podržana od strane uređaja {name}."
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "Parametri moraju biti u obliku rečnika (dictionary), a ne liste"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "Parametri su obavezni za komandu: {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Cloud veza",
+        "self_hosted": "Lokalno udomljeno"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Preuzima izvorni odgovor koji sadrži lokacije punjača i samog uređaja.",
+      "name": "Preuzmi sirove pozicije"
+    }
+  }
+}

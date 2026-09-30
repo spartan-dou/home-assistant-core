@@ -1,0 +1,71 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Device is already configured"
+        },
+        "error": {
+            "cannot_connect": "Failed to connect",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "api_key": "Authentication secret",
+                    "url": "URL"
+                },
+                "data_description": {
+                    "api_key": "The AuthenticationSecret of the frame, if it has one.",
+                    "url": "Address of the frame, such as http://192.168.1.166:8080."
+                },
+                "description": "The frame must run the ImmichFrame fork, which adds the API this integration uses."
+            }
+        }
+    },
+    "entity": {
+        "switch": {
+            "memories": {
+                "name": "Memories"
+            },
+            "memories_only": {
+                "name": "Memories only"
+            }
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "The frame could not be reached."
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "sensors": "Values shown under the clock"
+                },
+                "data_description": {
+                    "sensors": "A climate entity shows its current temperature, anything else its state. The emoji goes before the value."
+                }
+            }
+        }
+    },
+    "services": {
+        "show_notification": {
+            "description": "Shows a message on top of the slideshow, above the ones already shown, with an optional link and end. The frame keeps the latest three.",
+            "fields": {
+                "duration": {
+                    "description": "Minutes before the notification hides itself. Empty or 0 keeps it until newer ones push it out.",
+                    "name": "Duration"
+                },
+                "link": {
+                    "description": "Opened on tap: /path opens that Home Assistant view, homeassistant:// and https:// links are opened as they are.",
+                    "name": "Link"
+                },
+                "message": {
+                    "description": "Text to show. A message already shown moves back to the top. An empty message clears them all.",
+                    "name": "Message"
+                }
+            },
+            "name": "Show notification"
+        }
+    }
+}

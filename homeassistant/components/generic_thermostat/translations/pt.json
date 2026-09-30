@@ -1,0 +1,100 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "O tempo mínimo de funcionamento deve ser inferior ao tempo máximo de funcionamento."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Atividade",
+          "away_temp": "Ausente",
+          "comfort_temp": "Conforto",
+          "eco_temp": "Eco",
+          "home_temp": "Em casa",
+          "sleep_temp": "Dormir"
+        },
+        "title": "Predefinições de temperatura"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Modo de arrefecimento",
+          "cold_tolerance": "Tolerância ao arrefecer",
+          "cycle_cooldown": "Período de arrefecimento após a corrida",
+          "heater": "Interruptor atuador",
+          "hot_tolerance": "Tolerância ao aquecer",
+          "keep_alive": "Intervalo do keep-alive",
+          "max_cycle_duration": "Tempo máximo de funcionamento",
+          "max_temp": "Temperatura alvo máxima",
+          "min_cycle_duration": "Tempo mínimo de funcionamento",
+          "min_temp": "Temperatura alvo mínima",
+          "name": "Nome",
+          "target_sensor": "Sensor de temperatura"
+        },
+        "data_description": {
+          "ac_mode": "Defina o atuador especificado para ser tratado como um dispositivo de arrefecimento em vez de um dispositivo de aquecimento.",
+          "cold_tolerance": "Diferença mínima entre a temperatura lida pelo sensor de temperatura e a temperatura alvo, que deve ocorrer antes de ligar. Por exemplo, se a temperatura alvo for 25 e a tolerância for 0.5, o aquecedor ligar-se-á quando o sensor ficar abaixo de 24,5.",
+          "cycle_cooldown": "Após a desativação, o período mínimo de tempo que deve decorrer antes de poder ser novamente ativado.",
+          "heater": "Interruptor utilizado para arrefecer ou aquecer, dependendo do modo do A/C.",
+          "hot_tolerance": "Diferença mínima entre a temperatura lida pelo sensor de temperatura e a temperatura alvo, que deve ocorrer antes de desligar. Por exemplo, se a temperatura alvo for 25 e a tolerância for 0.5, o aquecedor desligar-se-á quando o sensor atingir ou ultrapassar 25.5.",
+          "keep_alive": "Dispara o aquecedor periodicamente para evitar que os dispositivos percam o estado.",
+          "max_cycle_duration": "Uma vez ligado, o período máximo de tempo que pode decorrer antes de ser desligado.",
+          "min_cycle_duration": "Uma vez ligado, o período mínimo de tempo que deve decorrer antes de poder ser desligado.",
+          "target_sensor": "Sensor de temperatura que reflete a temperatura atual."
+        },
+        "description": "Criar uma entidade de clima que controla a temperatura através de um interruptor e de um sensor.",
+        "title": "Criar termóstato genérico"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "O tempo mínimo de funcionamento deve ser inferior ao tempo máximo de funcionamento."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Modo de arrefecimento",
+          "cold_tolerance": "Tolerância ao arrefecer",
+          "cycle_cooldown": "Período de arrefecimento após a corrida",
+          "heater": "Interruptor atuador",
+          "hot_tolerance": "Tolerância ao aquecer",
+          "keep_alive": "Intervalo do keep-alive",
+          "max_cycle_duration": "Tempo máximo de funcionamento",
+          "max_temp": "Temperatura alvo máxima",
+          "min_cycle_duration": "Tempo mínimo de funcionamento",
+          "min_temp": "Temperatura alvo mínima",
+          "target_sensor": "Sensor de temperatura"
+        },
+        "data_description": {
+          "ac_mode": "Defina o atuador especificado para ser tratado como um dispositivo de arrefecimento em vez de um dispositivo de aquecimento.",
+          "cold_tolerance": "Diferença mínima entre a temperatura lida pelo sensor de temperatura e a temperatura alvo, que deve ocorrer antes de ligar. Por exemplo, se a temperatura alvo for 25 e a tolerância for 0.5, o aquecedor ligar-se-á quando o sensor ficar abaixo de 24,5.",
+          "cycle_cooldown": "Após a desativação, o período mínimo de tempo que deve decorrer antes de poder ser novamente ativado.",
+          "heater": "Interruptor utilizado para arrefecer ou aquecer, dependendo do modo do A/C.",
+          "hot_tolerance": "Diferença mínima entre a temperatura lida pelo sensor de temperatura e a temperatura alvo, que deve ocorrer antes de desligar. Por exemplo, se a temperatura alvo for 25 e a tolerância for 0.5, o aquecedor desligar-se-á quando o sensor atingir ou ultrapassar 25.5.",
+          "keep_alive": "Dispara o aquecedor periodicamente para evitar que os dispositivos percam o estado.",
+          "max_cycle_duration": "Uma vez ligado, o período máximo de tempo que pode decorrer antes de ser desligado.",
+          "min_cycle_duration": "Uma vez ligado, o período mínimo de tempo que deve decorrer antes de poder ser desligado.",
+          "target_sensor": "Sensor de temperatura que reflete a temperatura atual."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Atividade",
+          "away_temp": "Ausente",
+          "comfort_temp": "Conforto",
+          "eco_temp": "Eco",
+          "home_temp": "Em casa",
+          "sleep_temp": "Dormir"
+        },
+        "title": "Predefinições de temperatura"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Recarrega termóstatos genéricos a partir da configuração YAML.",
+      "name": "Recarregar termóstatos genéricos"
+    }
+  },
+  "title": "Termóstato Genérico"
+}

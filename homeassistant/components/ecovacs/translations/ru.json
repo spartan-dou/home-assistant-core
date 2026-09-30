@@ -1,0 +1,273 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Эта учётная запись уже добавлена в Home Assistant",
+      "reauth_successful": "Повторная аутентификация выполнена успешно"
+    },
+    "error": {
+      "cannot_connect": "Не удалось подключиться",
+      "invalid_auth": "Ошибка аутентификации",
+      "invalid_url": "Неверный URL-адрес.",
+      "invalid_url_schema_override_mqtt_url": "Неверная схема URL-адреса MQTT.\nURL должен начинаться с `mqtt://` или `mqtts://`.",
+      "invalid_url_schema_override_rest_url": "Неверная схема URL-адреса REST.\nURL должен начинаться с `http://` или `https://`.",
+      "unknown": "Непредвиденная ошибка"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "Страна",
+          "override_mqtt_url": "MQTT URL-адрес",
+          "override_rest_url": "REST URL-адрес",
+          "password": "Пароль",
+          "username": "Имя пользователя",
+          "verify_mqtt_certificate": "Проверять сертификат SSL MQTT"
+        },
+        "data_description": {
+          "override_mqtt_url": "Введите MQTT URL-адрес локального экземпляра, включая схему (mqtt/mqtts).",
+          "override_rest_url": "Введите REST URL-адрес локального экземпляра, включая схему (http/https)."
+        }
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "Пароль"
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "Режим"
+        },
+        "data_description": {
+          "mode": "Выберите режим, который вы хотите использовать для подключения к Ecovacs. Если вы не уверены, выберите **Облако**.\n\nВыбирайте **Локальный хостинг** только в том случае, если у вас есть работающий локальный экземпляр."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Швабра прикреплена"
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "Переместить"
+      },
+      "reset_lifespan_blade": {
+        "name": "Сбросить срок службы лезвия"
+      },
+      "reset_lifespan_brush": {
+        "name": "Сбросить срок службы основной щетки"
+      },
+      "reset_lifespan_filter": {
+        "name": "Сбросить срок службы фильтра"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "Сбросить срок службы щетки объектива"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "Сброс срока службы круглой швабры"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "Сбросить срок службы боковых щеток"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "Сброс срока службы устройства"
+      },
+      "station_action_empty_dustbin": {
+        "name": "Пустой мусорный бак"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "Последнее задание",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "Завершено",
+              "finished_with_warnings": "Завершено с предупреждениями",
+              "manually_stopped": "Остановлено вручную"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Карта"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "Количество уборок"
+      },
+      "cut_direction": {
+        "name": "Направление разреза"
+      },
+      "volume": {
+        "name": "Объем"
+      },
+      "water_amount": {
+        "name": "Уровень потока воды"
+      }
+    },
+    "select": {
+      "water_amount": {
+        "name": "Уровень потока воды",
+        "state": {
+          "high": "Высокий",
+          "low": "Низкий",
+          "medium": "Средний",
+          "ultrahigh": "Сверхвысокий"
+        }
+      },
+      "work_mode": {
+        "name": "Режим работы",
+        "state": {
+          "mop": "Швабра",
+          "mop_after_vacuum": "Швабра после пылесоса",
+          "vacuum": "Пылесос",
+          "vacuum_and_mop": "Пылесос и швабра"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Ошибка",
+        "state_attributes": {
+          "description": {
+            "name": "Описание"
+          }
+        }
+      },
+      "lifespan_blade": {
+        "name": "Срок службы лезвия"
+      },
+      "lifespan_brush": {
+        "name": "Срок службы основной щетки"
+      },
+      "lifespan_filter": {
+        "name": "Срок службы фильтра"
+      },
+      "lifespan_lens_brush": {
+        "name": "Срок службы щетки для объектива"
+      },
+      "lifespan_main_brush": {
+        "name": "Срок службы основной щетки"
+      },
+      "lifespan_round_mop": {
+        "name": "Срок службы круглой швабры"
+      },
+      "lifespan_side_brush": {
+        "name": "Срок службы боковых щеток"
+      },
+      "lifespan_unit_care": {
+        "name": "Срок службы устройства"
+      },
+      "network_ip": {
+        "name": "IP-адрес"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "SSID Wi-Fi"
+      },
+      "station_state": {
+        "name": "Состояние станции",
+        "state": {
+          "emptying_dustbin": "Опорожнение мусорного контейнера",
+          "idle": "Бездействие"
+        }
+      },
+      "stats_area": {
+        "name": "Площадь уборки"
+      },
+      "stats_time": {
+        "name": "Продолжительность уборки"
+      },
+      "total_stats_area": {
+        "name": "Общая площадь уборки"
+      },
+      "total_stats_cleanings": {
+        "name": "Всего уборок"
+      },
+      "total_stats_time": {
+        "name": "Общая продолжительность уборки"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "Расширенный режим"
+      },
+      "border_switch": {
+        "name": "Переключатель границ"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "Авто-усиление всасывания на коврах"
+      },
+      "child_lock": {
+        "name": "Блокировка от детей"
+      },
+      "clean_preference": {
+        "name": "Очистить настройки"
+      },
+      "continuous_cleaning": {
+        "name": "Непрерывная уборка"
+      },
+      "cross_map_border_warning": {
+        "name": "Предупреждение о пересечении границы карты"
+      },
+      "move_up_warning": {
+        "name": "Предупреждение о перемещении вверх"
+      },
+      "safe_protect": {
+        "name": "Безопасная защита"
+      },
+      "true_detect": {
+        "name": "True detect"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "Максимальная",
+              "max_plus": "Максимальная+",
+              "normal": "Нормальная",
+              "quiet": "Тихая"
+            }
+          },
+          "rooms": {
+            "name": "Комнаты"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "Получение информации о местоположении зарядных устройств и самого устройства не поддерживается."
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "Параметры должны быть словарем, а не списком"
+    },
+    "vacuum_send_command_params_required": {
+      "message": "Для команды требуются параметры: {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "Облако",
+        "self_hosted": "Локальный хостинг"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "Получает необработанный ответ, содержащий данные о положении зарядных устройств и самого устройства.",
+      "name": "Получить необработанные позиций"
+    }
+  }
+}
