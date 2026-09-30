@@ -15,7 +15,7 @@ URL = "http://192.168.1.166:8080"
 
 OVERLAY = {
     "sensors": [],
-    "notification": None,
+    "notifications": [],
     "memoriesEnabled": True,
 }
 
@@ -52,5 +52,5 @@ def frame(aioclient_mock: AiohttpClientMocker) -> AiohttpClientMocker:
     aioclient_mock.get(f"{URL}/api/Memories", json={"enabled": True})
     aioclient_mock.put(f"{URL}/api/Memories", json={"enabled": False})
     aioclient_mock.put(f"{URL}/api/Overlay/Sensors", status=204)
-    aioclient_mock.post(f"{URL}/api/Notification", json={"shown": True})
+    aioclient_mock.post(f"{URL}/api/Notification", status=204)
     return aioclient_mock
