@@ -61,8 +61,12 @@
           "name": "Link"
         },
         "message": {
-          "description": "Text to show. A message already shown moves back to the top. An empty message clears them all.",
+          "description": "Text to show. A message already shown moves back to the top. An empty message clears the tagged notification, or all of them.",
           "name": "Message"
+        },
+        "tag": {
+          "description": "Identifies the notification, as on a phone: a new message with the same tag replaces it, an empty message with it clears it alone.",
+          "name": "Tag"
         }
       },
       "name": "Show notification"
