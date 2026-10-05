@@ -1,0 +1,27 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "max_temp": "Temperatura máxima desejada",
+          "min_temp": "Temperatura mínima desejada"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "max_temp": "Temperatura máxima desejada",
+          "min_temp": "Temperatura mínima desejada"
+        }
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Recarrega termostatos genéricos da configuração YAML."
+    }
+  }
+}

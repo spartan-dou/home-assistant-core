@@ -1,0 +1,100 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "Minimálny čas behu musí byť kratší ako maximálny čas behu."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivita",
+          "away_temp": "Neprítomnosť",
+          "comfort_temp": "Komfort",
+          "eco_temp": "Eco",
+          "home_temp": "Doma",
+          "sleep_temp": "Spánok"
+        },
+        "title": "Predvoľby teploty"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Režim chladenia",
+          "cold_tolerance": "Odolnosť voči chladu",
+          "cycle_cooldown": "Doba ochladenia po behu",
+          "heater": "Akčný spínač",
+          "hot_tolerance": "Tolerancia za horúca",
+          "keep_alive": "Interval udržiavania v prevádzke",
+          "max_cycle_duration": "Maximálny čas prevádzky",
+          "max_temp": "Maximálna cieľová teplota",
+          "min_cycle_duration": "Minimálny čas prevádzky",
+          "min_temp": "Minimálna cieľová teplota",
+          "name": "Názov",
+          "target_sensor": "Snímač teploty"
+        },
+        "data_description": {
+          "ac_mode": "Nastavte zadaný pohon tak, aby sa považoval za chladiace zariadenie namiesto vykurovacieho zariadenia.",
+          "cold_tolerance": "Minimálny rozdiel medzi teplotou snímanou snímačom teploty a cieľovou teplotou, ktorý sa musí zmeniť pred zapnutím. Napríklad, ak je cieľová teplota 25 a tolerancia je 0,5, ohrievač sa spustí, keď snímač klesne pod 24,5.",
+          "cycle_cooldown": "Minimálny čas, ktorý musí uplynúť po vypnutí, aby sa dalo opäť zapnúť.",
+          "heater": "Prepínač entity sa používa na chladenie alebo vykurovanie v závislosti od režimu klimatizácie.",
+          "hot_tolerance": "Minimálny rozdiel medzi teplotou snímanou snímačom teploty a cieľovou teplotou, ktorý sa musí zmeniť pred vypnutím. Napríklad, ak je cieľová teplota 25 a tolerancia je 0,5, ohrievač sa zastaví, keď sa hodnota snímača rovná alebo prekročí 25,5.",
+          "keep_alive": "Pravidelne spúšťajte ohrievač, aby ste zabránili strate stavu zariadenia.",
+          "max_cycle_duration": "Po zapnutí je maximálny čas, ktorý môže uplynúť, kým sa vypne.",
+          "min_cycle_duration": "Minimálny čas, ktorý musí uplynúť po zapnutí, aby sa mohol vypnúť.",
+          "target_sensor": "Snímač teploty, ktorý odráža aktuálnu teplotu."
+        },
+        "description": "Vytvorte klimatickú jednotku, ktorá ovláda teplotu pomocou spínača a snímača.",
+        "title": "Vytvoriť generický termostat"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "Minimálny čas behu musí byť kratší ako maximálny čas behu."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Režim chladenia",
+          "cold_tolerance": "Odolnosť voči chladu",
+          "cycle_cooldown": "Doba ochladenia po behu",
+          "heater": "Akčný spínač",
+          "hot_tolerance": "Tolerancia za horúca",
+          "keep_alive": "Interval udržiavania v prevádzke",
+          "max_cycle_duration": "Maximálny čas prevádzky",
+          "max_temp": "Maximálna cieľová teplota",
+          "min_cycle_duration": "Minimálny čas prevádzky",
+          "min_temp": "Minimálna cieľová teplota",
+          "target_sensor": "Snímač teploty"
+        },
+        "data_description": {
+          "ac_mode": "Nastavte zadaný pohon tak, aby sa považoval za chladiace zariadenie namiesto vykurovacieho zariadenia.",
+          "cold_tolerance": "Minimálny rozdiel medzi teplotou snímanou snímačom teploty a cieľovou teplotou, ktorý sa musí zmeniť pred zapnutím. Napríklad, ak je cieľová teplota 25 a tolerancia je 0,5, ohrievač sa spustí, keď snímač klesne pod 24,5.",
+          "cycle_cooldown": "Minimálny čas, ktorý musí uplynúť po vypnutí, aby sa dalo opäť zapnúť.",
+          "heater": "Prepínač entity sa používa na chladenie alebo vykurovanie v závislosti od režimu klimatizácie.",
+          "hot_tolerance": "Minimálny rozdiel medzi teplotou snímanou snímačom teploty a cieľovou teplotou, ktorý sa musí zmeniť pred vypnutím. Napríklad, ak je cieľová teplota 25 a tolerancia je 0,5, ohrievač sa zastaví, keď sa hodnota snímača rovná alebo prekročí 25,5.",
+          "keep_alive": "Pravidelne spúšťajte ohrievač, aby ste zabránili strate stavu zariadenia.",
+          "max_cycle_duration": "Po zapnutí je maximálny čas, ktorý môže uplynúť, kým sa vypne.",
+          "min_cycle_duration": "Minimálny čas, ktorý musí uplynúť po zapnutí, aby sa mohol vypnúť.",
+          "target_sensor": "Snímač teploty, ktorý odráža aktuálnu teplotu."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivita",
+          "away_temp": "Neprítomnosť",
+          "comfort_temp": "Komfort",
+          "eco_temp": "Eco",
+          "home_temp": "Doma",
+          "sleep_temp": "Spánok"
+        },
+        "title": "Predvoľby teploty"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Načíta generické termostaty z konfigurácie YAML.",
+      "name": "Znovu načítať generické termostaty"
+    }
+  },
+  "title": "Všeobecný termostat"
+}

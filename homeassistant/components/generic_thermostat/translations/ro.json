@@ -1,0 +1,7 @@
+{
+  "services": {
+    "reload": {
+      "description": "Reîncarcă termostatele generice din configurația YAML."
+    }
+  }
+}

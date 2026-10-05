@@ -1,0 +1,15 @@
+{
+  "entity": {
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "normal": "Bình thường"
+            }
+          }
+        }
+      }
+    }
+  }
+}

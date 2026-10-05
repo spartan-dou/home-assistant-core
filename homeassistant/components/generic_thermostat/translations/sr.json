@@ -1,0 +1,27 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "away_temp": "Ван куће",
+          "home_temp": "Код куће"
+        }
+      },
+      "user": {
+        "data": {
+          "name": "Назив"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "presets": {
+        "data": {
+          "away_temp": "Ван куће",
+          "home_temp": "Код куће"
+        }
+      }
+    }
+  }
+}

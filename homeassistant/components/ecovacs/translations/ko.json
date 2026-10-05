@@ -1,0 +1,380 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "계정이 이미 구성되었습니다",
+      "reauth_successful": "재인증에 성공했습니다"
+    },
+    "error": {
+      "cannot_connect": "연결하지 못했습니다",
+      "invalid_auth": "인증이 잘못되었습니다",
+      "invalid_url": "잘못된 URL입니다",
+      "invalid_url_schema_override_mqtt_url": "잘못된 MQTT URL 스키마입니다.\nURL은 `mqtt://` 또는 `mqtts://`로 시작해야 합니다.",
+      "invalid_url_schema_override_rest_url": "잘못된 REST URL 스키마입니다.\nURL은 `http://` 또는 `https://` 로 시작해야 합니다.",
+      "invalid_verification_code": "인증 코드가 잘못되었거나 만료되었습니다.",
+      "unknown": "예상치 못한 오류가 발생했습니다"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "country": "국가",
+          "override_mqtt_url": "MQTT URL",
+          "override_rest_url": "REST URL",
+          "password": "비밀번호",
+          "username": "사용자 이름",
+          "verify_mqtt_certificate": "MQTT SSL 인증서를 확인하세요."
+        },
+        "data_description": {
+          "override_mqtt_url": "스키마(mqtt/mqtts)를 포함하여 자체 호스팅 인스턴스의 MQTT URL을 입력하세요.",
+          "override_rest_url": "스키마(http/https)를 포함하여 자체 호스팅 인스턴스의 REST URL을 입력하세요."
+        }
+      },
+      "device_verification": {
+        "data": {
+          "verification_code": "인증 코드"
+        },
+        "description": "Home Assistant를 신뢰할 수 있는 기기로 확인하려면 Ecovacs가 {username}에 보낸 인증 코드를 입력하세요."
+      },
+      "reauth_confirm": {
+        "data": {
+          "password": "비밀번호"
+        },
+        "description": "통합 구성 요소구성요소를 다시 연결하려면 {username}의 Ecovacs 비밀번호를 입력하세요."
+      },
+      "user": {
+        "data": {
+          "mode": "모드"
+        },
+        "data_description": {
+          "mode": "Ecovacs에 연결하는 데 사용할 모드를 선택하세요. 잘 모르겠으면 **클라우드**를 선택하세요.\n자체 호스팅 인스턴스가 이미 운영 중인 경우에만 **자체 호스팅**을 선택하세요."
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "걸레가 부착되어 있습니다."
+      }
+    },
+    "button": {
+      "relocate": {
+        "name": "고쳐 놓다"
+      },
+      "reset_lifespan_air_freshener": {
+        "name": "방향제 수명 재설정"
+      },
+      "reset_lifespan_blade": {
+        "name": "블레이드 수명 재설정"
+      },
+      "reset_lifespan_brush": {
+        "name": "메인 브러시 수명 재설정"
+      },
+      "reset_lifespan_cleaning_solution": {
+        "name": "청소액 수명 재설정"
+      },
+      "reset_lifespan_dust_bag": {
+        "name": "먼지 봉투 수명 재설정"
+      },
+      "reset_lifespan_filter": {
+        "name": "필터 수명 재설정"
+      },
+      "reset_lifespan_hand_filter": {
+        "name": "리셋 핸드 필터 수명"
+      },
+      "reset_lifespan_lens_brush": {
+        "name": "렌즈 브러시 수명 재설정"
+      },
+      "reset_lifespan_round_mop": {
+        "name": "둥근 걸레 수명 재설정"
+      },
+      "reset_lifespan_sewage_box": {
+        "name": "오수통 수명 재설정"
+      },
+      "reset_lifespan_side_brush": {
+        "name": "측면 브러시 수명 재설정"
+      },
+      "reset_lifespan_station_filter": {
+        "name": "리셋 스테이션 필터 수명"
+      },
+      "reset_lifespan_trimmer_brush": {
+        "name": "가장자리 트리머 브러시 수명 재설정"
+      },
+      "reset_lifespan_unit_care": {
+        "name": "재설정 단위 관리 수명"
+      },
+      "reset_lifespan_uv_sanitizer": {
+        "name": "UV 살균기 수명 재설정"
+      },
+      "reset_lifespan_water_sink": {
+        "name": "물통 수명 재설정"
+      },
+      "reset_lifespan_weed_rope": {
+        "name": "가장자리 트리머 라인 수명 재설정"
+      },
+      "station_action_clean_base": {
+        "name": "깨끗한 베이스"
+      },
+      "station_action_dry_mop": {
+        "name": "마른 걸레"
+      },
+      "station_action_empty_dustbin": {
+        "name": "쓰레기통을 비우세요"
+      }
+    },
+    "event": {
+      "last_job": {
+        "name": "마지막 직업",
+        "state_attributes": {
+          "event_type": {
+            "state": {
+              "finished": "완성된",
+              "finished_with_warnings": "경고문이 끝났습니다.",
+              "manually_stopped": "수동으로 정지됨"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "map": {
+        "name": "지도"
+      }
+    },
+    "number": {
+      "clean_count": {
+        "name": "깨끗한 카운트"
+      },
+      "cut_direction": {
+        "name": "절단 방향"
+      },
+      "volume": {
+        "name": "음량"
+      },
+      "water_amount": {
+        "name": "수류 수위"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "활성 지도"
+      },
+      "auto_empty": {
+        "name": "자동 비움 빈도",
+        "state": {
+          "auto": "자동",
+          "min_10": "10분",
+          "min_15": "15분",
+          "min_25": "25분",
+          "smart": "스마트"
+        }
+      },
+      "water_amount": {
+        "name": "수류 수위",
+        "state": {
+          "high": "강",
+          "low": "약",
+          "medium": "중",
+          "ultrahigh": "초고해상도"
+        }
+      },
+      "work_mode": {
+        "name": "작업 모드",
+        "state": {
+          "mop": "대걸레",
+          "mop_after_vacuum": "진공청소 후 물걸레질",
+          "vacuum": "진공",
+          "vacuum_and_mop": "진공청소 및 물걸레질"
+        }
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "오류",
+        "state_attributes": {
+          "description": {
+            "name": "설명"
+          }
+        }
+      },
+      "lifespan_air_freshener": {
+        "name": "방향제 수명"
+      },
+      "lifespan_blade": {
+        "name": "블레이드 수명"
+      },
+      "lifespan_brush": {
+        "name": "메인 브러시 수명"
+      },
+      "lifespan_cleaning_solution": {
+        "name": "청소액 수명"
+      },
+      "lifespan_dust_bag": {
+        "name": "먼지 봉투 수명"
+      },
+      "lifespan_filter": {
+        "name": "필터 수명"
+      },
+      "lifespan_hand_filter": {
+        "name": "핸드필터 수명"
+      },
+      "lifespan_lens_brush": {
+        "name": "렌즈 브러시 수명"
+      },
+      "lifespan_main_brush": {
+        "name": "메인 브러시 수명"
+      },
+      "lifespan_round_mop": {
+        "name": "원형 걸레의 수명"
+      },
+      "lifespan_sewage_box": {
+        "name": "오수통 수명"
+      },
+      "lifespan_side_brush": {
+        "name": "측면 브러시 수명"
+      },
+      "lifespan_trimmer_brush": {
+        "name": "가장자리 트리머 브러시 수명"
+      },
+      "lifespan_unit_care": {
+        "name": "단위 치료 수명"
+      },
+      "lifespan_uv_sanitizer": {
+        "name": "UV 살균기 수명"
+      },
+      "lifespan_water_sink": {
+        "name": "물통 수명"
+      },
+      "lifespan_weed_rope": {
+        "name": "가장자리 트리머 라인 수명"
+      },
+      "network_ip": {
+        "name": "IP 주소"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fi SSID"
+      },
+      "station_state": {
+        "name": "역 상태",
+        "state": {
+          "drying_mop": "건조 걸레",
+          "emptying_dustbin": "쓰레기통 비우기",
+          "idle": "유휴 중",
+          "washing_mop": "걸레질"
+        }
+      },
+      "stats_area": {
+        "name": "청소된 구역"
+      },
+      "stats_area_mower": {
+        "name": "잔디를 깎은 면적"
+      },
+      "stats_time": {
+        "name": "청소 시간"
+      },
+      "stats_time_mower": {
+        "name": "잔디 깎기 시간"
+      },
+      "total_stats_area": {
+        "name": "청소된 총 면적"
+      },
+      "total_stats_area_mower": {
+        "name": "총 잔디 깎기 면적"
+      },
+      "total_stats_cleanings": {
+        "name": "전체 청소"
+      },
+      "total_stats_cleanings_mower": {
+        "name": "총 잔디 깎기 횟수"
+      },
+      "total_stats_time": {
+        "name": "총 청소 시간"
+      },
+      "total_stats_time_mower": {
+        "name": "총 잔디 깎기 시간"
+      }
+    },
+    "switch": {
+      "advanced_mode": {
+        "name": "고급 모드"
+      },
+      "border_spin": {
+        "name": "보더 스핀"
+      },
+      "border_switch": {
+        "name": "국경 스위치"
+      },
+      "carpet_auto_fan_boost": {
+        "name": "카펫 자동 부스트 흡입 기능"
+      },
+      "child_lock": {
+        "name": "어린이 잠금"
+      },
+      "clean_preference": {
+        "name": "청결 선호"
+      },
+      "continuous_cleaning": {
+        "name": "지속적인 청소"
+      },
+      "cross_map_border_warning": {
+        "name": "지도 경계선 경고"
+      },
+      "move_up_warning": {
+        "name": "위로 이동 경고"
+      },
+      "safe_protect": {
+        "name": "안전하게 보호하세요"
+      },
+      "true_detect": {
+        "name": "True 감지"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "max": "맥스",
+              "max_plus": "맥스+",
+              "normal": "정상",
+              "quiet": "조용한"
+            }
+          },
+          "rooms": {
+            "name": "객실"
+          }
+        }
+      }
+    }
+  },
+  "exceptions": {
+    "vacuum_raw_get_positions_not_supported": {
+      "message": "충전기와 기기 자체의 위치 정보를 가져오는 기능은 지원되지 않습니다."
+    },
+    "vacuum_send_command_not_supported": {
+      "message": "{name}에서는 {command} 명령을 지원하지 않습니다."
+    },
+    "vacuum_send_command_params_dict": {
+      "message": "매개변수는 리스트가 아닌 딕셔너리여야 합니다."
+    },
+    "vacuum_send_command_params_required": {
+      "message": "명령어를 실행하려면 매개변수가 필요합니다. {command}"
+    }
+  },
+  "selector": {
+    "installation_mode": {
+      "options": {
+        "cloud": "구름",
+        "self_hosted": "자체 호스팅"
+      }
+    }
+  },
+  "services": {
+    "raw_get_positions": {
+      "description": "충전기와 기기 자체의 위치 정보를 포함하는 원시 응답을 가져옵니다.",
+      "name": "원시 포지션을 얻으세요"
+    }
+  }
+}
