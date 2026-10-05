@@ -58,13 +58,17 @@ class ImmichFrameClient:
         )
 
     async def send_notification(
-        self, message: str, link: str | None = None, duration: float | None = None
+        self,
+        message: str,
+        link: str | None = None,
+        duration: float | None = None,
+        tag: str | None = None,
     ) -> None:
-        """Put a notification on top of the ones shown; an empty message clears them all."""
+        """Put a notification on top; an empty message clears the tagged one, or all."""
         await self._request(
             "POST",
             "api/Notification",
-            {"message": message, "link": link, "duration": duration},
+            {"message": message, "link": link, "duration": duration, "tag": tag},
         )
 
     async def set_sensors(self, sensors: list[dict[str, Any]]) -> None:
