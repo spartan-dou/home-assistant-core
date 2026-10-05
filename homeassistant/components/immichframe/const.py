@@ -17,3 +17,4 @@ PUSH_COOLDOWN: Final = 1.0
 SERVICE_SHOW_NOTIFICATION: Final = "show_notification"
 ATTR_LINK: Final = "link"
 ATTR_DURATION: Final = "duration"
+ATTR_TAG: Final = "tag"
