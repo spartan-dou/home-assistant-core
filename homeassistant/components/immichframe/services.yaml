@@ -21,3 +21,7 @@ show_notification:
           max: 10080
           unit_of_measurement: min
           mode: box
+    tag:
+      example: volet_chambre
+      selector:
+        text:

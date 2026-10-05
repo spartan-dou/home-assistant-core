@@ -36,11 +36,21 @@ class ImmichFrameNotifyEntity(ImmichFrameEntity, NotifyEntity):
         await self.async_show_notification(f"{title}\n{message}" if title else message)
 
     async def async_show_notification(
-        self, message: str, link: str | None = None, duration: float | None = None
+        self,
+        message: str,
+        link: str | None = None,
+        duration: float | None = None,
+        tag: str | None = None,
     ) -> None:
-        """Show a message with an optional link and end; an empty message clears them all."""
+        """Show a message with an optional link, end and tag.
+
+        A message replaces the one shown with the same tag; an empty message clears
+        the tagged one, or all of them without a tag.
+        """
         try:
-            await self.coordinator.client.send_notification(message, link, duration)
+            await self.coordinator.client.send_notification(
+                message, link, duration, tag
+            )
         except ImmichFrameConnectionError as err:
             raise HomeAssistantError(
                 translation_domain=DOMAIN, translation_key="cannot_connect"

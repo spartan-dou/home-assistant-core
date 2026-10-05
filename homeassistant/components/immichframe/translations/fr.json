@@ -61,8 +61,12 @@
           "name": "Lien"
         },
         "message": {
-          "description": "Texte à afficher. Un message déjà affiché remonte en haut. Un message vide les efface toutes.",
+          "description": "Texte à afficher. Un message déjà affiché remonte en haut. Un message vide efface la notification de même étiquette, ou toutes sans étiquette.",
           "name": "Message"
+        },
+        "tag": {
+          "description": "Identifie la notification, comme sur un téléphone : un nouveau message de même étiquette la remplace, un message vide avec elle l'efface seule.",
+          "name": "Étiquette"
         }
       },
       "name": "Afficher une notification"
