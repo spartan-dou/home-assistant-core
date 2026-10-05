@@ -6,7 +6,7 @@ from homeassistant.components.notify import ATTR_MESSAGE, DOMAIN as NOTIFY_DOMAI
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import config_validation as cv, service
 
-from .const import ATTR_DURATION, ATTR_LINK, DOMAIN, SERVICE_SHOW_NOTIFICATION
+from .const import ATTR_DURATION, ATTR_LINK, ATTR_TAG, DOMAIN, SERVICE_SHOW_NOTIFICATION
 
 
 @callback
@@ -18,10 +18,11 @@ def async_setup_services(hass: HomeAssistant) -> None:
         SERVICE_SHOW_NOTIFICATION,
         entity_domain=NOTIFY_DOMAIN,
         schema={
-            # An empty message clears the notifications shown.
+            # An empty message clears the tagged notification, or all of them.
             vol.Required(ATTR_MESSAGE): cv.string,
             vol.Optional(ATTR_LINK): cv.string,
             vol.Optional(ATTR_DURATION): vol.All(vol.Coerce(float), vol.Range(min=0)),
+            vol.Optional(ATTR_TAG): cv.string,
         },
         func="async_show_notification",
     )
