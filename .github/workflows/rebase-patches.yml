@@ -75,10 +75,12 @@ env:
   # Clé de déduplication de l'alerte : une seule issue ouverte à la fois, sinon
   # c'est une issue par jour tant que le blocage dure.
   ETIQUETTE: rebase-bloque
+  # renovate: datasource=github-releases depName=cli/cli
+  GH_VERSION: "2.80.0"
 
 jobs:
   rebase:
-    runs-on: ubuntu-latest
+    runs-on: dou-s-home-arc-home-assistant-core
     steps:
       # Le GITHUB_TOKEN ne peut pas servir à pousser ici, et aucun réglage de
       # `permissions:` n'y change rien : GitHub refuse qu'un jeton d'application
@@ -125,6 +127,16 @@ jobs:
           # doit être résolvable.
           fetch-depth: 0
           fetch-tags: true
+
+      # `gh` n'est pas dans l'image du runner ARC (il l'est sur ubuntu-latest) : sans
+      # lui, les étapes d'alerte échouent et le blocage redevient invisible.
+      - name: Installer gh
+        run: |
+          set -euo pipefail
+          mkdir -p "$HOME/.local/bin"
+          curl -sSfL "https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_amd64.tar.gz" \
+            | tar -xz --strip-components=2 -C "$HOME/.local/bin" "gh_${GH_VERSION}_linux_amd64/bin/gh"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: Identité git
         run: |
