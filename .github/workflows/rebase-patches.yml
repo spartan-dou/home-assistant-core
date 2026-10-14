@@ -243,7 +243,12 @@ jobs:
           # requirements_all.txt réunit les dépendances de toutes les
           # intégrations : 1135 paquets, plusieurs minutes, pour des intégrations
           # patchées qui n'ont elles-mêmes aucune dépendance externe.
-          uv pip install -r requirements.txt -r requirements_test.txt
+          #
+          # Sauf pymicro-vad et pyspeex-noise : sans wheel pour cette version de
+          # Python, ils compilent du C++, et le runner ARC n'a pas de compilateur
+          # (`No such file or directory: 'c++'`). Seul assist_pipeline les importe.
+          grep -v -e '^pymicro-vad==' -e '^pyspeex-noise==' requirements.txt > requirements-ci.txt
+          uv pip install -r requirements-ci.txt -r requirements_test.txt
           # Sauf celles-ci : les deux conftest.py que la collecte traverse
           # toujours importent au niveau module des bibliothèques d'intégration
           # — paho.mqtt dans tests/common.py, aiohasupervisor dans
@@ -261,7 +266,7 @@ jobs:
             fi
             uv pip install "$ligne"
           done
-          uv pip install -e . --config-settings editable_mode=compat
+          uv pip install -e . --no-deps --config-settings editable_mode=compat
 
       # translations/ est généré au build et absent du dépôt, mais la suite de
       # tests vérifie que chaque clé référencée existe : sans cette étape, tout
