@@ -120,8 +120,12 @@ PLATFORM_SCHEMA_COMMON = probatio.Schema(
         probatio.Optional(CONF_DUR_COOLDOWN): cv.positive_time_period,
         probatio.Optional(CONF_MIN_TEMP): probatio.Coerce(float),
         probatio.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
-        probatio.Optional(CONF_COLD_TOLERANCE, default=DEFAULT_TOLERANCE): probatio.Coerce(float),
-        probatio.Optional(CONF_HOT_TOLERANCE, default=DEFAULT_TOLERANCE): probatio.Coerce(float),
+        probatio.Optional(
+            CONF_COLD_TOLERANCE, default=DEFAULT_TOLERANCE
+        ): probatio.Coerce(float),
+        probatio.Optional(
+            CONF_HOT_TOLERANCE, default=DEFAULT_TOLERANCE
+        ): probatio.Coerce(float),
         probatio.Optional(CONF_TARGET_TEMP): probatio.Coerce(float),
         probatio.Optional(CONF_KEEP_ALIVE): cv.positive_time_period,
         probatio.Optional(CONF_OPENINGS, default=[]): cv.entity_ids,
