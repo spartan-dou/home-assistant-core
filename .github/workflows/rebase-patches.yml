@@ -405,6 +405,9 @@ jobs:
         if: failure()
         env:
           GH_TOKEN: ${{ github.token }}
+          # Sans GH_REPO, gh déduit le dépôt du remote `upstream` ajouté plus haut
+          # et tente d'y créer le label : 403, et l'alerte ne part jamais.
+          GH_REPO: ${{ github.repository }}
           CIBLE: ${{ steps.plan.outputs.cible }}
           CONFLITS: ${{ steps.rebase.outputs.conflits }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
@@ -483,6 +486,7 @@ jobs:
         if: success()
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
           CIBLE: ${{ steps.plan.outputs.cible }}
         run: |
           set -euo pipefail
