@@ -1,0 +1,25 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Jarduera"
+        }
+      },
+      "user": {
+        "data": {
+          "name": "Izena"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Jarduera"
+        }
+      }
+    }
+  }
+}
