@@ -41,7 +41,7 @@ on:
         required: false
         default: ""
       base:
-        description: "Amorçage : tag amont sur lequel la série est déjà posée. Ignoré si patches-base existe."
+        description: "Amorçage : tag amont sur lequel la série est déjà posée. Ignoré si le tag de base existe."
         required: false
         default: ""
       retag:
@@ -60,8 +60,8 @@ concurrency:
 env:
   # Doit rester identique au `ref:` de l'étape de récupération ci-dessous : le
   # contexte env n'est pas disponible dans le `with:` d'une action.
-  PATCH_BRANCH: claude/home-assistant-custom-integrations-ai8zkb
-  BASE_TAG: patches-base
+  PATCH_BRANCH: ccr-2882f613-xwosfd-patches-10-1
+  BASE_TAG: patches-base-v2
   UPSTREAM: https://github.com/home-assistant/core
   # Intégrations déployées dans le PVC. Doit rester identique à PATCH_DOMAINS
   # côté cluster-config : c'est la liste des dossiers que le tag doit rendre
@@ -122,7 +122,7 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           token: ${{ secrets.PUSH_TOKEN }}
-          ref: claude/home-assistant-custom-integrations-ai8zkb
+          ref: ccr-2882f613-xwosfd-patches-10-1
           # Historique complet : le rebase rejoue des commits, et patches-base
           # doit être résolvable.
           fetch-depth: 0
