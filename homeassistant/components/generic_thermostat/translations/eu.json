@@ -1,0 +1,29 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Jarduera",
+          "away_temp": "Kanpoan",
+          "home_temp": "Etxean"
+        }
+      },
+      "user": {
+        "data": {
+          "name": "Izena"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Jarduera",
+          "away_temp": "Kanpoan",
+          "home_temp": "Etxean"
+        }
+      }
+    }
+  }
+}
