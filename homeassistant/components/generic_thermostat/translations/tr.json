@@ -1,0 +1,100 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "Minimum çalışma süresi, maksimum çalışma süresinden kısa olmalıdır."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivite",
+          "away_temp": "Dışarıda",
+          "comfort_temp": "Konfor",
+          "eco_temp": "Eko",
+          "home_temp": "Evde",
+          "sleep_temp": "Uyku"
+        },
+        "title": "Sıcaklık ön ayarları"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Soğutma modu",
+          "cold_tolerance": "Soğuk toleransı",
+          "cycle_cooldown": "Koşu sonrası soğuma süresi",
+          "heater": "Aktüatör anahtarı",
+          "hot_tolerance": "Sıcak tolerans",
+          "keep_alive": "Canlı tutma aralığı",
+          "max_cycle_duration": "Maksimum çalışma süresi",
+          "max_temp": "Maksimum hedef sıcaklık",
+          "min_cycle_duration": "Minimum çalışma süresi",
+          "min_temp": "Minimum hedef sıcaklık",
+          "name": "Ad",
+          "target_sensor": "Sıcaklık sensörü"
+        },
+        "data_description": {
+          "ac_mode": "Belirtilen aktüatörü ısıtma cihazı yerine soğutma cihazı olarak işlenecek şekilde ayarlayın.",
+          "cold_tolerance": "Sıcaklık sensörü tarafından okunan sıcaklık ile hedef sıcaklık arasındaki minimum fark miktarı, ısıtıcının çalışmaya başlamadan önce değişmesi gereken değerdir. Örneğin, hedef sıcaklık 25 derece ve tolerans 0,5 derece ise, sensör 24,5 derecenin altına düştüğünde ısıtıcı çalışmaya başlayacaktır.",
+          "cycle_cooldown": "Kapatıldıktan sonra, tekrar açılabilmesi için geçmesi gereken minimum süre.",
+          "heater": "Klima moduna bağlı olarak soğutmak veya ısıtmak için kullanılan anahtar varlığı.",
+          "hot_tolerance": "Sıcaklık sensörü tarafından okunan sıcaklık ile kapatılmadan önce değişmesi gereken hedef sıcaklık arasındaki minimum fark miktarı. Örneğin, hedef sıcaklık 25 ve tolerans 0,5 ise, sensör 25,5'e eşit olduğunda veya bu değerin üzerine çıktığında ısıtıcı duracaktır.",
+          "keep_alive": "Cihazların durumlarını kaybetmelerini önlemek için ısıtıcıyı periyodik olarak çalıştırın.",
+          "max_cycle_duration": "Açıldıktan sonra, otomatik olarak kapanmadan önce geçebilecek maksimum süre.",
+          "min_cycle_duration": "Açıldıktan sonra, kapatılabilmesi için geçmesi gereken minimum süre.",
+          "target_sensor": "Mevcut sıcaklığı yansıtan sıcaklık sensörü."
+        },
+        "description": "Sıcaklığı bir anahtar ve sensör aracılığıyla kontrol eden bir iklim varlığı oluşturun.",
+        "title": "Genel termostat oluşturun"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "Minimum çalışma süresi, maksimum çalışma süresinden kısa olmalıdır."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Soğutma modu",
+          "cold_tolerance": "Soğuk toleransı",
+          "cycle_cooldown": "Koşu sonrası soğuma süresi",
+          "heater": "Aktüatör anahtarı",
+          "hot_tolerance": "Sıcak tolerans",
+          "keep_alive": "Canlı tutma aralığı",
+          "max_cycle_duration": "Maksimum çalışma süresi",
+          "max_temp": "Maksimum hedef sıcaklık",
+          "min_cycle_duration": "Minimum çalışma süresi",
+          "min_temp": "Minimum hedef sıcaklık",
+          "target_sensor": "Sıcaklık sensörü"
+        },
+        "data_description": {
+          "ac_mode": "Belirtilen aktüatörü ısıtma cihazı yerine soğutma cihazı olarak işlenecek şekilde ayarlayın.",
+          "cold_tolerance": "Sıcaklık sensörü tarafından okunan sıcaklık ile hedef sıcaklık arasındaki minimum fark miktarı, ısıtıcının çalışmaya başlamadan önce değişmesi gereken değerdir. Örneğin, hedef sıcaklık 25 derece ve tolerans 0,5 derece ise, sensör 24,5 derecenin altına düştüğünde ısıtıcı çalışmaya başlayacaktır.",
+          "cycle_cooldown": "Kapatıldıktan sonra, tekrar açılabilmesi için geçmesi gereken minimum süre.",
+          "heater": "Klima moduna bağlı olarak soğutmak veya ısıtmak için kullanılan anahtar varlığı.",
+          "hot_tolerance": "Sıcaklık sensörü tarafından okunan sıcaklık ile kapatılmadan önce değişmesi gereken hedef sıcaklık arasındaki minimum fark miktarı. Örneğin, hedef sıcaklık 25 ve tolerans 0,5 ise, sensör 25,5'e eşit olduğunda veya bu değerin üzerine çıktığında ısıtıcı duracaktır.",
+          "keep_alive": "Cihazların durumlarını kaybetmelerini önlemek için ısıtıcıyı periyodik olarak çalıştırın.",
+          "max_cycle_duration": "Açıldıktan sonra, otomatik olarak kapanmadan önce geçebilecek maksimum süre.",
+          "min_cycle_duration": "Açıldıktan sonra, kapatılabilmesi için geçmesi gereken minimum süre.",
+          "target_sensor": "Mevcut sıcaklığı yansıtan sıcaklık sensörü."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivite",
+          "away_temp": "Dışarıda",
+          "comfort_temp": "Konfor",
+          "eco_temp": "Eko",
+          "home_temp": "Evde",
+          "sleep_temp": "Uyku"
+        },
+        "title": "Sıcaklık ön ayarları"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "YAML yapılandırmasından genel termostatları yeniden yükler.",
+      "name": "Genel termostatları yeniden yükle"
+    }
+  },
+  "title": "Genel termostat"
+}

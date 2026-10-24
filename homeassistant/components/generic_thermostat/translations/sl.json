@@ -1,0 +1,79 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivnost",
+          "away_temp": "Odsoten",
+          "comfort_temp": "Udobno",
+          "eco_temp": "Eko",
+          "home_temp": "Doma",
+          "sleep_temp": "Spanje"
+        },
+        "title": "Prednastavitve temperature"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Način hlajenja",
+          "cold_tolerance": "Toleranca na hladno",
+          "heater": "Stikalo aktuatorja",
+          "hot_tolerance": "Toleranca na toplo",
+          "max_temp": "Najvišja ciljna temperatura",
+          "min_temp": "Najnižja ciljna temperatura",
+          "name": "Naziv",
+          "target_sensor": "Senzor za temperaturo"
+        },
+        "data_description": {
+          "ac_mode": "Nastavite aktuator, da bo obravnavan kot hladilna naprava namesto kot grelna naprava.",
+          "cold_tolerance": "Najmanjša razlika med temperaturo, ki jo odčita temperaturni senzor, in ciljno temperaturo, ki se mora spremeniti pred vklopom. Na primer, če je ciljna temperatura 25 in je toleranca 0,5, se bo grelnik zagnal, ko bo senzor enak ali padel pod 24,5.",
+          "heater": "Entiteta za preklapljanje, ki se uporablja za hlajenje ali ogrevanje, odvisno od načina klimatizacije.",
+          "hot_tolerance": "Najmanjša razlika med temperaturo, ki jo odčita temperaturni senzor, in ciljno temperaturo, ki se mora spremeniti pred izklopom. Na primer, če je ciljna temperatura 25 in je toleranca 0,5, se bo grelnik ustavil, ko bo senzor dosegel ali presegel 25,5.",
+          "target_sensor": "Temperaturni senzor, ki odraža trenutno temperaturo."
+        },
+        "description": "Ustvari klimatsko entiteto, ki nadzoruje temperaturo prek stikala in senzorja.",
+        "title": "Ustvari generični termostat"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Način hlajenja",
+          "cold_tolerance": "Toleranca na hladno",
+          "heater": "Stikalo aktuatorja",
+          "hot_tolerance": "Toleranca na toplo",
+          "max_temp": "Najvišja ciljna temperatura",
+          "min_cycle_duration": "Najkrajše trajanje cikla",
+          "min_temp": "Najnižja ciljna temperatura",
+          "target_sensor": "Temperaturni senzor"
+        },
+        "data_description": {
+          "ac_mode": "Nastavite aktuator, da bo obravnavan kot hladilna naprava namesto kot grelna naprava.",
+          "cold_tolerance": "Najmanjša razlika med temperaturo, ki jo odčita temperaturni senzor, in ciljno temperaturo, ki se mora spremeniti pred vklopom. Na primer, če je ciljna temperatura 25 in je toleranca 0,5, se bo grelnik zagnal, ko bo senzor enak ali padel pod 24,5.",
+          "heater": "Entiteta za preklapljanje, ki se uporablja za hlajenje ali ogrevanje, odvisno od načina klimatizacije.",
+          "hot_tolerance": "Najmanjša razlika med temperaturo, ki jo odčita temperaturni senzor, in ciljno temperaturo, ki se mora spremeniti pred izklopom. Na primer, če je ciljna temperatura 25 in je toleranca 0,5, se bo grelnik ustavil, ko bo senzor dosegel ali presegel 25,5.",
+          "min_cycle_duration": "Nastavi najkrajši čas, v katerem mora biti navedeno stikalo v trenutnem stanju, preden se izklopi ali vklopi.",
+          "target_sensor": "Temperaturni senzor, ki odraža trenutno temperaturo."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Aktivnost",
+          "away_temp": "Odsoten",
+          "comfort_temp": "Udobno",
+          "eco_temp": "Eko",
+          "home_temp": "Doma",
+          "sleep_temp": "Spanje"
+        },
+        "title": "Prednastavitve temperature"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Ponovno naloži generični termostat iz YAML konfiguracije."
+    }
+  },
+  "title": "Generični termostat"
+}

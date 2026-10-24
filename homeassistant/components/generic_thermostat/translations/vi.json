@@ -1,0 +1,75 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Hoạt động",
+          "away_temp": "Đi vắng",
+          "comfort_temp": "Thoải mái",
+          "eco_temp": "Tiết kiệm",
+          "home_temp": "Ở nhà",
+          "sleep_temp": "Ngủ"
+        },
+        "title": "Cài đặt nhiệt độ trước"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Chế độ làm mát",
+          "cold_tolerance": "Khả năng chịu lạnh",
+          "heater": "Công tắc truyền động",
+          "hot_tolerance": "Khả năng chịu nóng",
+          "max_temp": "Nhiệt độ mục tiêu tối đa",
+          "min_temp": "Nhiệt độ mục tiêu tối thiểu",
+          "name": "Tên",
+          "target_sensor": "Cảm biến nhiệt độ"
+        },
+        "data_description": {
+          "ac_mode": "Đặt bộ truyền động được chỉ định để xử lý như một thiết bị làm mát thay vì thiết bị sưởi ấm.",
+          "heater": "Thực thể công tắc dùng để làm mát hoặc sưởi ấm tùy thuộc vào chế độ A/C.",
+          "hot_tolerance": "Lượng chênh lệch tối thiểu giữa nhiệt độ do cảm biến nhiệt độ đọc được và nhiệt độ mục tiêu phải thay đổi trước khi tắt. Ví dụ, nếu nhiệt độ mục tiêu là 25 và dung sai là 0,5 thì máy sưởi sẽ dừng khi cảm biến bằng hoặc vượt quá 25,5.",
+          "target_sensor": "Cảm biến nhiệt độ phản ánh nhiệt độ hiện tại."
+        },
+        "description": "Tạo một thực thể khí hậu kiểm soát nhiệt độ thông qua công tắc và cảm biến.",
+        "title": "Tạo bộ điều nhiệt chung"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Chế độ làm mát",
+          "cold_tolerance": "Khả năng chịu lạnh",
+          "heater": "Công tắc truyền động",
+          "hot_tolerance": "Khả năng chịu nóng",
+          "max_temp": "Nhiệt độ mục tiêu tối đa",
+          "min_temp": "Nhiệt độ mục tiêu tối thiểu",
+          "target_sensor": "Cảm biến nhiệt độ"
+        },
+        "data_description": {
+          "ac_mode": "Đặt bộ truyền động được chỉ định để xử lý như một thiết bị làm mát thay vì thiết bị sưởi ấm.",
+          "heater": "Thực thể công tắc dùng để làm mát hoặc sưởi ấm tùy thuộc vào chế độ A/C.",
+          "hot_tolerance": "Lượng chênh lệch tối thiểu giữa nhiệt độ do cảm biến nhiệt độ đọc được và nhiệt độ mục tiêu phải thay đổi trước khi tắt. Ví dụ, nếu nhiệt độ mục tiêu là 25 và dung sai là 0,5 thì máy sưởi sẽ dừng khi cảm biến bằng hoặc vượt quá 25,5.",
+          "target_sensor": "Cảm biến nhiệt độ phản ánh nhiệt độ hiện tại."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Hoạt động",
+          "away_temp": "Đi vắng",
+          "comfort_temp": "Thoải mái",
+          "eco_temp": "Tiết kiệm",
+          "home_temp": "Ở nhà",
+          "sleep_temp": "Ngủ"
+        },
+        "title": "Cài đặt nhiệt độ trước"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Tải lại bộ điều nhiệt chung từ cấu hình YAML."
+    }
+  },
+  "title": "Bộ điều nhiệt tổng quát"
+}
