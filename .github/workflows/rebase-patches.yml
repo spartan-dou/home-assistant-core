@@ -67,11 +67,11 @@ env:
   # côté cluster-config : c'est la liste des dossiers que le tag doit rendre
   # autosuffisants. Un écart ne casse rien de grave, il fait juste apparaître
   # des clés brutes à la place du texte traduit.
-  PATCH_DOMAINS: ecovacs generic_thermostat immichframe
+  PATCH_DOMAINS: ecovacs generic_thermostat immichframe zepp
   # Sous-ensemble portant réellement des patchs : les seules dont la suite de
   # tests apprend quelque chose. Un domaine publié tel quel n'a rien de nouveau
   # à faire vérifier ici.
-  TESTED: generic_thermostat immichframe
+  TESTED: generic_thermostat immichframe zepp
   # Clé de déduplication de l'alerte : une seule issue ouverte à la fois, sinon
   # c'est une issue par jour tant que le blocage dure.
   ETIQUETTE: rebase-bloque
@@ -259,7 +259,10 @@ jobs:
           #
           # Si l'amont ajoute un import de ce genre, la collecte échoue avec un
           # ModuleNotFoundError nommant le coupable : ajouter le paquet ici.
-          for paquet in paho-mqtt aiohasupervisor; do
+          #
+          # Et av : zepp décode l'Opus de la montre avec PyAV, que l'image de
+          # Home Assistant apporte par stream sans que zepp ait à le déclarer.
+          for paquet in paho-mqtt aiohasupervisor av; do
             if ! ligne=$(grep -m1 "^${paquet}==" requirements_all.txt); then
               echo "::error::$paquet introuvable dans requirements_all.txt"
               exit 1
