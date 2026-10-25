@@ -1,0 +1,31 @@
+{
+  "config": {
+    "create_entry": {
+      "default": "In the Zepp app, open the settings of the Home Assistant mini app and paste this address:\n\n`{url}`\n\nIt is the only key of the watch: keep it private. Then choose in the options of the integration what the watch shows."
+    },
+    "step": {
+      "user": {
+        "description": "Adds a watch running Zepp OS, which its phone connects through a webhook of its own. To tell several watches apart, rename them afterwards."
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "areas": "Order of the areas",
+          "favorites": "Favorites",
+          "label": "Label",
+          "pipeline": "Assist pipeline"
+        },
+        "data_description": {
+          "areas": "These areas come first, in this order; the others follow by name.",
+          "favorites": "The first page of the watch, in this order.",
+          "label": "Entities with this label get a page per area.",
+          "pipeline": "Answers the voice messages. The preferred pipeline if empty."
+        },
+        "description": "Address of the watch, to paste in its app: `{url}`"
+      }
+    }
+  }
+}
