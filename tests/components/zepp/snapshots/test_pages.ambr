@@ -1,0 +1,131 @@
+# serializer version: 1
+# name: test_pages
+  dict({
+    'pages': list([
+      dict({
+        'kind': 'favorites',
+        'tiles': list([
+          dict({
+            'actions': list([
+              'run',
+            ]),
+            'available': True,
+            'domain': 'script',
+            'id': 'script.maison_bonne_nuit',
+            'name': 'Maison Bonne nuit',
+            'on': False,
+          }),
+          dict({
+            'actions': list([
+              'toggle',
+            ]),
+            'available': True,
+            'domain': 'light',
+            'id': 'light.salon_plafonnier',
+            'name': 'Salon Plafonnier',
+            'on': True,
+            'state': 'On',
+          }),
+        ]),
+      }),
+      dict({
+        'kind': 'area',
+        'name': 'Cuisine',
+        'tiles': list([
+          dict({
+            'actions': list([
+            ]),
+            'available': True,
+            'domain': 'binary_sensor',
+            'id': 'binary_sensor.cuisine_fenetre',
+            'name': 'Fenêtre',
+            'on': True,
+            'state': 'Open',
+          }),
+          dict({
+            'actions': list([
+            ]),
+            'available': True,
+            'domain': 'sensor',
+            'id': 'sensor.cuisine_temperature',
+            'name': 'Température',
+            'on': False,
+            'unit': '°C',
+            'value': '19.5',
+          }),
+        ]),
+      }),
+      dict({
+        'kind': 'area',
+        'name': 'Salon',
+        'tiles': list([
+          dict({
+            'actions': list([
+              'toggle',
+            ]),
+            'available': True,
+            'domain': 'light',
+            'id': 'light.salon_plafonnier',
+            'name': 'Plafonnier',
+            'on': True,
+            'state': 'On',
+          }),
+          dict({
+            'actions': list([
+              'down',
+              'up',
+            ]),
+            'available': True,
+            'domain': 'climate',
+            'id': 'climate.salon_poele_thermostat',
+            'name': 'Poêle Thermostat',
+            'on': True,
+            'state': 'Heat',
+            'target': '21',
+            'unit': '°C',
+            'value': '20.5',
+          }),
+          dict({
+            'actions': list([
+            ]),
+            'available': False,
+            'domain': 'media_player',
+            'id': 'media_player.salon_tv',
+            'name': 'TV',
+            'on': False,
+          }),
+          dict({
+            'actions': list([
+              'open',
+              'stop',
+              'close',
+            ]),
+            'available': True,
+            'domain': 'cover',
+            'id': 'cover.salon_volet',
+            'name': 'Volet',
+            'on': True,
+            'state': 'Open',
+            'unit': '%',
+            'value': '40',
+          }),
+        ]),
+      }),
+      dict({
+        'kind': 'other',
+        'tiles': list([
+          dict({
+            'actions': list([
+            ]),
+            'available': True,
+            'domain': 'lock',
+            'id': 'lock.entree_porte',
+            'name': 'Entrée Porte',
+            'on': False,
+            'state': 'Locked',
+          }),
+        ]),
+      }),
+    ]),
+  })
+# ---
