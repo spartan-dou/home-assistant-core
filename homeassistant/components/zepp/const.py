@@ -14,9 +14,11 @@ type ZeppConfigEntry = ConfigEntry[str]
 CONF_AREAS = "areas"
 CONF_FAVORITES = "favorites"
 CONF_PIPELINE = "pipeline"
+CONF_SHORTCUTS = "shortcuts"
 
 # What the phone may choose at once: well beyond what a watch page can show.
 MAX_SELECTION = 200
+MAX_SHORTCUTS = 50
 
 # A base64 recording of about a minute: the watch stops well before.
 MAX_AUDIO_LENGTH = 400_000

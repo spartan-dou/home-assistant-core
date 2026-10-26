@@ -9,14 +9,17 @@ from homeassistant.components.zepp.const import (
     CONF_AREAS,
     CONF_FAVORITES,
     CONF_PIPELINE,
+    CONF_SHORTCUTS,
     DOMAIN,
 )
 from homeassistant.config_entries import SOURCE_USER
-from homeassistant.const import CONF_ENTITIES
+from homeassistant.const import CONF_API_KEY, CONF_ENTITIES
 from homeassistant.core import HomeAssistant
 from homeassistant.core_config import async_process_ha_core_config
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.setup import async_setup_component
+
+from .conftest import KEY
 
 from tests.common import MockConfigEntry
 
@@ -72,4 +75,33 @@ async def test_options_flow(
     )
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert mock_config_entry.options == options
+    assert mock_config_entry.options == {**options, CONF_SHORTCUTS: []}
+
+
+async def test_options_flow_keeps_shortcuts(hass: HomeAssistant) -> None:
+    """Shortcuts are made on the phone: saving the options keeps them."""
+    shortcut = {
+        "id": "arrosage10",
+        "name": "Arroser 10 min",
+        "entity_id": "script.arrosage",
+        "variables": {"duree": 10},
+    }
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={CONF_API_KEY: KEY},
+        version=2,
+        options={CONF_SHORTCUTS: [shortcut]},
+    )
+    entry.add_to_hass(hass)
+
+    result = await hass.config_entries.options.async_init(entry.entry_id)
+    result = await hass.config_entries.options.async_configure(
+        result["flow_id"], {CONF_FAVORITES: []}
+    )
+
+    assert entry.options == {
+        CONF_FAVORITES: [],
+        CONF_ENTITIES: [],
+        CONF_AREAS: [],
+        CONF_SHORTCUTS: [shortcut],
+    }
