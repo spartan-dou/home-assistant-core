@@ -1,4 +1,4 @@
-"""The route the phones call: pages, actions, voice, and what to show."""
+"""The routes the phones call: pairing, then pages, actions, voice, and what to show."""
 
 import base64
 import binascii
@@ -23,10 +23,15 @@ from .const import (
     CONF_FAVORITES,
     DOMAIN,
     MAX_AUDIO_LENGTH,
+    MAX_NAME_LENGTH,
     MAX_SELECTION,
+    PAIR_STATUS_URL,
+    PAIR_URL,
+    PAIRING_TIMEOUT,
     URL,
     ZeppConfigEntry,
 )
+from .pairing import DATA_PAIRINGS
 from .tiles import (
     async_catalog,
     async_exposed_entity_ids,
@@ -79,6 +84,81 @@ VOICE_SCHEMA = probatio.Schema(
     },
     extra=probatio.REMOVE_EXTRA,
 )
+
+PAIR_SCHEMA = probatio.Schema(
+    {
+        # Anyone may ask, and the name lands in Markdown: no room for a link.
+        probatio.Required("name"): probatio.All(
+            str,
+            probatio.Strip,
+            probatio.Length(min=1, max=MAX_NAME_LENGTH),
+            probatio.Match(r"^[\w '()-]+$"),
+        )
+    },
+    extra=probatio.REMOVE_EXTRA,
+)
+PAIR_STATUS_SCHEMA = probatio.Schema(
+    {probatio.Required("request"): probatio.All(str, probatio.Length(max=100))},
+    extra=probatio.REMOVE_EXTRA,
+)
+
+
+class ZeppPairView(HomeAssistantView):
+    """Where a watch asks to be added: anyone may ask, only its code gets it in."""
+
+    url = PAIR_URL
+    name = "api:zepp:pair"
+    requires_auth = False
+
+    async def post(self, request: Request) -> Response:
+        """Show the watch as discovered; the code goes to the watch, never to the UI."""
+        if isinstance(data := await _async_validate(request, PAIR_SCHEMA), Response):
+            return data
+        pairings = request.app[KEY_HASS].data[DATA_PAIRINGS]
+        if (pairing := await pairings.async_start(data["name"])) is None:
+            return _error(HTTPStatus.TOO_MANY_REQUESTS, "too_many_requests")
+        return _json(
+            {
+                "request": pairing.request,
+                "code": pairing.code,
+                "expires_in": PAIRING_TIMEOUT,
+            }
+        )
+
+
+class ZeppPairStatusView(HomeAssistantView):
+    """Where the phone waits for the key of its watch."""
+
+    url = PAIR_STATUS_URL
+    name = "api:zepp:pair:status"
+    requires_auth = False
+
+    async def post(self, request: Request) -> Response:
+        """Answer pending, or the key once the code was entered."""
+        if isinstance(
+            data := await _async_validate(request, PAIR_STATUS_SCHEMA), Response
+        ):
+            return data
+        pairings = request.app[KEY_HASS].data[DATA_PAIRINGS]
+        if (pairing := pairings.async_get(data["request"])) is None:
+            return _error(HTTPStatus.NOT_FOUND, "unknown_request")
+        if pairing.key is None:
+            return _json({"status": "pending"})
+        return _json({"status": "paired", "key": pairing.key})
+
+
+async def _async_validate(
+    request: Request, schema: probatio.Schema
+) -> dict[str, Any] | Response:
+    """Return the validated body, or the response refusing it."""
+    try:
+        body = await request.json()
+    except ValueError:
+        return _error(HTTPStatus.BAD_REQUEST, "invalid_json")
+    try:
+        return schema(body)
+    except probatio.Invalid as err:
+        return _error(HTTPStatus.BAD_REQUEST, "invalid_request", str(err))
 
 
 class ZeppView(HomeAssistantView):
