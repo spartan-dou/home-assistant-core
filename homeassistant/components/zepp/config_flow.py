@@ -1,19 +1,19 @@
 """Config flow for the Zepp OS integration."""
 
+import secrets
 from typing import Any, override
 
 import probatio
 
-from homeassistant.components import webhook
 from homeassistant.config_entries import (
     ConfigEntry,
     ConfigFlow,
     ConfigFlowResult,
     OptionsFlow,
 )
-from homeassistant.const import CONF_ENTITIES, CONF_WEBHOOK_ID
+from homeassistant.const import CONF_API_KEY, CONF_ENTITIES
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers.network import NoURLAvailableError
+from homeassistant.helpers.network import NoURLAvailableError, get_url
 from homeassistant.helpers.selector import (
     AreaSelector,
     AreaSelectorConfig,
@@ -22,7 +22,7 @@ from homeassistant.helpers.selector import (
     EntitySelectorConfig,
 )
 
-from .const import CONF_AREAS, CONF_FAVORITES, CONF_PIPELINE, DOMAIN
+from .const import CONF_AREAS, CONF_FAVORITES, CONF_PIPELINE, DOMAIN, URL
 
 TITLE = "Zepp OS"
 
@@ -42,31 +42,32 @@ OPTIONS_SCHEMA = probatio.Schema(
 )
 
 
-def _webhook_url(hass: HomeAssistant, webhook_id: str) -> str:
-    """The address to paste in the watch app: the phone calls it from anywhere."""
+def _placeholders(hass: HomeAssistant, key: str) -> dict[str, str]:
+    """The address and the key to paste in the watch app; the phone calls from anywhere."""
     try:
-        return webhook.async_generate_url(hass, webhook_id)
+        base = get_url(hass, allow_cloud=False, prefer_external=True)
     except NoURLAvailableError:
-        return webhook.async_generate_path(webhook_id)
+        base = ""
+    return {"url": f"{base}{URL}", "key": key}
 
 
 class ZeppConfigFlow(ConfigFlow, domain=DOMAIN):
-    """Add a watch; each one gets its own webhook."""
+    """Add a watch; each one gets its own key."""
 
-    VERSION = 1
+    VERSION = 2
 
     @override
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
-        """Confirm, then show the address the watch app calls."""
+        """Confirm, then show the address and the key the watch app needs."""
         if user_input is None:
             return self.async_show_form(step_id="user")
-        webhook_id = webhook.async_generate_id()
+        key = secrets.token_hex(32)
         return self.async_create_entry(
             title=TITLE,
-            data={CONF_WEBHOOK_ID: webhook_id},
-            description_placeholders={"url": _webhook_url(self.hass, webhook_id)},
+            data={CONF_API_KEY: key},
+            description_placeholders=_placeholders(self.hass, key),
         )
 
     @staticmethod
@@ -91,7 +92,7 @@ class ZeppOptionsFlow(OptionsFlow):
             data_schema=self.add_suggested_values_to_schema(
                 OPTIONS_SCHEMA, self.config_entry.options
             ),
-            description_placeholders={
-                "url": _webhook_url(self.hass, self.config_entry.data[CONF_WEBHOOK_ID])
-            },
+            description_placeholders=_placeholders(
+                self.hass, self.config_entry.data[CONF_API_KEY]
+            ),
         )

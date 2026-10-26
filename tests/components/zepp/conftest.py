@@ -11,8 +11,8 @@ import pytest
 from homeassistant.components.conversation import DOMAIN as CONVERSATION_DOMAIN
 from homeassistant.components.cover import CoverEntityFeature
 from homeassistant.components.homeassistant.exposed_entities import async_expose_entity
-from homeassistant.components.zepp.const import CONF_AREAS, CONF_FAVORITES, DOMAIN
-from homeassistant.const import CONF_ENTITIES, CONF_WEBHOOK_ID
+from homeassistant.components.zepp.const import CONF_AREAS, CONF_FAVORITES, DOMAIN, URL
+from homeassistant.const import CONF_API_KEY, CONF_ENTITIES
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import (
     area_registry as ar,
@@ -24,8 +24,8 @@ from homeassistant.setup import async_setup_component
 from tests.common import MockConfigEntry
 from tests.typing import ClientSessionGenerator
 
-WEBHOOK_ID = "0123456789abcdef" * 4
-WEBHOOK_PATH = f"/api/webhook/{WEBHOOK_ID}"
+KEY = "0123456789abcdef" * 4
+HEADERS = {"Authorization": f"Bearer {KEY}"}
 FAVORITES = ["script.maison_bonne_nuit", "light.salon_plafonnier"]
 ENTITIES = [
     "climate.salon_poele_thermostat",
@@ -52,7 +52,8 @@ def mock_config_entry() -> MockConfigEntry:
     return MockConfigEntry(
         domain=DOMAIN,
         title="Balance",
-        data={CONF_WEBHOOK_ID: WEBHOOK_ID},
+        data={CONF_API_KEY: KEY},
+        version=2,
         options={
             CONF_FAVORITES: FAVORITES,
             CONF_ENTITIES: ENTITIES,
@@ -76,10 +77,10 @@ async def client(
 
 @pytest.fixture
 def post(client: TestClient) -> Post:
-    """Return what the phone calls to post a request to the webhook."""
+    """Return what the phone calls to post a request with the key of the watch."""
 
     async def _post(body: Any) -> ClientResponse:
-        return await client.post(WEBHOOK_PATH, json=body)
+        return await client.post(URL, json=body, headers=HEADERS)
 
     return _post
 
