@@ -96,6 +96,10 @@ def tile_actions(hass: HomeAssistant, state: State) -> Actions:
     """
     if state.state == STATE_UNAVAILABLE:
         return {}
+    return _actions(hass, state)
+
+
+def _actions(hass: HomeAssistant, state: State) -> Actions:
     if simple := SIMPLE_ACTIONS.get(state.domain):
         action, service = simple
         return {action: (service, {})}
@@ -147,13 +151,26 @@ def async_exposed_entity_ids(hass: HomeAssistant) -> set[str]:
     return {state.entity_id for state in _exposed_states(hass)}
 
 
-def async_catalog(hass: HomeAssistant) -> list[dict[str, Any]]:
-    """Describe the entities exposed to Assist, by area then name, those without last."""
+async def async_catalog(hass: HomeAssistant) -> list[dict[str, Any]]:
+    """Describe the entities exposed to Assist, by area then name, those without last.
+
+    Each says what it is in the language of Home Assistant, and whether the watch
+    can act on it, even while unavailable.
+    """
     entity_registry = er.async_get(hass)
     device_registry = dr.async_get(hass)
     area_registry = ar.async_get(hass)
+    states = _exposed_states(hass)
+    domains = {state.domain for state in states}
+    language = hass.config.language
+    kinds = {
+        **await translation.async_get_translations(hass, language, "title", domains),
+        **await translation.async_get_translations(
+            hass, language, "entity_component", domains
+        ),
+    }
     catalog = []
-    for state in _exposed_states(hass):
+    for state in states:
         area_id = _area_id(device_registry, entity_registry.async_get(state.entity_id))
         area = None if area_id is None else area_registry.async_get_area(area_id)
         area_name = None if area is None else area.name
@@ -162,6 +179,9 @@ def async_catalog(hass: HomeAssistant) -> list[dict[str, Any]]:
                 "id": state.entity_id,
                 "name": _short_name(state.name, area_name),
                 "domain": state.domain,
+                "device_class": state.attributes.get(ATTR_DEVICE_CLASS),
+                "kind": _kind(state, kinds),
+                "actionable": bool(_actions(hass, state)),
                 "area": area_name,
             }
         )
@@ -312,6 +332,19 @@ def _area_tiles(
     ]
 
 
+def _kind(state: State, translations: dict[str, str]) -> str:
+    """Name what an entity is as the frontend does: device class, then domain."""
+    keys = [
+        f"component.{state.domain}.entity_component._.name",
+        f"component.{state.domain}.title",
+    ]
+    if device_class := state.attributes.get(ATTR_DEVICE_CLASS):
+        keys.insert(0, f"component.{state.domain}.entity_component.{device_class}.name")
+    return next(
+        (translations[key] for key in keys if key in translations), state.domain
+    )
+
+
 def _short_name(name: str, area_name: str | None) -> str:
     """Drop the area the page already names: « Salon Poêle » reads « Poêle »."""
     if area_name and name.casefold().startswith(f"{area_name.casefold()} "):
@@ -335,6 +368,7 @@ def _tile(
         "id": state.entity_id,
         "name": name,
         "domain": state.domain,
+        "device_class": attributes.get(ATTR_DEVICE_CLASS),
         "available": state.state != STATE_UNAVAILABLE,
         "on": state.state in ACTIVE_STATES,
         "actions": list(tile_actions(hass, state)),
