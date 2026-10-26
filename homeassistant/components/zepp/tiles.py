@@ -14,10 +14,12 @@ from homeassistant.components.conversation import DOMAIN as CONVERSATION_DOMAIN
 from homeassistant.components.cover import ATTR_CURRENT_POSITION, CoverEntityFeature
 from homeassistant.components.homeassistant.exposed_entities import async_should_expose
 from homeassistant.components.media_player import MediaPlayerEntityFeature
+from homeassistant.components.script import DOMAIN as SCRIPT_DOMAIN
 from homeassistant.components.sensor import async_rounded_state
 from homeassistant.components.vacuum import VacuumEntityFeature
 from homeassistant.const import (
     ATTR_DEVICE_CLASS,
+    ATTR_ENTITY_ID,
     ATTR_SUPPORTED_FEATURES,
     ATTR_TEMPERATURE,
     ATTR_UNIT_OF_MEASUREMENT,
@@ -34,8 +36,9 @@ from homeassistant.helpers import (
     entity_registry as er,
     translation,
 )
+from homeassistant.helpers.service import async_get_cached_service_description
 
-from .const import CONF_AREAS, CONF_FAVORITES, ZeppConfigEntry
+from .const import CONF_AREAS, CONF_FAVORITES, CONF_SHORTCUTS, ZeppConfigEntry
 
 type Actions = dict[str, tuple[str, dict[str, Any]]]
 type Watched = tuple[State, er.RegistryEntry | None]
@@ -174,17 +177,27 @@ async def async_catalog(hass: HomeAssistant) -> list[dict[str, Any]]:
         area_id = _area_id(device_registry, entity_registry.async_get(state.entity_id))
         area = None if area_id is None else area_registry.async_get_area(area_id)
         area_name = None if area is None else area.name
-        catalog.append(
-            {
-                "id": state.entity_id,
-                "name": _short_name(state.name, area_name),
-                "domain": state.domain,
-                "device_class": state.attributes.get(ATTR_DEVICE_CLASS),
-                "kind": _kind(state, kinds),
-                "actionable": bool(_actions(hass, state)),
-                "area": area_name,
-            }
-        )
+        item = {
+            "id": state.entity_id,
+            "name": _short_name(state.name, area_name),
+            "domain": state.domain,
+            "device_class": state.attributes.get(ATTR_DEVICE_CLASS),
+            "kind": _kind(state, kinds),
+            "actionable": bool(_actions(hass, state)),
+            "area": area_name,
+        }
+        if state.domain == SCRIPT_DOMAIN:
+            item["fields"] = [
+                {
+                    "key": key,
+                    "name": field.get("name") or key,
+                    "required": field.get("required", False),
+                    "default": field.get("default"),
+                    "selector": field.get("selector"),
+                }
+                for key, field in async_script_fields(hass, state.entity_id).items()
+            ]
+        catalog.append(item)
     return sorted(
         catalog,
         key=lambda item: (
@@ -195,10 +208,41 @@ async def async_catalog(hass: HomeAssistant) -> list[dict[str, Any]]:
     )
 
 
+def async_script_fields(hass: HomeAssistant, entity_id: str) -> dict[str, Any]:
+    """Return the fields a script declares, as its service describes them.
+
+    A script's service is named after its key, which its entity id may not be.
+    """
+    registry_entry = er.async_get(hass).async_get(entity_id)
+    if registry_entry is None or registry_entry.platform != SCRIPT_DOMAIN:
+        return {}
+    description = async_get_cached_service_description(
+        hass, SCRIPT_DOMAIN, registry_entry.unique_id
+    )
+    return {} if description is None else description.get("fields", {})
+
+
+def async_shortcut_tile(
+    hass: HomeAssistant, shortcut: dict[str, Any]
+) -> dict[str, Any]:
+    """A script with its values fixed on the phone, run in one touch."""
+    state = hass.states.get(shortcut[ATTR_ENTITY_ID])
+    available = state is not None and state.state != STATE_UNAVAILABLE
+    return {
+        "id": f"shortcut:{shortcut['id']}",
+        "shortcut": shortcut["id"],
+        "name": shortcut["name"],
+        "domain": SCRIPT_DOMAIN,
+        "available": available,
+        "on": state is not None and state.state in ACTIVE_STATES,
+        "actions": ["run"] if available else [],
+    }
+
+
 async def async_pages(
     hass: HomeAssistant, entry: ZeppConfigEntry
 ) -> list[dict[str, Any]]:
-    """Favorites first, then a page per area: the chosen ones in order, then by name.
+    """Favorites, shortcuts, then a page per area: the chosen ones, then by name.
 
     Within a page, entities keep the order of the options; those without an area
     end on a last page.
@@ -231,6 +275,15 @@ async def async_pages(
                 "tiles": [
                     _tile(hass, state, registry_entry, translations, state.name)
                     for state, registry_entry in favorites
+                ],
+            }
+        )
+    if shortcuts := entry.options.get(CONF_SHORTCUTS):
+        pages.append(
+            {
+                "kind": "shortcuts",
+                "tiles": [
+                    async_shortcut_tile(hass, shortcut) for shortcut in shortcuts
                 ],
             }
         )
