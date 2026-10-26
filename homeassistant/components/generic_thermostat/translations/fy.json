@@ -1,0 +1,27 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Aktiviteit",
+          "away_temp": "Ôfwêzich"
+        }
+      },
+      "user": {
+        "data_description": {
+          "cold_tolerance": "It minimale ferskil tusken de temperatuer dy't troch de temperatuersensor ôflêzen wurdt en de doeltemperatuer dy't feroarje moat foardat de ferwaarming ynskeakele wurdt. As de doeltemperatuer bygelyks 25 is en de tolerânsje 0,5, dan wurdt de ferwaarming ynskeakele as de sensor gelyk is oan, of leger is as 24,5."
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Aktiviteit",
+          "away_temp": "Ôfwêzich"
+        }
+      }
+    }
+  }
+}

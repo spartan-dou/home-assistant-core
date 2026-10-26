@@ -1,0 +1,82 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Konto jest już skonfigurowane"
+    },
+    "error": {
+      "cannot_connect": "Nie można nawiązać połączenia",
+      "invalid_auth": "Niepoprawne uwierzytelnienie",
+      "unknown": "Nieoczekiwany błąd"
+    },
+    "step": {
+      "auth": {
+        "data": {
+          "password": "Hasło",
+          "username": "Nazwa użytkownika"
+        }
+      },
+      "user": {
+        "data": {
+          "mode": "Tryb"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "water_mop_attached": {
+        "name": "Mop przymocowany"
+      }
+    },
+    "image": {
+      "map": {
+        "name": "Mapa"
+      }
+    },
+    "select": {
+      "active_map": {
+        "name": "Aktywna mapa"
+      }
+    },
+    "sensor": {
+      "error": {
+        "name": "Błąd"
+      },
+      "network_ip": {
+        "name": "Adres IP"
+      },
+      "network_rssi": {
+        "name": "Wi-Fi RSSI"
+      },
+      "network_ssid": {
+        "name": "Wi-Fi SSID"
+      },
+      "station_state": {
+        "state": {
+          "drying_mop": "Suszenie mopa",
+          "idle": "brak aktywności",
+          "washing_mop": "Mycie mopa"
+        }
+      }
+    },
+    "switch": {
+      "child_lock": {
+        "name": "Blokada przed dziećmi"
+      }
+    },
+    "vacuum": {
+      "vacuum": {
+        "state_attributes": {
+          "fan_speed": {
+            "state": {
+              "quiet": "Cichy"
+            }
+          },
+          "rooms": {
+            "name": "Pokoje"
+          }
+        }
+      }
+    }
+  }
+}

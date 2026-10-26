@@ -1,0 +1,100 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "Minimalus veikimo laikas turi būti trumpesnis nei maksimalus veikimo laikas."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Veikla",
+          "away_temp": "Išvykęs",
+          "comfort_temp": "Komfortas",
+          "eco_temp": "Eko",
+          "home_temp": "Namai",
+          "sleep_temp": "Miegas"
+        },
+        "title": "Išankstiniai temperatūros nustatymai"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Vėsinimo režimas",
+          "cold_tolerance": "Šalčio tolerancija",
+          "cycle_cooldown": "Atvėsimo laikotarpis po bėgimo",
+          "heater": "Pavaros jungiklis",
+          "hot_tolerance": "Karščio tolerancija",
+          "keep_alive": "Palaikymo intervalas",
+          "max_cycle_duration": "Maksimalus veikimo laikas",
+          "max_temp": "Maksimali tikslinė temperatūra",
+          "min_cycle_duration": "Minimalus veikimo laikas",
+          "min_temp": "Minimali tikslinė temperatūra",
+          "name": "Vardas",
+          "target_sensor": "Temperatūros jutiklis"
+        },
+        "data_description": {
+          "ac_mode": "Nustatykite, kad pavara būtų laikoma vėsinimo, o ne šildymo prietaisu.",
+          "cold_tolerance": "Minimalus skirtumas tarp temperatūros jutiklio nuskaitytos temperatūros ir tikslinės temperatūros, kuri turi pasikeisti prieš įjungiant. Pavyzdžiui, jei tikslinė temperatūra yra 25, o tolerancija yra 0,5, šildytuvas įsijungs, kai jutiklis nukris žemiau 24,5.",
+          "cycle_cooldown": "Išjungus, minimalus laikas, kuris turi praeiti, kol jį bus galima vėl įjungti.",
+          "heater": "Perjungimo subjektas, naudojamas vėsinti arba šildyti, atsižvelgiant į oro kondicionavimo režimą.",
+          "hot_tolerance": "Minimalus skirtumas tarp temperatūros jutiklio nuskaitytos temperatūros ir tikslinės temperatūros, kuri turi pasikeisti prieš išjungiant. Pavyzdžiui, jei tikslinė temperatūra yra 25, o tolerancija yra 0,5, šildytuvas sustos, kai jutiklis bus lygus 25,5 arba viršys jį.",
+          "keep_alive": "Periodiškai įjunkite šildytuvą, kad prietaisai neprarastų galios.",
+          "max_cycle_duration": "Įjungus, maksimalus laikas, kuris gali praeiti iki išsijungimo.",
+          "min_cycle_duration": "Įjungus, nurodomas minimalus laikas, po kurio jį galima išjungti.",
+          "target_sensor": "Temperatūros jutiklis, atspindintis esamą temperatūrą."
+        },
+        "description": "Sukurkite klimato subjektą, kuris valdo temperatūrą per jungiklį ir jutiklį.",
+        "title": "Sukurkite bendrą termostatą"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "Minimalus veikimo laikas turi būti trumpesnis nei maksimalus veikimo laikas."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Vėsinimo režimas",
+          "cold_tolerance": "Šalčio tolerancija",
+          "cycle_cooldown": "Atvėsimo laikotarpis po bėgimo",
+          "heater": "Pavaros jungiklis",
+          "hot_tolerance": "Karščio tolerancija",
+          "keep_alive": "Palaikymo intervalas",
+          "max_cycle_duration": "Maksimalus veikimo laikas",
+          "max_temp": "Maksimali tikslinė temperatūra",
+          "min_cycle_duration": "Minimalus veikimo laikas",
+          "min_temp": "Minimali tikslinė temperatūra",
+          "target_sensor": "Temperatūros jutiklis"
+        },
+        "data_description": {
+          "ac_mode": "Nustatykite, kad pavara būtų laikoma vėsinimo, o ne šildymo prietaisu.",
+          "cold_tolerance": "Minimalus skirtumas tarp temperatūros jutiklio nuskaitytos temperatūros ir tikslinės temperatūros, kuri turi pasikeisti prieš įjungiant. Pavyzdžiui, jei tikslinė temperatūra yra 25, o tolerancija yra 0,5, šildytuvas įsijungs, kai jutiklis nukris žemiau 24,5.",
+          "cycle_cooldown": "Išjungus, minimalus laikas, kuris turi praeiti, kol jį bus galima vėl įjungti.",
+          "heater": "Perjungimo subjektas, naudojamas vėsinti arba šildyti, atsižvelgiant į oro kondicionavimo režimą.",
+          "hot_tolerance": "Minimalus skirtumas tarp temperatūros jutiklio nuskaitytos temperatūros ir tikslinės temperatūros, kuri turi pasikeisti prieš išjungiant. Pavyzdžiui, jei tikslinė temperatūra yra 25, o tolerancija yra 0,5, šildytuvas sustos, kai jutiklis bus lygus 25,5 arba viršys jį.",
+          "keep_alive": "Periodiškai įjunkite šildytuvą, kad prietaisai neprarastų galios.",
+          "max_cycle_duration": "Įjungus, maksimalus laikas, kuris gali praeiti iki išsijungimo.",
+          "min_cycle_duration": "Įjungus, nurodomas minimalus laikas, po kurio jį galima išjungti.",
+          "target_sensor": "Temperatūros jutiklis, atspindintis esamą temperatūrą."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Veikla",
+          "away_temp": "Išvykęs",
+          "comfort_temp": "Komfortas",
+          "eco_temp": "Eko",
+          "home_temp": "Namai",
+          "sleep_temp": "Miegas"
+        },
+        "title": "Išankstiniai temperatūros nustatymai"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Iš naujo įkelia bendruosius termostatus iš YAML konfigūracijos.",
+      "name": "Bendrųjų termostatų perkrovimas"
+    }
+  },
+  "title": "Bendrinis termostatas"
+}
