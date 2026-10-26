@@ -1,5 +1,6 @@
 """Tests for the groups: all the lights or switches of an area, a label, or both."""
 
+from collections.abc import Callable
 from http import HTTPStatus
 from typing import Any
 
@@ -7,7 +8,12 @@ import pytest
 
 from homeassistant.components.zepp.const import CONF_GROUPS
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import entity_registry as er, label_registry as lr
+from homeassistant.helpers import (
+    area_registry as ar,
+    device_registry as dr,
+    entity_registry as er,
+    label_registry as lr,
+)
 
 from .conftest import Post
 
@@ -15,6 +21,7 @@ from tests.common import MockConfigEntry, async_mock_service
 
 pytestmark = pytest.mark.usefixtures("house")
 
+PLAFONNIER = "light.salon_plafonnier"
 SALON = {
     "id": "salon",
     "name": "Lumières du salon",
@@ -40,6 +47,7 @@ async def test_group_of_an_area(post: Post, mock_config_entry: MockConfigEntry) 
     response = await _async_set(post, [SALON])
 
     assert response.status == HTTPStatus.OK
+    assert (await response.json())["members"] == {"salon": [PLAFONNIER]}
     assert mock_config_entry.options[CONF_GROUPS] == [SALON]
     pages = (await (await post({"type": "pages"})).json())["pages"]
     [shortcuts] = [page for page in pages if page["kind"] == "shortcuts"]
@@ -69,7 +77,7 @@ async def test_run_group_turns_all_off_when_any_is_on(
     response = await post({"type": "group", "id": "salon"})
 
     assert response.status == HTTPStatus.OK
-    assert [call.data for call in calls] == [{"entity_id": ["light.salon_plafonnier"]}]
+    assert [call.data for call in calls] == [{"entity_id": [PLAFONNIER]}]
 
 
 async def test_group_of_a_label(hass: HomeAssistant, post: Post, noel: str) -> None:
@@ -93,6 +101,56 @@ async def test_area_and_label_meet(post: Post, noel: str) -> None:
 
     assert response.status == HTTPStatus.UNPROCESSABLE_ENTITY
     assert (await response.json())["error"] == "empty_group"
+
+
+def _label_entity(hass: HomeAssistant, label_id: str) -> None:
+    er.async_get(hass).async_update_entity(PLAFONNIER, labels={label_id})
+
+
+def _label_device(hass: HomeAssistant, label_id: str) -> None:
+    device_id = er.async_get(hass).async_get(PLAFONNIER).device_id
+    dr.async_get(hass).async_update_device(device_id, labels={label_id})
+
+
+def _label_area(hass: HomeAssistant, label_id: str) -> None:
+    ar.async_get(hass).async_update("salon", labels={label_id})
+
+
+def _label_hidden_entity(hass: HomeAssistant, label_id: str) -> None:
+    er.async_get(hass).async_update_entity(
+        PLAFONNIER, labels={label_id}, hidden_by=er.RegistryEntryHider.INTEGRATION
+    )
+
+
+@pytest.mark.parametrize(
+    ("put_label", "members"),
+    [
+        pytest.param(_label_entity, [PLAFONNIER], id="entity"),
+        pytest.param(_label_device, [PLAFONNIER], id="device"),
+        pytest.param(_label_area, [PLAFONNIER], id="area"),
+        pytest.param(_label_hidden_entity, [], id="hidden_entity"),
+    ],
+)
+async def test_label_and_area_members(
+    hass: HomeAssistant,
+    post: Post,
+    label_registry: lr.LabelRegistry,
+    put_label: Callable[[HomeAssistant, str], None],
+    members: list[str],
+) -> None:
+    """A label counts wherever it is set, as in an action; hidden entities stay out.
+
+    The phone is told what each group finds, an empty group being no error.
+    """
+    label_id = label_registry.async_create("Ambiance").label_id
+    put_label(hass, label_id)
+
+    response = await _async_set(post, [{**SALON, "label_id": label_id}])
+
+    assert response.status == HTTPStatus.OK
+    assert (await response.json())["members"] == {"salon": members}
+    catalog = await (await post({"type": "catalog"})).json()
+    assert catalog["members"] == {"salon": members}
 
 
 @pytest.mark.parametrize(
