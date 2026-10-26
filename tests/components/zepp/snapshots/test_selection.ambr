@@ -1,0 +1,71 @@
+# serializer version: 1
+# name: test_catalog
+  dict({
+    'catalog': list([
+      dict({
+        'area': 'Cuisine',
+        'domain': 'binary_sensor',
+        'id': 'binary_sensor.cuisine_fenetre',
+        'name': 'Fenêtre',
+      }),
+      dict({
+        'area': 'Cuisine',
+        'domain': 'sensor',
+        'id': 'sensor.cuisine_temperature',
+        'name': 'Température',
+      }),
+      dict({
+        'area': 'Salon',
+        'domain': 'light',
+        'id': 'light.salon_plafonnier',
+        'name': 'Plafonnier',
+      }),
+      dict({
+        'area': 'Salon',
+        'domain': 'climate',
+        'id': 'climate.salon_poele_thermostat',
+        'name': 'Poêle Thermostat',
+      }),
+      dict({
+        'area': 'Salon',
+        'domain': 'media_player',
+        'id': 'media_player.salon_tv',
+        'name': 'TV',
+      }),
+      dict({
+        'area': 'Salon',
+        'domain': 'cover',
+        'id': 'cover.salon_volet',
+        'name': 'Volet',
+      }),
+      dict({
+        'area': None,
+        'domain': 'switch',
+        'id': 'switch.garage_prise',
+        'name': 'Garage Prise',
+      }),
+      dict({
+        'area': None,
+        'domain': 'script',
+        'id': 'script.maison_bonne_nuit',
+        'name': 'Maison Bonne nuit',
+      }),
+    ]),
+    'selection': dict({
+      'entities': list([
+        'climate.salon_poele_thermostat',
+        'light.salon_plafonnier',
+        'cover.salon_volet',
+        'media_player.salon_tv',
+        'light.salon_lampe',
+        'sensor.cuisine_temperature',
+        'binary_sensor.cuisine_fenetre',
+        'lock.entree_porte',
+      ]),
+      'favorites': list([
+        'script.maison_bonne_nuit',
+        'light.salon_plafonnier',
+      ]),
+    }),
+  })
+# ---

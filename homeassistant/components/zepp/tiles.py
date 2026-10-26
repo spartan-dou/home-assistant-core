@@ -10,7 +10,9 @@ from homeassistant.components.climate import (
     ATTR_MIN_TEMP,
     ATTR_TARGET_TEMP_STEP,
 )
+from homeassistant.components.conversation import DOMAIN as CONVERSATION_DOMAIN
 from homeassistant.components.cover import ATTR_CURRENT_POSITION, CoverEntityFeature
+from homeassistant.components.homeassistant.exposed_entities import async_should_expose
 from homeassistant.components.media_player import MediaPlayerEntityFeature
 from homeassistant.components.sensor import async_rounded_state
 from homeassistant.components.vacuum import VacuumEntityFeature
@@ -19,6 +21,7 @@ from homeassistant.const import (
     ATTR_SUPPORTED_FEATURES,
     ATTR_TEMPERATURE,
     ATTR_UNIT_OF_MEASUREMENT,
+    CONF_ENTITIES,
     PERCENTAGE,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
@@ -32,7 +35,7 @@ from homeassistant.helpers import (
     translation,
 )
 
-from .const import CONF_AREAS, CONF_FAVORITES, CONF_LABEL, ZeppConfigEntry
+from .const import CONF_AREAS, CONF_FAVORITES, ZeppConfigEntry
 
 type Actions = dict[str, tuple[str, dict[str, Any]]]
 type Watched = tuple[State, er.RegistryEntry | None]
@@ -128,11 +131,48 @@ def _setpoint_actions(hass: HomeAssistant, state: State) -> Actions:
     }
 
 
-def async_watched_entity_ids(hass: HomeAssistant, entry: ZeppConfigEntry) -> set[str]:
-    """Return the entities the watch may act on: its favorites and its label."""
-    return set(entry.options.get(CONF_FAVORITES, [])) | {
-        registry_entry.entity_id for registry_entry in _labelled(hass, entry)
+def async_watched_entity_ids(entry: ZeppConfigEntry) -> set[str]:
+    """Return the entities the watch shows, and may act on."""
+    return {
+        *entry.options.get(CONF_FAVORITES, []),
+        *entry.options.get(CONF_ENTITIES, []),
     }
+
+
+def async_exposed_entity_ids(hass: HomeAssistant) -> set[str]:
+    """Return the entities exposed to Assist: those the phone may add to the watch.
+
+    Voice messages already reach them through the same webhook.
+    """
+    return {state.entity_id for state in _exposed_states(hass)}
+
+
+def async_catalog(hass: HomeAssistant) -> list[dict[str, Any]]:
+    """Describe the entities exposed to Assist, by area then name, those without last."""
+    entity_registry = er.async_get(hass)
+    device_registry = dr.async_get(hass)
+    area_registry = ar.async_get(hass)
+    catalog = []
+    for state in _exposed_states(hass):
+        area_id = _area_id(device_registry, entity_registry.async_get(state.entity_id))
+        area = None if area_id is None else area_registry.async_get_area(area_id)
+        area_name = None if area is None else area.name
+        catalog.append(
+            {
+                "id": state.entity_id,
+                "name": _short_name(state.name, area_name),
+                "domain": state.domain,
+                "area": area_name,
+            }
+        )
+    return sorted(
+        catalog,
+        key=lambda item: (
+            item["area"] is None,
+            (item["area"] or "").casefold(),
+            item["name"].casefold(),
+        ),
+    )
 
 
 async def async_pages(
@@ -140,7 +180,8 @@ async def async_pages(
 ) -> list[dict[str, Any]]:
     """Favorites first, then a page per area: the chosen ones in order, then by name.
 
-    Labelled entities without an area end on a last page.
+    Within a page, entities keep the order of the options; those without an area
+    end on a last page.
     """
     entity_registry = er.async_get(hass)
     favorites: list[Watched] = [
@@ -151,8 +192,9 @@ async def async_pages(
     area_registry = ar.async_get(hass)
     device_registry = dr.async_get(hass)
     by_area: defaultdict[str | None, list[Watched]] = defaultdict(list)
-    for registry_entry in _labelled(hass, entry):
-        if (state := hass.states.get(registry_entry.entity_id)) is not None:
+    for entity_id in entry.options.get(CONF_ENTITIES, []):
+        if (state := hass.states.get(entity_id)) is not None:
+            registry_entry = entity_registry.async_get(entity_id)
             by_area[_area_id(device_registry, registry_entry)].append(
                 (state, registry_entry)
             )
@@ -189,7 +231,7 @@ async def async_pages(
         {
             "kind": "area",
             "name": area.name,
-            "tiles": _sorted_tiles(hass, by_area[area.id], translations, area.name),
+            "tiles": _area_tiles(hass, by_area[area.id], translations, area.name),
         }
         for area in areas
     )
@@ -197,7 +239,7 @@ async def async_pages(
         pages.append(
             {
                 "kind": "other",
-                "tiles": _sorted_tiles(hass, by_area[None], translations, None),
+                "tiles": _area_tiles(hass, by_area[None], translations, None),
             }
         )
     return pages
@@ -212,19 +254,19 @@ async def async_tile(hass: HomeAssistant, entity_id: str) -> dict[str, Any] | No
     return _tile(hass, state, watched[1], translations, state.name)
 
 
-def _labelled(hass: HomeAssistant, entry: ZeppConfigEntry) -> list[er.RegistryEntry]:
-    if (label_id := entry.options.get(CONF_LABEL)) is None:
-        return []
+def _exposed_states(hass: HomeAssistant) -> list[State]:
     return [
-        registry_entry
-        for registry_entry in er.async_entries_for_label(er.async_get(hass), label_id)
-        if registry_entry.disabled_by is None
+        state
+        for state in hass.states.async_all()
+        if async_should_expose(hass, CONVERSATION_DOMAIN, state.entity_id)
     ]
 
 
 def _area_id(
-    device_registry: dr.DeviceRegistry, registry_entry: er.RegistryEntry
+    device_registry: dr.DeviceRegistry, registry_entry: er.RegistryEntry | None
 ) -> str | None:
+    if registry_entry is None:
+        return None
     if registry_entry.area_id is not None or registry_entry.device_id is None:
         return registry_entry.area_id
     device = device_registry.async_get(registry_entry.device_id)
@@ -252,13 +294,13 @@ async def _async_translations(
     return translations
 
 
-def _sorted_tiles(
+def _area_tiles(
     hass: HomeAssistant,
     watched: list[Watched],
     translations: dict[str, str],
     area_name: str | None,
 ) -> list[dict[str, Any]]:
-    tiles = [
+    return [
         _tile(
             hass,
             state,
@@ -268,7 +310,6 @@ def _sorted_tiles(
         )
         for state, registry_entry in watched
     ]
-    return sorted(tiles, key=lambda tile: tile["name"].casefold())
 
 
 def _short_name(name: str, area_name: str | None) -> str:
