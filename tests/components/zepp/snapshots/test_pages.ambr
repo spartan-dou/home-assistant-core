@@ -29,6 +29,7 @@
         ]),
       }),
       dict({
+        'icon': None,
         'kind': 'area',
         'name': 'Cuisine',
         'tiles': list([
@@ -58,6 +59,7 @@
         ]),
       }),
       dict({
+        'icon': None,
         'kind': 'area',
         'name': 'Salon',
         'tiles': list([
@@ -67,6 +69,14 @@
               'up',
             ]),
             'available': True,
+            'control': dict({
+              'action': 'temperature',
+              'max': 21.2,
+              'min': 7,
+              'step': 0.5,
+              'unit': '°C',
+              'value': 21.0,
+            }),
             'domain': 'climate',
             'id': 'climate.salon_poele_thermostat',
             'name': 'Poêle Thermostat',
@@ -94,6 +104,14 @@
               'close',
             ]),
             'available': True,
+            'control': dict({
+              'action': 'position',
+              'max': 100,
+              'min': 0,
+              'step': 1,
+              'unit': '%',
+              'value': 40,
+            }),
             'domain': 'cover',
             'id': 'cover.salon_volet',
             'name': 'Volet',
