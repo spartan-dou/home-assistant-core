@@ -24,14 +24,7 @@ from homeassistant.helpers.selector import (
 )
 from homeassistant.helpers.typing import DiscoveryInfoType
 
-from .const import (
-    CONF_AREAS,
-    CONF_FAVORITES,
-    CONF_GROUPS,
-    CONF_PIPELINE,
-    CONF_SHORTCUTS,
-    DOMAIN,
-)
+from .const import CONF_AREAS, CONF_FAVORITES, CONF_PIPELINE, DOMAIN, PHONE_OPTIONS
 from .pairing import DATA_PAIRINGS, Pairing
 
 CONFIRM_SCHEMA = probatio.Schema({probatio.Required(CONF_CODE): str})
@@ -120,13 +113,11 @@ class ZeppOptionsFlow(OptionsFlow):
     ) -> ConfigFlowResult:
         """Edit the favorites, the entities, the order of the areas and the pipeline."""
         if user_input is not None:
-            # Shortcuts and groups are made on the phone: the form has no field.
             options = self.config_entry.options
             return self.async_create_entry(
                 data={
                     **user_input,
-                    CONF_SHORTCUTS: options.get(CONF_SHORTCUTS, []),
-                    CONF_GROUPS: options.get(CONF_GROUPS, []),
+                    **{key: options.get(key, []) for key in PHONE_OPTIONS},
                 }
             )
         return self.async_show_form(
