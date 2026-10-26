@@ -18,6 +18,7 @@ from homeassistant.components.cover import (
     ATTR_CURRENT_POSITION,
     ATTR_POSITION,
     CoverEntityFeature,
+    CoverState,
 )
 from homeassistant.components.homeassistant.exposed_entities import async_should_expose
 from homeassistant.components.light import (
@@ -639,9 +640,12 @@ def _tile(
         tile["value"] = _number(attributes.get(ATTR_CURRENT_TEMPERATURE))
         tile["target"] = _number(attributes.get(ATTR_TEMPERATURE))
         tile["unit"] = hass.config.units.temperature_unit
-    elif state.domain == "cover" and ATTR_CURRENT_POSITION in attributes:
-        tile["value"] = _number(attributes[ATTR_CURRENT_POSITION])
-        tile["unit"] = PERCENTAGE
+    elif state.domain == "cover":
+        # The watch follows a moving cover until it stops.
+        tile["moving"] = state.state in (CoverState.OPENING, CoverState.CLOSING)
+        if ATTR_CURRENT_POSITION in attributes:
+            tile["value"] = _number(attributes[ATTR_CURRENT_POSITION])
+            tile["unit"] = PERCENTAGE
     elif state.domain == "media_player":
         tile["title"] = attributes.get(ATTR_MEDIA_TITLE)
     if (control := tile_control(hass, state)) is not None:
