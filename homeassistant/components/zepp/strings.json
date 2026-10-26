@@ -1,7 +1,7 @@
 {
   "config": {
     "create_entry": {
-      "default": "In the Zepp app, open the settings of the Home Assistant mini app and paste this address:\n\n`{url}`\n\nIt is the only key of the watch: keep it private. Then choose in the options of the integration what the watch shows."
+      "default": "In the Zepp app, open the settings of the Home Assistant mini app and paste this address:\n\n`{url}`\n\nIt is the only key of the watch: keep it private. Then choose what the watch shows, in the settings of the watch app or in the options of the integration."
     },
     "step": {
       "user": {
@@ -14,14 +14,14 @@
       "init": {
         "data": {
           "areas": "Order of the areas",
+          "entities": "Shown entities",
           "favorites": "Favorites",
-          "label": "Label",
           "pipeline": "Assist pipeline"
         },
         "data_description": {
           "areas": "These areas come first, in this order; the others follow by name.",
+          "entities": "A page per area, in this order. They can also be chosen in the settings of the watch app, among the entities exposed to Assist.",
           "favorites": "The first page of the watch, in this order.",
-          "label": "Entities with this label get a page per area.",
           "pipeline": "Answers the voice messages. The preferred pipeline if empty."
         },
         "description": "Address of the watch, to paste in its app: `{url}`"

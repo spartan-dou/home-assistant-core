@@ -8,18 +8,17 @@ import pytest
 from homeassistant.components.zepp.const import (
     CONF_AREAS,
     CONF_FAVORITES,
-    CONF_LABEL,
     CONF_PIPELINE,
     DOMAIN,
 )
 from homeassistant.config_entries import SOURCE_USER
-from homeassistant.const import CONF_WEBHOOK_ID
+from homeassistant.const import CONF_ENTITIES, CONF_WEBHOOK_ID
 from homeassistant.core import HomeAssistant
 from homeassistant.core_config import async_process_ha_core_config
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.setup import async_setup_component
 
-from .conftest import LABEL, WEBHOOK_ID
+from .conftest import WEBHOOK_ID
 
 from tests.common import MockConfigEntry
 
@@ -94,7 +93,7 @@ async def test_options_flow(
 
     options = {
         CONF_FAVORITES: ["light.salon_plafonnier", "script.maison_bonne_nuit"],
-        CONF_LABEL: LABEL,
+        CONF_ENTITIES: ["cover.salon_volet", "sensor.cuisine_temperature"],
         CONF_AREAS: ["salon", "cuisine"],
         CONF_PIPELINE: "01JPIPELINE",
     }
