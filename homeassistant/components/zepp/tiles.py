@@ -68,7 +68,9 @@ from .const import (
     CONF_AREAS,
     CONF_FAVORITES,
     CONF_GROUPS,
+    CONF_ORDER,
     CONF_SHORTCUTS,
+    ROOM,
     ZeppConfigEntry,
 )
 
@@ -319,6 +321,7 @@ async def async_catalog(hass: HomeAssistant) -> list[dict[str, Any]]:
             "kind": _kind(state, kinds),
             "actionable": bool(_actions(hass, state)),
             "area": area_name,
+            "area_id": area_id,
         }
         if state.domain == SCRIPT_DOMAIN:
             item["fields"] = [
@@ -443,8 +446,9 @@ async def async_pages(
 ) -> list[dict[str, Any]]:
     """Favorites, shortcuts, then a page per area: the chosen ones, then by name.
 
-    Within a page, entities keep the order of the options; those without an area
-    end on a last page.
+    A shortcut or a group placed in an area shows on its page, the others on the
+    shortcuts page. Within a page, tiles follow the order chosen on the phone, then
+    that of the options; entities without an area end on a last page.
     """
     entity_registry = er.async_get(hass)
     favorites: list[Watched] = [
@@ -477,23 +481,23 @@ async def async_pages(
                 ],
             }
         )
-    shortcuts = [
-        *(
-            async_shortcut_tile(hass, shortcut)
-            for shortcut in entry.options.get(CONF_SHORTCUTS, [])
-        ),
-        *(
-            async_group_tile(hass, group)
-            for group in entry.options.get(CONF_GROUPS, [])
-        ),
-    ]
-    if shortcuts:
-        pages.append({"kind": "shortcuts", "tiles": shortcuts})
+    placed: defaultdict[str | None, list[dict[str, Any]]] = defaultdict(list)
+    for shortcut in entry.options.get(CONF_SHORTCUTS, []):
+        placed[shortcut.get(ROOM)].append(async_shortcut_tile(hass, shortcut))
+    for group in entry.options.get(CONF_GROUPS, []):
+        placed[group.get(ROOM)].append(async_group_tile(hass, group))
+    order = {key: rank for rank, key in enumerate(entry.options.get(CONF_ORDER, []))}
+
+    def arranged(tiles: list[dict[str, Any]]) -> list[dict[str, Any]]:
+        return sorted(tiles, key=lambda tile: order.get(tile["id"], len(order)))
+
+    if placed[None]:
+        pages.append({"kind": "shortcuts", "tiles": arranged(placed[None])})
     chosen = entry.options.get(CONF_AREAS, [])
     areas = sorted(
         (
             area
-            for area_id in by_area
+            for area_id in {*by_area, *placed}
             if area_id is not None
             and (area := area_registry.async_get_area(area_id)) is not None
         ),
@@ -507,7 +511,12 @@ async def async_pages(
             "kind": "area",
             "name": area.name,
             "icon": area.icon,
-            "tiles": _area_tiles(hass, by_area[area.id], translations, area.name),
+            "tiles": arranged(
+                [
+                    *_area_tiles(hass, by_area[area.id], translations, area.name),
+                    *placed[area.id],
+                ]
+            ),
         }
         for area in areas
     )
@@ -515,7 +524,7 @@ async def async_pages(
         pages.append(
             {
                 "kind": "other",
-                "tiles": _area_tiles(hass, by_area[None], translations, None),
+                "tiles": arranged(_area_tiles(hass, by_area[None], translations, None)),
             }
         )
     return pages

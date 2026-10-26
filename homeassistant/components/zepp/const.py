@@ -16,6 +16,11 @@ CONF_FAVORITES = "favorites"
 CONF_PIPELINE = "pipeline"
 CONF_SHORTCUTS = "shortcuts"
 CONF_GROUPS = "groups"
+CONF_ORDER = "order"
+# Made on the phone: the options form has no field for them, and keeps them.
+PHONE_OPTIONS = (CONF_SHORTCUTS, CONF_GROUPS, CONF_ORDER)
+# The area page a shortcut or a group shows on; without one, the shortcuts page.
+ROOM = "room"
 
 # What a group acts on: all the lights, or all the switches, of an area or a label.
 GROUP_DOMAINS = ("light", "switch")
@@ -23,6 +28,7 @@ GROUP_DOMAINS = ("light", "switch")
 # What the phone may choose at once: well beyond what a watch page can show.
 MAX_SELECTION = 200
 MAX_SHORTCUTS = 50
+MAX_ORDER = 500
 
 # A base64 recording of about a minute: the watch stops well before.
 MAX_AUDIO_LENGTH = 400_000
