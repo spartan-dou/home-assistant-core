@@ -99,6 +99,8 @@
     ]),
     'labels': list([
     ]),
+    'members': dict({
+    }),
     'order': list([
     ]),
     'selection': dict({

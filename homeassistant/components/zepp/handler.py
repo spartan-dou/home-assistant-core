@@ -360,6 +360,7 @@ async def _async_catalog(
             "selection": _selection(entry),
             CONF_SHORTCUTS: entry.options.get(CONF_SHORTCUTS, []),
             CONF_GROUPS: entry.options.get(CONF_GROUPS, []),
+            "members": _group_members(hass, entry.options.get(CONF_GROUPS, [])),
             CONF_ORDER: entry.options.get(CONF_ORDER, []),
             **async_targets(hass),
         }
@@ -470,7 +471,7 @@ async def _async_groups(
     hass.config_entries.async_update_entry(
         entry, options={**entry.options, CONF_GROUPS: groups}
     )
-    return _json({CONF_GROUPS: groups})
+    return _json({CONF_GROUPS: groups, "members": _group_members(hass, groups)})
 
 
 async def _async_order(
@@ -515,6 +516,13 @@ async def _async_run_group(
         _LOGGER.warning("Group %s failed: %s", group["name"], err)
         return _error(HTTPStatus.UNPROCESSABLE_ENTITY, "action_failed", str(err))
     return _json({"tile": async_group_tile(hass, group)})
+
+
+def _group_members(
+    hass: HomeAssistant, groups: list[dict[str, Any]]
+) -> dict[str, list[str]]:
+    """What each group finds, for the phone to show: a label may match nothing."""
+    return {group["id"]: async_group_members(hass, group) for group in groups}
 
 
 def _selection(entry: ZeppConfigEntry) -> dict[str, list[str]]:
