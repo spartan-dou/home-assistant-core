@@ -36,6 +36,7 @@
             'actions': list([
             ]),
             'available': True,
+            'device_class': 'temperature',
             'domain': 'sensor',
             'id': 'sensor.cuisine_temperature',
             'name': 'Température',
@@ -47,6 +48,7 @@
             'actions': list([
             ]),
             'available': True,
+            'device_class': 'window',
             'domain': 'binary_sensor',
             'id': 'binary_sensor.cuisine_fenetre',
             'name': 'Fenêtre',

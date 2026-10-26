@@ -236,7 +236,7 @@ async def _async_catalog(
     hass: HomeAssistant, entry: ZeppConfigEntry, data: dict[str, Any]
 ) -> Response:
     """What the phone may choose from, and what is chosen."""
-    return _json({"catalog": async_catalog(hass), "selection": _selection(entry)})
+    return _json({"catalog": await async_catalog(hass), "selection": _selection(entry)})
 
 
 async def _async_select(
