@@ -125,3 +125,67 @@ async def test_action_failed(hass: HomeAssistant, post: Post) -> None:
         "error": "action_failed",
         "message": "Zigbee timeout",
     }
+
+
+@pytest.mark.parametrize(
+    ("entity_id", "action", "value", "service", "data"),
+    [
+        pytest.param(
+            "cover.salon_volet",
+            "position",
+            65,
+            "set_cover_position",
+            {"position": 65},
+            id="cover_position",
+        ),
+        pytest.param(
+            "climate.salon_poele_thermostat",
+            "temperature",
+            19.7,
+            "set_temperature",
+            {"temperature": 19.5},
+            id="setpoint_snapped_to_step",
+        ),
+    ],
+)
+async def test_control(
+    hass: HomeAssistant,
+    post: Post,
+    entity_id: str,
+    action: str,
+    value: float,
+    service: str,
+    data: dict[str, Any],
+) -> None:
+    """The crown sets a value, rounded to the step the entity takes."""
+    calls = async_mock_service(hass, entity_id.split(".", maxsplit=1)[0], service)
+
+    response = await post(
+        {"type": "action", "entity_id": entity_id, "action": action, "value": value}
+    )
+
+    assert response.status == HTTPStatus.OK
+    assert [call.data for call in calls] == [{"entity_id": entity_id, **data}]
+
+
+@pytest.mark.parametrize(
+    "body",
+    [
+        pytest.param({"action": "temperature", "value": 30}, id="above_max"),
+        pytest.param({"action": "temperature", "value": 2}, id="below_min"),
+        pytest.param({"action": "temperature"}, id="no_value"),
+    ],
+)
+async def test_control_out_of_range(
+    hass: HomeAssistant, post: Post, body: dict[str, Any]
+) -> None:
+    """A value the entity does not take is refused, nothing is called."""
+    calls = async_mock_service(hass, "climate", "set_temperature")
+
+    response = await post(
+        {"type": "action", "entity_id": "climate.salon_poele_thermostat", **body}
+    )
+
+    assert response.status == HTTPStatus.BAD_REQUEST
+    assert (await response.json())["error"] == "out_of_range"
+    assert not calls

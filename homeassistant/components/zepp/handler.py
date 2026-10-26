@@ -14,21 +14,30 @@ import probatio
 
 from homeassistant.components.script import DOMAIN as SCRIPT_DOMAIN
 from homeassistant.const import (
+    ATTR_AREA_ID,
     ATTR_ENTITY_ID,
+    ATTR_LABEL_ID,
     CONF_API_KEY,
     CONF_ENTITIES,
+    SERVICE_TURN_OFF,
     SERVICE_TURN_ON,
 )
 from homeassistant.core import Context, HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
-from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers import (
+    area_registry as ar,
+    config_validation as cv,
+    label_registry as lr,
+)
 from homeassistant.helpers.http import KEY_HASS, HomeAssistantView
 from homeassistant.helpers.json import json_dumps
 
 from .const import (
     CONF_FAVORITES,
+    CONF_GROUPS,
     CONF_SHORTCUTS,
     DOMAIN,
+    GROUP_DOMAINS,
     MAX_AUDIO_LENGTH,
     MAX_NAME_LENGTH,
     MAX_SELECTION,
@@ -43,12 +52,16 @@ from .pairing import DATA_PAIRINGS
 from .tiles import (
     async_catalog,
     async_exposed_entity_ids,
+    async_group_members,
+    async_group_tile,
     async_pages,
     async_script_fields,
     async_shortcut_tile,
+    async_targets,
     async_tile,
     async_watched_entity_ids,
     tile_actions,
+    tile_control,
 )
 from .voice import InvalidAudioError, async_ask, decode_opus
 
@@ -66,6 +79,7 @@ ACTION_SCHEMA = probatio.Schema(
         probatio.Required("type"): "action",
         probatio.Required(ATTR_ENTITY_ID): cv.entity_id,
         probatio.Required("action"): str,
+        probatio.Optional("value"): probatio.Coerce(float),
     },
     extra=probatio.REMOVE_EXTRA,
 )
@@ -84,13 +98,13 @@ SELECT_SCHEMA = probatio.Schema(
     },
     extra=probatio.REMOVE_EXTRA,
 )
+SHORTCUT_ID = probatio.All(str, probatio.Match(r"^[a-z0-9]{1,16}$"))
+NAME = probatio.All(str, probatio.Strip, probatio.Length(min=1, max=MAX_NAME_LENGTH))
 VARIABLE = probatio.Any(str, int, float, bool)
 SHORTCUT_SCHEMA = probatio.Schema(
     {
-        probatio.Required("id"): probatio.All(str, probatio.Match(r"^[a-z0-9]{1,16}$")),
-        probatio.Required("name"): probatio.All(
-            str, probatio.Strip, probatio.Length(min=1, max=MAX_NAME_LENGTH)
-        ),
+        probatio.Required("id"): SHORTCUT_ID,
+        probatio.Required("name"): NAME,
         probatio.Required(ATTR_ENTITY_ID): cv.entity_domain(SCRIPT_DOMAIN),
         probatio.Optional("variables", default={}): {
             str: probatio.Any(VARIABLE, [VARIABLE])
@@ -105,6 +119,39 @@ SHORTCUTS_SCHEMA = probatio.Schema(
             [SHORTCUT_SCHEMA], probatio.Length(max=MAX_SHORTCUTS)
         ),
     },
+    extra=probatio.REMOVE_EXTRA,
+)
+GROUP_SCHEMA = probatio.All(
+    probatio.Schema(
+        {
+            probatio.Required("id"): SHORTCUT_ID,
+            probatio.Required("name"): NAME,
+            probatio.Required("domain"): probatio.In(GROUP_DOMAINS),
+            probatio.Optional(ATTR_AREA_ID): str,
+            probatio.Optional(ATTR_LABEL_ID): str,
+        },
+        extra=probatio.REMOVE_EXTRA,
+    ),
+    probatio.AtLeastOne(ATTR_AREA_ID, ATTR_LABEL_ID),
+)
+GROUPS_SCHEMA = probatio.Schema(
+    {
+        probatio.Required("type"): "groups",
+        probatio.Required(CONF_GROUPS): probatio.All(
+            [GROUP_SCHEMA], probatio.Length(max=MAX_SHORTCUTS)
+        ),
+    },
+    extra=probatio.REMOVE_EXTRA,
+)
+TILE_SCHEMA = probatio.Schema(
+    {
+        probatio.Required("type"): "tile",
+        probatio.Required(ATTR_ENTITY_ID): cv.entity_id,
+    },
+    extra=probatio.REMOVE_EXTRA,
+)
+RUN_GROUP_SCHEMA = probatio.Schema(
+    {probatio.Required("type"): "group", probatio.Required("id"): str},
     extra=probatio.REMOVE_EXTRA,
 )
 RUN_SHORTCUT_SCHEMA = probatio.Schema(
@@ -252,9 +299,15 @@ async def _async_action(
     state = hass.states.get(entity_id)
     if state is None or entity_id not in async_watched_entity_ids(entry):
         return _error(HTTPStatus.FORBIDDEN, "not_watched")
-    if (call := tile_actions(hass, state).get(data["action"])) is None:
+    control = tile_control(hass, state)
+    if control is not None and data["action"] == control.action:
+        if "value" not in data or (value := control.snap(data["value"])) is None:
+            return _error(HTTPStatus.BAD_REQUEST, "out_of_range")
+        service, service_data = control.service, control.data(value)
+    elif (call := tile_actions(hass, state).get(data["action"])) is None:
         return _error(HTTPStatus.BAD_REQUEST, "unsupported_action")
-    service, service_data = call
+    else:
+        service, service_data = call
     try:
         await hass.services.async_call(
             state.domain,
@@ -269,6 +322,19 @@ async def _async_action(
     return _json({"tile": await async_tile(hass, entity_id)})
 
 
+async def _async_tile(
+    hass: HomeAssistant, entry: ZeppConfigEntry, data: dict[str, Any]
+) -> Response:
+    """One tile, for the watch to follow a cover while it moves."""
+    entity_id = data[ATTR_ENTITY_ID]
+    if (
+        entity_id not in async_watched_entity_ids(entry)
+        or (tile := await async_tile(hass, entity_id)) is None
+    ):
+        return _error(HTTPStatus.FORBIDDEN, "not_watched")
+    return _json({"tile": tile})
+
+
 async def _async_catalog(
     hass: HomeAssistant, entry: ZeppConfigEntry, data: dict[str, Any]
 ) -> Response:
@@ -278,6 +344,8 @@ async def _async_catalog(
             "catalog": await async_catalog(hass),
             "selection": _selection(entry),
             CONF_SHORTCUTS: entry.options.get(CONF_SHORTCUTS, []),
+            CONF_GROUPS: entry.options.get(CONF_GROUPS, []),
+            **async_targets(hass),
         }
     )
 
@@ -363,6 +431,58 @@ async def _async_run_shortcut(
     return _json({"tile": async_shortcut_tile(hass, shortcut)})
 
 
+async def _async_groups(
+    hass: HomeAssistant, entry: ZeppConfigEntry, data: dict[str, Any]
+) -> Response:
+    """Replace the groups: all the lights or switches of an area, a label, or both."""
+    groups = data[CONF_GROUPS]
+    if len({group["id"] for group in groups}) != len(groups):
+        return _error(HTTPStatus.BAD_REQUEST, "invalid_request", "duplicate id")
+    areas = {area.id for area in ar.async_get(hass).async_list_areas()}
+    labels = {label.label_id for label in lr.async_get(hass).async_list_labels()}
+    for group in groups:
+        # Absent, a target is None: the other one alone decides.
+        if group.get(ATTR_AREA_ID) not in {*areas, None} or group.get(
+            ATTR_LABEL_ID
+        ) not in {*labels, None}:
+            return _error(HTTPStatus.BAD_REQUEST, "unknown_target", group["name"])
+    hass.config_entries.async_update_entry(
+        entry, options={**entry.options, CONF_GROUPS: groups}
+    )
+    return _json({CONF_GROUPS: groups})
+
+
+async def _async_run_group(
+    hass: HomeAssistant, entry: ZeppConfigEntry, data: dict[str, Any]
+) -> Response:
+    """Turn all the group off if any is on, else all on."""
+    group = next(
+        (
+            group
+            for group in entry.options.get(CONF_GROUPS, [])
+            if group["id"] == data["id"]
+        ),
+        None,
+    )
+    if group is None:
+        return _error(HTTPStatus.FORBIDDEN, "not_watched")
+    if not (members := async_group_members(hass, group)):
+        return _error(HTTPStatus.UNPROCESSABLE_ENTITY, "empty_group")
+    tile = async_group_tile(hass, group)
+    try:
+        await hass.services.async_call(
+            group["domain"],
+            SERVICE_TURN_OFF if tile["on"] else SERVICE_TURN_ON,
+            {ATTR_ENTITY_ID: members},
+            blocking=True,
+            context=Context(),
+        )
+    except (HomeAssistantError, probatio.Invalid) as err:
+        _LOGGER.warning("Group %s failed: %s", group["name"], err)
+        return _error(HTTPStatus.UNPROCESSABLE_ENTITY, "action_failed", str(err))
+    return _json({"tile": async_group_tile(hass, group)})
+
+
 def _selection(entry: ZeppConfigEntry) -> dict[str, list[str]]:
     return {
         CONF_FAVORITES: entry.options.get(CONF_FAVORITES, []),
@@ -387,10 +507,13 @@ async def _async_voice(
 COMMANDS: dict[str, tuple[probatio.Schema, Handler]] = {
     "action": (ACTION_SCHEMA, _async_action),
     "catalog": (CATALOG_SCHEMA, _async_catalog),
+    "group": (RUN_GROUP_SCHEMA, _async_run_group),
+    "groups": (GROUPS_SCHEMA, _async_groups),
     "pages": (PAGES_SCHEMA, _async_pages),
     "select": (SELECT_SCHEMA, _async_select),
     "shortcut": (RUN_SHORTCUT_SCHEMA, _async_run_shortcut),
     "shortcuts": (SHORTCUTS_SCHEMA, _async_shortcuts),
+    "tile": (TILE_SCHEMA, _async_tile),
     "voice": (VOICE_SCHEMA, _async_voice),
 }
 
