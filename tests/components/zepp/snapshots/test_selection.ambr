@@ -70,6 +70,8 @@
         'area': None,
         'device_class': None,
         'domain': 'script',
+        'fields': list([
+        ]),
         'id': 'script.maison_bonne_nuit',
         'kind': 'Script',
         'name': 'Maison Bonne nuit',
@@ -91,5 +93,7 @@
         'light.salon_plafonnier',
       ]),
     }),
+    'shortcuts': list([
+    ]),
   })
 # ---
