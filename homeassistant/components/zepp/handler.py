@@ -1,4 +1,4 @@
-"""The webhook the watch's phone calls: pages, actions and voice messages."""
+"""The webhook the watch's phone calls: pages, actions, voice, and what to show."""
 
 import base64
 import binascii
@@ -10,14 +10,21 @@ from typing import Any
 from aiohttp.web import Request, Response, json_response
 import probatio
 
-from homeassistant.const import ATTR_ENTITY_ID
+from homeassistant.const import ATTR_ENTITY_ID, CONF_ENTITIES
 from homeassistant.core import Context, HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.json import json_dumps
 
-from .const import MAX_AUDIO_LENGTH, ZeppConfigEntry
-from .tiles import async_pages, async_tile, async_watched_entity_ids, tile_actions
+from .const import CONF_FAVORITES, MAX_AUDIO_LENGTH, MAX_SELECTION, ZeppConfigEntry
+from .tiles import (
+    async_catalog,
+    async_exposed_entity_ids,
+    async_pages,
+    async_tile,
+    async_watched_entity_ids,
+    tile_actions,
+)
 from .voice import InvalidAudioError, async_ask, decode_opus
 
 _LOGGER = logging.getLogger(__name__)
@@ -34,6 +41,21 @@ ACTION_SCHEMA = probatio.Schema(
         probatio.Required("type"): "action",
         probatio.Required(ATTR_ENTITY_ID): cv.entity_id,
         probatio.Required("action"): str,
+    },
+    extra=probatio.REMOVE_EXTRA,
+)
+CATALOG_SCHEMA = probatio.Schema(
+    {probatio.Required("type"): "catalog"}, extra=probatio.REMOVE_EXTRA
+)
+SELECT_SCHEMA = probatio.Schema(
+    {
+        probatio.Required("type"): "select",
+        probatio.Required(CONF_FAVORITES): probatio.All(
+            [cv.entity_id], probatio.Length(max=MAX_SELECTION)
+        ),
+        probatio.Required(CONF_ENTITIES): probatio.All(
+            [cv.entity_id], probatio.Length(max=MAX_SELECTION)
+        ),
     },
     extra=probatio.REMOVE_EXTRA,
 )
@@ -85,7 +107,7 @@ async def _async_action(
     """Run an action of a tile; the answer is the tile as it stands right after."""
     entity_id = data[ATTR_ENTITY_ID]
     state = hass.states.get(entity_id)
-    if state is None or entity_id not in async_watched_entity_ids(hass, entry):
+    if state is None or entity_id not in async_watched_entity_ids(entry):
         return _error(HTTPStatus.FORBIDDEN, "not_watched")
     if (call := tile_actions(hass, state).get(data["action"])) is None:
         return _error(HTTPStatus.BAD_REQUEST, "unsupported_action")
@@ -104,6 +126,40 @@ async def _async_action(
     return _json({"tile": await async_tile(hass, entity_id)})
 
 
+async def _async_catalog(
+    hass: HomeAssistant, entry: ZeppConfigEntry, data: dict[str, Any]
+) -> Response:
+    """What the phone may choose from, and what is chosen."""
+    return _json({"catalog": async_catalog(hass), "selection": _selection(entry)})
+
+
+async def _async_select(
+    hass: HomeAssistant, entry: ZeppConfigEntry, data: dict[str, Any]
+) -> Response:
+    """Replace what the watch shows, as chosen on the phone.
+
+    Only entities exposed to Assist may come in; those already shown may stay, so
+    that what was chosen in Home Assistant survives a change made on the phone.
+    """
+    favorites = list(dict.fromkeys(data[CONF_FAVORITES]))
+    entities = list(dict.fromkeys(data[CONF_ENTITIES]))
+    allowed = async_exposed_entity_ids(hass) | async_watched_entity_ids(entry)
+    if refused := sorted({*favorites, *entities} - allowed):
+        return _error(HTTPStatus.FORBIDDEN, "not_exposed", ", ".join(refused))
+    hass.config_entries.async_update_entry(
+        entry,
+        options={**entry.options, CONF_FAVORITES: favorites, CONF_ENTITIES: entities},
+    )
+    return _json({"selection": _selection(entry)})
+
+
+def _selection(entry: ZeppConfigEntry) -> dict[str, list[str]]:
+    return {
+        CONF_FAVORITES: entry.options.get(CONF_FAVORITES, []),
+        CONF_ENTITIES: entry.options.get(CONF_ENTITIES, []),
+    }
+
+
 async def _async_voice(
     hass: HomeAssistant, entry: ZeppConfigEntry, data: dict[str, Any]
 ) -> Response:
@@ -120,7 +176,9 @@ async def _async_voice(
 
 COMMANDS: dict[str, tuple[probatio.Schema, Handler]] = {
     "action": (ACTION_SCHEMA, _async_action),
+    "catalog": (CATALOG_SCHEMA, _async_catalog),
     "pages": (PAGES_SCHEMA, _async_pages),
+    "select": (SELECT_SCHEMA, _async_select),
     "voice": (VOICE_SCHEMA, _async_voice),
 }
 

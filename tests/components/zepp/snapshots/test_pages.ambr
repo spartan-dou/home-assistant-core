@@ -36,16 +36,6 @@
             'actions': list([
             ]),
             'available': True,
-            'domain': 'binary_sensor',
-            'id': 'binary_sensor.cuisine_fenetre',
-            'name': 'Fenêtre',
-            'on': True,
-            'state': 'Open',
-          }),
-          dict({
-            'actions': list([
-            ]),
-            'available': True,
             'domain': 'sensor',
             'id': 'sensor.cuisine_temperature',
             'name': 'Température',
@@ -53,23 +43,22 @@
             'unit': '°C',
             'value': '19.5',
           }),
+          dict({
+            'actions': list([
+            ]),
+            'available': True,
+            'domain': 'binary_sensor',
+            'id': 'binary_sensor.cuisine_fenetre',
+            'name': 'Fenêtre',
+            'on': True,
+            'state': 'Open',
+          }),
         ]),
       }),
       dict({
         'kind': 'area',
         'name': 'Salon',
         'tiles': list([
-          dict({
-            'actions': list([
-              'toggle',
-            ]),
-            'available': True,
-            'domain': 'light',
-            'id': 'light.salon_plafonnier',
-            'name': 'Plafonnier',
-            'on': True,
-            'state': 'On',
-          }),
           dict({
             'actions': list([
               'down',
@@ -87,12 +76,14 @@
           }),
           dict({
             'actions': list([
+              'toggle',
             ]),
-            'available': False,
-            'domain': 'media_player',
-            'id': 'media_player.salon_tv',
-            'name': 'TV',
-            'on': False,
+            'available': True,
+            'domain': 'light',
+            'id': 'light.salon_plafonnier',
+            'name': 'Plafonnier',
+            'on': True,
+            'state': 'On',
           }),
           dict({
             'actions': list([
@@ -108,6 +99,15 @@
             'state': 'Open',
             'unit': '%',
             'value': '40',
+          }),
+          dict({
+            'actions': list([
+            ]),
+            'available': False,
+            'domain': 'media_player',
+            'id': 'media_player.salon_tv',
+            'name': 'TV',
+            'on': False,
           }),
         ]),
       }),

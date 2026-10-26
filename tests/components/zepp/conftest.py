@@ -8,20 +8,16 @@ from aiohttp import ClientResponse
 from aiohttp.test_utils import TestClient
 import pytest
 
+from homeassistant.components.conversation import DOMAIN as CONVERSATION_DOMAIN
 from homeassistant.components.cover import CoverEntityFeature
-from homeassistant.components.zepp.const import (
-    CONF_AREAS,
-    CONF_FAVORITES,
-    CONF_LABEL,
-    DOMAIN,
-)
-from homeassistant.const import CONF_WEBHOOK_ID
+from homeassistant.components.homeassistant.exposed_entities import async_expose_entity
+from homeassistant.components.zepp.const import CONF_AREAS, CONF_FAVORITES, DOMAIN
+from homeassistant.const import CONF_ENTITIES, CONF_WEBHOOK_ID
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
     entity_registry as er,
-    label_registry as lr,
 )
 from homeassistant.setup import async_setup_component
 
@@ -30,7 +26,17 @@ from tests.typing import ClientSessionGenerator
 
 WEBHOOK_ID = "0123456789abcdef" * 4
 WEBHOOK_PATH = f"/api/webhook/{WEBHOOK_ID}"
-LABEL = "montre"
+FAVORITES = ["script.maison_bonne_nuit", "light.salon_plafonnier"]
+ENTITIES = [
+    "climate.salon_poele_thermostat",
+    "light.salon_plafonnier",
+    "cover.salon_volet",
+    "media_player.salon_tv",
+    "light.salon_lampe",
+    "sensor.cuisine_temperature",
+    "binary_sensor.cuisine_fenetre",
+    "lock.entree_porte",
+]
 
 type Post = Callable[[Any], Awaitable[ClientResponse]]
 
@@ -42,14 +48,14 @@ def mock_tts_cache_dir_autouse(mock_tts_cache_dir: Path) -> None:
 
 @pytest.fixture
 def mock_config_entry() -> MockConfigEntry:
-    """A watch with two favorites, the kitchen first, then its label by area."""
+    """A watch with two favorites, then its entities by area, the kitchen first."""
     return MockConfigEntry(
         domain=DOMAIN,
         title="Balance",
         data={CONF_WEBHOOK_ID: WEBHOOK_ID},
         options={
-            CONF_FAVORITES: ["script.maison_bonne_nuit", "light.salon_plafonnier"],
-            CONF_LABEL: LABEL,
+            CONF_FAVORITES: FAVORITES,
+            CONF_ENTITIES: ENTITIES,
             CONF_AREAS: ["cuisine"],
         },
     )
@@ -79,17 +85,16 @@ def post(client: TestClient) -> Post:
 
 
 @pytest.fixture
-def house(
+async def house(
     hass: HomeAssistant,
     area_registry: ar.AreaRegistry,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
-    label_registry: lr.LabelRegistry,
 ) -> None:
-    """A living room and a kitchen, part of them labelled for the watch."""
+    """A living room and a kitchen; what is exposed to Assist is set explicitly."""
+    assert await async_setup_component(hass, "homeassistant", {})
     devices_entry = MockConfigEntry(domain="test")
     devices_entry.add_to_hass(hass)
-    label_registry.async_create("Montre")
     salon = area_registry.async_create("Salon")
     cuisine = area_registry.async_create("Cuisine")
 
@@ -98,7 +103,7 @@ def house(
         state: str,
         attributes: dict[str, Any],
         *,
-        labelled: bool = True,
+        exposed: bool = True,
         area_id: str | None = None,
         device_area_id: str | None = None,
         **registry: Any,
@@ -120,10 +125,11 @@ def house(
             device_id=device_id,
             **registry,
         )
-        entity_registry.async_update_entity(
-            entity_id, area_id=area_id, labels={LABEL} if labelled else set()
-        )
-        hass.states.async_set(entity_id, state, attributes)
+        registry_entry = entity_registry.async_update_entity(entity_id, area_id=area_id)
+        # A disabled entity has no state, like in Home Assistant.
+        if registry_entry.disabled_by is None:
+            hass.states.async_set(entity_id, state, attributes)
+        async_expose_entity(hass, CONVERSATION_DOMAIN, entity_id, exposed)
 
     add(
         "light.salon_plafonnier",
@@ -188,13 +194,21 @@ def house(
         {"friendly_name": "Cuisine Fenêtre", "device_class": "window"},
         area_id=cuisine.id,
     )
-    add("lock.entree_porte", "locked", {"friendly_name": "Entrée Porte"})
+    # Chosen in Home Assistant, though not exposed to Assist.
     add(
-        "switch.garage_prise",
+        "lock.entree_porte",
+        "locked",
+        {"friendly_name": "Entrée Porte"},
+        exposed=False,
+    )
+    add("switch.garage_prise", "off", {"friendly_name": "Garage Prise"})
+    add(
+        "fan.chambre_ventilateur",
         "off",
-        {"friendly_name": "Garage Prise"},
-        labelled=False,
+        {"friendly_name": "Chambre Ventilateur"},
+        exposed=False,
     )
     hass.states.async_set(
         "script.maison_bonne_nuit", "off", {"friendly_name": "Maison Bonne nuit"}
     )
+    async_expose_entity(hass, CONVERSATION_DOMAIN, "script.maison_bonne_nuit", True)

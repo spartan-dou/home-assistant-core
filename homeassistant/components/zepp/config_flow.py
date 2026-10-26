@@ -11,7 +11,7 @@ from homeassistant.config_entries import (
     ConfigFlowResult,
     OptionsFlow,
 )
-from homeassistant.const import CONF_WEBHOOK_ID
+from homeassistant.const import CONF_ENTITIES, CONF_WEBHOOK_ID
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.network import NoURLAvailableError
 from homeassistant.helpers.selector import (
@@ -20,10 +20,9 @@ from homeassistant.helpers.selector import (
     AssistPipelineSelector,
     EntitySelector,
     EntitySelectorConfig,
-    LabelSelector,
 )
 
-from .const import CONF_AREAS, CONF_FAVORITES, CONF_LABEL, CONF_PIPELINE, DOMAIN
+from .const import CONF_AREAS, CONF_FAVORITES, CONF_PIPELINE, DOMAIN
 
 TITLE = "Zepp OS"
 
@@ -32,7 +31,9 @@ OPTIONS_SCHEMA = probatio.Schema(
         probatio.Optional(CONF_FAVORITES, default=[]): EntitySelector(
             EntitySelectorConfig(multiple=True, reorder=True)
         ),
-        probatio.Optional(CONF_LABEL): LabelSelector(),
+        probatio.Optional(CONF_ENTITIES, default=[]): EntitySelector(
+            EntitySelectorConfig(multiple=True, reorder=True)
+        ),
         probatio.Optional(CONF_AREAS, default=[]): AreaSelector(
             AreaSelectorConfig(multiple=True, reorder=True)
         ),
@@ -82,7 +83,7 @@ class ZeppOptionsFlow(OptionsFlow):
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
-        """Edit the favorites, the label, the order of the areas and the pipeline."""
+        """Edit the favorites, the entities, the order of the areas and the pipeline."""
         if user_input is not None:
             return self.async_create_entry(data=user_input)
         return self.async_show_form(
