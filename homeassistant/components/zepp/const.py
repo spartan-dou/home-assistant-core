@@ -15,6 +15,10 @@ CONF_AREAS = "areas"
 CONF_FAVORITES = "favorites"
 CONF_PIPELINE = "pipeline"
 CONF_SHORTCUTS = "shortcuts"
+CONF_GROUPS = "groups"
+
+# What a group acts on: all the lights, or all the switches, of an area or a label.
+GROUP_DOMAINS = ("light", "switch")
 
 # What the phone may choose at once: well beyond what a watch page can show.
 MAX_SELECTION = 200

@@ -8,6 +8,7 @@ import pytest
 from homeassistant.components.zepp.const import (
     CONF_AREAS,
     CONF_FAVORITES,
+    CONF_GROUPS,
     CONF_PIPELINE,
     CONF_SHORTCUTS,
     DOMAIN,
@@ -75,7 +76,7 @@ async def test_options_flow(
     )
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
-    assert mock_config_entry.options == {**options, CONF_SHORTCUTS: []}
+    assert mock_config_entry.options == {**options, CONF_SHORTCUTS: [], CONF_GROUPS: []}
 
 
 async def test_options_flow_keeps_shortcuts(hass: HomeAssistant) -> None:
@@ -104,4 +105,5 @@ async def test_options_flow_keeps_shortcuts(hass: HomeAssistant) -> None:
         CONF_ENTITIES: [],
         CONF_AREAS: [],
         CONF_SHORTCUTS: [shortcut],
+        CONF_GROUPS: [],
     }
