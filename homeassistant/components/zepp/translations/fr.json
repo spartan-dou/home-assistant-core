@@ -1,7 +1,7 @@
 {
   "config": {
     "create_entry": {
-      "default": "Dans l'application Zepp, ouvrir les réglages de la mini-app Home Assistant et y coller cette adresse :\n\n`{url}`\n\nC'est la seule clé de la montre : la garder pour soi. Choisir ensuite dans les options de l'intégration ce qu'affiche la montre."
+      "default": "Dans l'application Zepp, ouvrir les réglages de la mini-app Home Assistant et y coller cette adresse :\n\n`{url}`\n\nC'est la seule clé de la montre : la garder pour soi. Choisir ensuite ce qu'affiche la montre, dans les réglages de son app ou dans les options de l'intégration."
     },
     "step": {
       "user": {
@@ -14,14 +14,14 @@
       "init": {
         "data": {
           "areas": "Ordre des pièces",
+          "entities": "Entités affichées",
           "favorites": "Favoris",
-          "label": "Étiquette",
           "pipeline": "Pipeline Assist"
         },
         "data_description": {
           "areas": "Ces pièces viennent en premier, dans cet ordre ; les autres suivent par nom.",
+          "entities": "Une page par pièce, dans cet ordre. Elles se choisissent aussi dans les réglages de l'app de la montre, parmi les entités exposées à Assist.",
           "favorites": "La première page de la montre, dans cet ordre.",
-          "label": "Les entités portant cette étiquette ont une page par pièce.",
           "pipeline": "Répond aux messages vocaux. Le pipeline préféré si vide."
         },
         "description": "Adresse de la montre, à coller dans son application : `{url}`"
