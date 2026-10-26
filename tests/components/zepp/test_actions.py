@@ -64,7 +64,7 @@ async def test_action(
             "toggle",
             HTTPStatus.FORBIDDEN,
             "not_watched",
-            id="unlabelled",
+            id="not_shown",
         ),
         pytest.param(
             "light.salon_lampe",
