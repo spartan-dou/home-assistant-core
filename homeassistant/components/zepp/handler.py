@@ -12,7 +12,13 @@ from aiohttp import hdrs
 from aiohttp.web import Request, Response, json_response
 import probatio
 
-from homeassistant.const import ATTR_ENTITY_ID, CONF_API_KEY, CONF_ENTITIES
+from homeassistant.components.script import DOMAIN as SCRIPT_DOMAIN
+from homeassistant.const import (
+    ATTR_ENTITY_ID,
+    CONF_API_KEY,
+    CONF_ENTITIES,
+    SERVICE_TURN_ON,
+)
 from homeassistant.core import Context, HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
@@ -21,10 +27,12 @@ from homeassistant.helpers.json import json_dumps
 
 from .const import (
     CONF_FAVORITES,
+    CONF_SHORTCUTS,
     DOMAIN,
     MAX_AUDIO_LENGTH,
     MAX_NAME_LENGTH,
     MAX_SELECTION,
+    MAX_SHORTCUTS,
     PAIR_STATUS_URL,
     PAIR_URL,
     PAIRING_TIMEOUT,
@@ -36,6 +44,8 @@ from .tiles import (
     async_catalog,
     async_exposed_entity_ids,
     async_pages,
+    async_script_fields,
+    async_shortcut_tile,
     async_tile,
     async_watched_entity_ids,
     tile_actions,
@@ -72,6 +82,33 @@ SELECT_SCHEMA = probatio.Schema(
             [cv.entity_id], probatio.Length(max=MAX_SELECTION)
         ),
     },
+    extra=probatio.REMOVE_EXTRA,
+)
+VARIABLE = probatio.Any(str, int, float, bool)
+SHORTCUT_SCHEMA = probatio.Schema(
+    {
+        probatio.Required("id"): probatio.All(str, probatio.Match(r"^[a-z0-9]{1,16}$")),
+        probatio.Required("name"): probatio.All(
+            str, probatio.Strip, probatio.Length(min=1, max=MAX_NAME_LENGTH)
+        ),
+        probatio.Required(ATTR_ENTITY_ID): cv.entity_domain(SCRIPT_DOMAIN),
+        probatio.Optional("variables", default={}): {
+            str: probatio.Any(VARIABLE, [VARIABLE])
+        },
+    },
+    extra=probatio.REMOVE_EXTRA,
+)
+SHORTCUTS_SCHEMA = probatio.Schema(
+    {
+        probatio.Required("type"): "shortcuts",
+        probatio.Required(CONF_SHORTCUTS): probatio.All(
+            [SHORTCUT_SCHEMA], probatio.Length(max=MAX_SHORTCUTS)
+        ),
+    },
+    extra=probatio.REMOVE_EXTRA,
+)
+RUN_SHORTCUT_SCHEMA = probatio.Schema(
+    {probatio.Required("type"): "shortcut", probatio.Required("id"): str},
     extra=probatio.REMOVE_EXTRA,
 )
 VOICE_SCHEMA = probatio.Schema(
@@ -236,7 +273,13 @@ async def _async_catalog(
     hass: HomeAssistant, entry: ZeppConfigEntry, data: dict[str, Any]
 ) -> Response:
     """What the phone may choose from, and what is chosen."""
-    return _json({"catalog": await async_catalog(hass), "selection": _selection(entry)})
+    return _json(
+        {
+            "catalog": await async_catalog(hass),
+            "selection": _selection(entry),
+            CONF_SHORTCUTS: entry.options.get(CONF_SHORTCUTS, []),
+        }
+    )
 
 
 async def _async_select(
@@ -257,6 +300,67 @@ async def _async_select(
         options={**entry.options, CONF_FAVORITES: favorites, CONF_ENTITIES: entities},
     )
     return _json({"selection": _selection(entry)})
+
+
+async def _async_shortcuts(
+    hass: HomeAssistant, entry: ZeppConfigEntry, data: dict[str, Any]
+) -> Response:
+    """Replace the shortcuts: scripts exposed to Assist, with values for their fields.
+
+    As with entities, a script already in a shortcut may stay once unexposed.
+    """
+    shortcuts = data[CONF_SHORTCUTS]
+    if len({shortcut["id"] for shortcut in shortcuts}) != len(shortcuts):
+        return _error(HTTPStatus.BAD_REQUEST, "invalid_request", "duplicate id")
+    allowed = async_exposed_entity_ids(hass) | {
+        shortcut[ATTR_ENTITY_ID] for shortcut in entry.options.get(CONF_SHORTCUTS, [])
+    }
+    scripts = {shortcut[ATTR_ENTITY_ID] for shortcut in shortcuts}
+    if refused := sorted(scripts - allowed):
+        return _error(HTTPStatus.FORBIDDEN, "not_exposed", ", ".join(refused))
+    for shortcut in shortcuts:
+        fields = async_script_fields(hass, shortcut[ATTR_ENTITY_ID])
+        if unknown := sorted(set(shortcut["variables"]) - set(fields)):
+            return _error(
+                HTTPStatus.BAD_REQUEST,
+                "unknown_field",
+                f"{shortcut[ATTR_ENTITY_ID]}: {', '.join(unknown)}",
+            )
+    hass.config_entries.async_update_entry(
+        entry, options={**entry.options, CONF_SHORTCUTS: shortcuts}
+    )
+    return _json({CONF_SHORTCUTS: shortcuts})
+
+
+async def _async_run_shortcut(
+    hass: HomeAssistant, entry: ZeppConfigEntry, data: dict[str, Any]
+) -> Response:
+    """Start the script of a shortcut with its values."""
+    shortcut = next(
+        (
+            shortcut
+            for shortcut in entry.options.get(CONF_SHORTCUTS, [])
+            if shortcut["id"] == data["id"]
+        ),
+        None,
+    )
+    if shortcut is None:
+        return _error(HTTPStatus.FORBIDDEN, "not_watched")
+    try:
+        await hass.services.async_call(
+            SCRIPT_DOMAIN,
+            SERVICE_TURN_ON,
+            {
+                ATTR_ENTITY_ID: shortcut[ATTR_ENTITY_ID],
+                "variables": shortcut["variables"],
+            },
+            blocking=True,
+            context=Context(),
+        )
+    except (HomeAssistantError, probatio.Invalid) as err:
+        _LOGGER.warning("Shortcut %s failed: %s", shortcut["name"], err)
+        return _error(HTTPStatus.UNPROCESSABLE_ENTITY, "action_failed", str(err))
+    return _json({"tile": async_shortcut_tile(hass, shortcut)})
 
 
 def _selection(entry: ZeppConfigEntry) -> dict[str, list[str]]:
@@ -285,6 +389,8 @@ COMMANDS: dict[str, tuple[probatio.Schema, Handler]] = {
     "catalog": (CATALOG_SCHEMA, _async_catalog),
     "pages": (PAGES_SCHEMA, _async_pages),
     "select": (SELECT_SCHEMA, _async_select),
+    "shortcut": (RUN_SHORTCUT_SCHEMA, _async_run_shortcut),
+    "shortcuts": (SHORTCUTS_SCHEMA, _async_shortcuts),
     "voice": (VOICE_SCHEMA, _async_voice),
 }
 
