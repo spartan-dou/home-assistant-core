@@ -1,11 +1,11 @@
 {
   "config": {
     "create_entry": {
-      "default": "Dans l'application Zepp, ouvrir les réglages de la mini-app Home Assistant et y coller cette adresse :\n\n`{url}`\n\nC'est la seule clé de la montre : la garder pour soi. Choisir ensuite ce qu'affiche la montre, dans les réglages de son app ou dans les options de l'intégration."
+      "default": "Dans l'application Zepp, ouvrir les réglages de la mini-app Home Assistant et y coller :\n\n- l'adresse : `{url}`\n- la clé : `{key}`\n\nLa clé est le seul secret de la montre : la garder pour soi. Choisir ensuite ce qu'affiche la montre, dans les réglages de son app ou dans les options de l'intégration."
     },
     "step": {
       "user": {
-        "description": "Ajoute une montre sous Zepp OS, que son téléphone relie par un webhook qui lui est propre. Pour distinguer plusieurs montres, les renommer ensuite."
+        "description": "Ajoute une montre sous Zepp OS, que son téléphone relie avec une clé qui lui est propre. Pour distinguer plusieurs montres, les renommer ensuite."
       }
     }
   },
@@ -24,7 +24,7 @@
           "favorites": "La première page de la montre, dans cet ordre.",
           "pipeline": "Répond aux messages vocaux. Le pipeline préféré si vide."
         },
-        "description": "Adresse de la montre, à coller dans son application : `{url}`"
+        "description": "À coller dans les réglages de l'app de la montre — adresse : `{url}`, clé : `{key}`"
       }
     }
   }

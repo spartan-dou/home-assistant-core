@@ -92,7 +92,7 @@ NUMERIC_DOMAINS = {"input_number", "number", "sensor"}
 def tile_actions(hass: HomeAssistant, state: State) -> Actions:
     """Map each action of a tile to the service it calls and its data, the entity aside.
 
-    Locks and alarm panels stay read-only: the webhook id is the only secret.
+    Locks and alarm panels stay read-only: the key of the watch is its only secret.
     """
     if state.state == STATE_UNAVAILABLE:
         return {}
@@ -142,7 +142,7 @@ def async_watched_entity_ids(entry: ZeppConfigEntry) -> set[str]:
 def async_exposed_entity_ids(hass: HomeAssistant) -> set[str]:
     """Return the entities exposed to Assist: those the phone may add to the watch.
 
-    Voice messages already reach them through the same webhook.
+    Voice messages already reach them with the same key.
     """
     return {state.entity_id for state in _exposed_states(hass)}
 

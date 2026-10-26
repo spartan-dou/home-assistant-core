@@ -4,6 +4,8 @@ from homeassistant.config_entries import ConfigEntry
 
 DOMAIN = "zepp"
 
+URL = "/api/zepp"
+
 # The runtime data of a watch is the id of its device.
 type ZeppConfigEntry = ConfigEntry[str]
 

@@ -1,22 +1,32 @@
-"""The webhook the watch's phone calls: pages, actions, voice, and what to show."""
+"""The route the phones call: pages, actions, voice, and what to show."""
 
 import base64
 import binascii
 from collections.abc import Awaitable, Callable
+import hmac
 from http import HTTPStatus
 import logging
 from typing import Any
 
+from aiohttp import hdrs
 from aiohttp.web import Request, Response, json_response
 import probatio
 
-from homeassistant.const import ATTR_ENTITY_ID, CONF_ENTITIES
+from homeassistant.const import ATTR_ENTITY_ID, CONF_API_KEY, CONF_ENTITIES
 from homeassistant.core import Context, HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers.http import KEY_HASS, HomeAssistantView
 from homeassistant.helpers.json import json_dumps
 
-from .const import CONF_FAVORITES, MAX_AUDIO_LENGTH, MAX_SELECTION, ZeppConfigEntry
+from .const import (
+    CONF_FAVORITES,
+    DOMAIN,
+    MAX_AUDIO_LENGTH,
+    MAX_SELECTION,
+    URL,
+    ZeppConfigEntry,
+)
 from .tiles import (
     async_catalog,
     async_exposed_entity_ids,
@@ -71,14 +81,20 @@ VOICE_SCHEMA = probatio.Schema(
 )
 
 
-def async_webhook_handler(
-    entry: ZeppConfigEntry,
-) -> Callable[[HomeAssistant, str, Request], Awaitable[Response]]:
-    """Return the handler of the webhook of a watch."""
+class ZeppView(HomeAssistantView):
+    """The route of all the watches; the key in the request tells which one."""
 
-    async def handle(
-        hass: HomeAssistant, webhook_id: str, request: Request
-    ) -> Response:
+    url = URL
+    name = "api:zepp"
+    # The key of a watch takes the place of Home Assistant credentials: it travels
+    # in a header, never in the address, so no access log keeps it.
+    requires_auth = False
+
+    async def post(self, request: Request) -> Response:
+        """Answer the watch whose key comes as a bearer token."""
+        hass = request.app[KEY_HASS]
+        if (entry := _async_watch(hass, request)) is None:
+            return _error(HTTPStatus.UNAUTHORIZED, "unauthorized")
         try:
             body = await request.json()
         except ValueError:
@@ -92,7 +108,17 @@ def async_webhook_handler(
             return _error(HTTPStatus.BAD_REQUEST, "invalid_request", str(err))
         return await command(hass, entry, data)
 
-    return handle
+
+def _async_watch(hass: HomeAssistant, request: Request) -> ZeppConfigEntry | None:
+    """Return the loaded watch with this key, comparing every key in constant time."""
+    scheme, _, key = request.headers.get(hdrs.AUTHORIZATION, "").partition(" ")
+    if scheme != "Bearer" or not key:
+        return None
+    found = None
+    for entry in hass.config_entries.async_loaded_entries(DOMAIN):
+        if hmac.compare_digest(entry.data[CONF_API_KEY].encode(), key.encode()):
+            found = entry
+    return found
 
 
 async def _async_pages(

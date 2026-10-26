@@ -12,13 +12,13 @@ from homeassistant.components.zepp.const import (
     DOMAIN,
 )
 from homeassistant.config_entries import SOURCE_USER
-from homeassistant.const import CONF_ENTITIES, CONF_WEBHOOK_ID
+from homeassistant.const import CONF_API_KEY, CONF_ENTITIES
 from homeassistant.core import HomeAssistant
 from homeassistant.core_config import async_process_ha_core_config
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.setup import async_setup_component
 
-from .conftest import WEBHOOK_ID
+from .conftest import KEY
 
 from tests.common import MockConfigEntry
 
@@ -43,27 +43,28 @@ async def external_url(hass: HomeAssistant) -> None:
 
 
 async def test_user_flow(hass: HomeAssistant) -> None:
-    """A watch gets a webhook of its own, whose address is shown."""
+    """A watch gets a key of its own, shown with the address of the route."""
     result = await hass.config_entries.flow.async_init(
         DOMAIN, context={"source": SOURCE_USER}
     )
     assert result["type"] is FlowResultType.FORM
 
     with patch(
-        "homeassistant.components.zepp.config_flow.webhook.async_generate_id",
-        return_value=WEBHOOK_ID,
+        "homeassistant.components.zepp.config_flow.secrets.token_hex",
+        return_value=KEY,
     ):
         result = await hass.config_entries.flow.async_configure(result["flow_id"], {})
 
     assert result["type"] is FlowResultType.CREATE_ENTRY
     assert result["title"] == "Zepp OS"
-    assert result["data"] == {CONF_WEBHOOK_ID: WEBHOOK_ID}
+    assert result["data"] == {CONF_API_KEY: KEY}
     assert result["description_placeholders"] == {
-        "url": f"https://ha.example.com/api/webhook/{WEBHOOK_ID}"
+        "url": "https://ha.example.com/api/zepp",
+        "key": KEY,
     }
 
 
-async def test_two_watches_get_two_webhooks(hass: HomeAssistant) -> None:
+async def test_two_watches_get_two_keys(hass: HomeAssistant) -> None:
     """Each watch can be removed without the other losing its access."""
     for _ in range(2):
         result = await hass.config_entries.flow.async_init(
@@ -71,24 +72,24 @@ async def test_two_watches_get_two_webhooks(hass: HomeAssistant) -> None:
         )
         await hass.config_entries.flow.async_configure(result["flow_id"], {})
 
-    webhook_ids = {
-        entry.data[CONF_WEBHOOK_ID]
-        for entry in hass.config_entries.async_entries(DOMAIN)
+    keys = {
+        entry.data[CONF_API_KEY] for entry in hass.config_entries.async_entries(DOMAIN)
     }
-    assert len(webhook_ids) == 2
+    assert len(keys) == 2
 
 
 async def test_options_flow(
     hass: HomeAssistant, mock_config_entry: MockConfigEntry
 ) -> None:
-    """The options show the address again, and keep what the watch shows."""
+    """The options show the address and the key again, and keep what the watch shows."""
     mock_config_entry.add_to_hass(hass)
 
     result = await hass.config_entries.options.async_init(mock_config_entry.entry_id)
 
     assert result["type"] is FlowResultType.FORM
     assert result["description_placeholders"] == {
-        "url": f"https://ha.example.com/api/webhook/{WEBHOOK_ID}"
+        "url": "https://ha.example.com/api/zepp",
+        "key": KEY,
     }
 
     options = {
