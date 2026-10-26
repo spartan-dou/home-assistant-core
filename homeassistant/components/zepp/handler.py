@@ -35,16 +35,19 @@ from homeassistant.helpers.json import json_dumps
 from .const import (
     CONF_FAVORITES,
     CONF_GROUPS,
+    CONF_ORDER,
     CONF_SHORTCUTS,
     DOMAIN,
     GROUP_DOMAINS,
     MAX_AUDIO_LENGTH,
     MAX_NAME_LENGTH,
+    MAX_ORDER,
     MAX_SELECTION,
     MAX_SHORTCUTS,
     PAIR_STATUS_URL,
     PAIR_URL,
     PAIRING_TIMEOUT,
+    ROOM,
     URL,
     ZeppConfigEntry,
 )
@@ -109,6 +112,7 @@ SHORTCUT_SCHEMA = probatio.Schema(
         probatio.Optional("variables", default={}): {
             str: probatio.Any(VARIABLE, [VARIABLE])
         },
+        probatio.Optional(ROOM): str,
     },
     extra=probatio.REMOVE_EXTRA,
 )
@@ -129,6 +133,7 @@ GROUP_SCHEMA = probatio.All(
             probatio.Required("domain"): probatio.In(GROUP_DOMAINS),
             probatio.Optional(ATTR_AREA_ID): str,
             probatio.Optional(ATTR_LABEL_ID): str,
+            probatio.Optional(ROOM): str,
         },
         extra=probatio.REMOVE_EXTRA,
     ),
@@ -147,6 +152,16 @@ TILE_SCHEMA = probatio.Schema(
     {
         probatio.Required("type"): "tile",
         probatio.Required(ATTR_ENTITY_ID): cv.entity_id,
+    },
+    extra=probatio.REMOVE_EXTRA,
+)
+ORDER_SCHEMA = probatio.Schema(
+    {
+        probatio.Required("type"): "order",
+        probatio.Required(CONF_ORDER): probatio.All(
+            [probatio.All(str, probatio.Length(max=300))],
+            probatio.Length(max=MAX_ORDER),
+        ),
     },
     extra=probatio.REMOVE_EXTRA,
 )
@@ -345,6 +360,7 @@ async def _async_catalog(
             "selection": _selection(entry),
             CONF_SHORTCUTS: entry.options.get(CONF_SHORTCUTS, []),
             CONF_GROUPS: entry.options.get(CONF_GROUPS, []),
+            CONF_ORDER: entry.options.get(CONF_ORDER, []),
             **async_targets(hass),
         }
     )
@@ -386,7 +402,10 @@ async def _async_shortcuts(
     scripts = {shortcut[ATTR_ENTITY_ID] for shortcut in shortcuts}
     if refused := sorted(scripts - allowed):
         return _error(HTTPStatus.FORBIDDEN, "not_exposed", ", ".join(refused))
+    areas = {area.id for area in ar.async_get(hass).async_list_areas()}
     for shortcut in shortcuts:
+        if shortcut.get(ROOM) not in {*areas, None}:
+            return _error(HTTPStatus.BAD_REQUEST, "unknown_target", shortcut["name"])
         fields = async_script_fields(hass, shortcut[ATTR_ENTITY_ID])
         if unknown := sorted(set(shortcut["variables"]) - set(fields)):
             return _error(
@@ -442,14 +461,29 @@ async def _async_groups(
     labels = {label.label_id for label in lr.async_get(hass).async_list_labels()}
     for group in groups:
         # Absent, a target is None: the other one alone decides.
-        if group.get(ATTR_AREA_ID) not in {*areas, None} or group.get(
-            ATTR_LABEL_ID
-        ) not in {*labels, None}:
+        if (
+            group.get(ATTR_AREA_ID) not in {*areas, None}
+            or group.get(ATTR_LABEL_ID) not in {*labels, None}
+            or group.get(ROOM) not in {*areas, None}
+        ):
             return _error(HTTPStatus.BAD_REQUEST, "unknown_target", group["name"])
     hass.config_entries.async_update_entry(
         entry, options={**entry.options, CONF_GROUPS: groups}
     )
     return _json({CONF_GROUPS: groups})
+
+
+async def _async_order(
+    hass: HomeAssistant, entry: ZeppConfigEntry, data: dict[str, Any]
+) -> Response:
+    """Replace the order of the tiles within their pages, as arranged on the phone.
+
+    Only ranks: what a page shows is chosen elsewhere, an unknown key is ignored.
+    """
+    hass.config_entries.async_update_entry(
+        entry, options={**entry.options, CONF_ORDER: data[CONF_ORDER]}
+    )
+    return _json({CONF_ORDER: data[CONF_ORDER]})
 
 
 async def _async_run_group(
@@ -509,6 +543,7 @@ COMMANDS: dict[str, tuple[probatio.Schema, Handler]] = {
     "catalog": (CATALOG_SCHEMA, _async_catalog),
     "group": (RUN_GROUP_SCHEMA, _async_run_group),
     "groups": (GROUPS_SCHEMA, _async_groups),
+    "order": (ORDER_SCHEMA, _async_order),
     "pages": (PAGES_SCHEMA, _async_pages),
     "select": (SELECT_SCHEMA, _async_select),
     "shortcut": (RUN_SHORTCUT_SCHEMA, _async_run_shortcut),

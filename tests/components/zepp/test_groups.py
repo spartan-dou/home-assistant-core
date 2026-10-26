@@ -143,3 +143,37 @@ async def test_single_tile(post: Post, entity_id: str, status: HTTPStatus) -> No
     response = await post({"type": "tile", "entity_id": entity_id})
 
     assert response.status == status
+
+
+async def test_group_placed_in_an_area_and_ordered(
+    post: Post, mock_config_entry: MockConfigEntry
+) -> None:
+    """Placed in its area, a group mixes with its entities, in the phone's order."""
+    await _async_set(post, [{**SALON, "room": "salon"}])
+    response = await post(
+        {"type": "order", "order": ["cover.salon_volet", "group:salon"]}
+    )
+    assert response.status == HTTPStatus.OK
+
+    pages = (await (await post({"type": "pages"})).json())["pages"]
+
+    assert "shortcuts" not in [page["kind"] for page in pages]
+    [salon] = [page for page in pages if page.get("name") == "Salon"]
+    # Ordered first, then the others as the options list them.
+    assert [tile["id"] for tile in salon["tiles"]] == [
+        "cover.salon_volet",
+        "group:salon",
+        "climate.salon_poele_thermostat",
+        "light.salon_plafonnier",
+        "media_player.salon_tv",
+    ]
+    catalog = await (await post({"type": "catalog"})).json()
+    assert catalog["order"] == ["cover.salon_volet", "group:salon"]
+
+
+async def test_group_in_an_unknown_room_is_refused(post: Post) -> None:
+    """A group shows in an area that exists, or on the shortcuts page."""
+    response = await _async_set(post, [{**SALON, "room": "grenier"}])
+
+    assert response.status == HTTPStatus.BAD_REQUEST
+    assert (await response.json())["error"] == "unknown_target"

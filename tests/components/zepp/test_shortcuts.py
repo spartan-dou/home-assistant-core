@@ -194,3 +194,24 @@ async def test_invalid_shortcuts(
     assert response.status == HTTPStatus.BAD_REQUEST
     assert (await response.json())["error"] == error
     assert CONF_SHORTCUTS not in mock_config_entry.options
+
+
+@pytest.mark.usefixtures("house")
+async def test_shortcut_placed_in_an_area(post: Post) -> None:
+    """A shortcut placed in an area shows there, not on the shortcuts page."""
+    response = await _async_set(post, [{**SHORTCUT, "room": "cuisine"}])
+    assert response.status == HTTPStatus.OK
+
+    pages = (await (await post({"type": "pages"})).json())["pages"]
+
+    assert "shortcuts" not in [page["kind"] for page in pages]
+    [cuisine] = [page for page in pages if page.get("name") == "Cuisine"]
+    assert cuisine["tiles"][-1]["id"] == "shortcut:arrosage10"
+
+
+async def test_shortcut_in_an_unknown_room_is_refused(post: Post) -> None:
+    """A shortcut shows in an area that exists, or on the shortcuts page."""
+    response = await _async_set(post, [{**SHORTCUT, "room": "grenier"}])
+
+    assert response.status == HTTPStatus.BAD_REQUEST
+    assert (await response.json())["error"] == "unknown_target"
