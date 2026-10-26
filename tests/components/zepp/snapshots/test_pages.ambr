@@ -114,6 +114,7 @@
             }),
             'domain': 'cover',
             'id': 'cover.salon_volet',
+            'moving': False,
             'name': 'Volet',
             'on': True,
             'state': 'Open',
