@@ -1,18 +1,29 @@
 """The Zepp OS integration: Home Assistant on an Amazfit watch."""
 
-from homeassistant.const import CONF_API_KEY, CONF_WEBHOOK_ID
-from homeassistant.core import HomeAssistant
+from homeassistant.const import CONF_API_KEY, CONF_WEBHOOK_ID, EVENT_HOMEASSISTANT_STOP
+from homeassistant.core import Event, HomeAssistant, callback
 from homeassistant.helpers import config_validation as cv, device_registry as dr
 from homeassistant.helpers.typing import ConfigType
 
 from .const import DOMAIN, ZeppConfigEntry
-from .handler import ZeppView
+from .handler import ZeppPairStatusView, ZeppPairView, ZeppView
+from .pairing import DATA_PAIRINGS, Pairings
 
-CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+# `zepp:` in the configuration opens the pairing route before any watch is added.
+CONFIG_SCHEMA = cv.empty_config_schema(DOMAIN)
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
-    """Register the route the phones call, shared by all the watches."""
+    """Register the routes the phones call, shared by all the watches."""
+    pairings = hass.data[DATA_PAIRINGS] = Pairings(hass)
+
+    @callback
+    def _async_stop(_event: Event) -> None:
+        pairings.async_cancel()
+
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, _async_stop)
+    hass.http.register_view(ZeppPairView())
+    hass.http.register_view(ZeppPairStatusView())
     hass.http.register_view(ZeppView())
     return True
 
