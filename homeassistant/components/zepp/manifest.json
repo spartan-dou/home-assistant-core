@@ -3,7 +3,7 @@
   "name": "Zepp OS",
   "codeowners": [],
   "config_flow": true,
-  "dependencies": ["assist_pipeline", "webhook"],
+  "dependencies": ["assist_pipeline", "http"],
   "documentation": "https://github.com/spartan-dou/zepp-home-assistant",
   "integration_type": "device",
   "iot_class": "local_push",
