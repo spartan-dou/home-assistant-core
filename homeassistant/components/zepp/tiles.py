@@ -1,6 +1,8 @@
 """What the watch shows: pages of tiles, and the actions each tile accepts."""
 
 from collections import defaultdict
+from collections.abc import Callable
+from dataclasses import dataclass
 import math
 from typing import Any
 
@@ -9,22 +11,40 @@ from homeassistant.components.climate import (
     ATTR_MAX_TEMP,
     ATTR_MIN_TEMP,
     ATTR_TARGET_TEMP_STEP,
+    ClimateEntityFeature,
 )
 from homeassistant.components.conversation import DOMAIN as CONVERSATION_DOMAIN
-from homeassistant.components.cover import ATTR_CURRENT_POSITION, CoverEntityFeature
+from homeassistant.components.cover import (
+    ATTR_CURRENT_POSITION,
+    ATTR_POSITION,
+    CoverEntityFeature,
+)
 from homeassistant.components.homeassistant.exposed_entities import async_should_expose
-from homeassistant.components.media_player import MediaPlayerEntityFeature
+from homeassistant.components.light import (
+    ATTR_BRIGHTNESS,
+    ATTR_BRIGHTNESS_PCT,
+    ATTR_SUPPORTED_COLOR_MODES,
+    brightness_supported,
+)
+from homeassistant.components.media_player import (
+    ATTR_MEDIA_TITLE,
+    ATTR_MEDIA_VOLUME_LEVEL,
+    MediaPlayerEntityFeature,
+)
 from homeassistant.components.script import DOMAIN as SCRIPT_DOMAIN
 from homeassistant.components.sensor import async_rounded_state
 from homeassistant.components.vacuum import VacuumEntityFeature
 from homeassistant.const import (
+    ATTR_AREA_ID,
     ATTR_DEVICE_CLASS,
     ATTR_ENTITY_ID,
+    ATTR_LABEL_ID,
     ATTR_SUPPORTED_FEATURES,
     ATTR_TEMPERATURE,
     ATTR_UNIT_OF_MEASUREMENT,
     CONF_ENTITIES,
     PERCENTAGE,
+    STATE_ON,
     STATE_UNAVAILABLE,
     STATE_UNKNOWN,
     UnitOfTemperature,
@@ -34,14 +54,58 @@ from homeassistant.helpers import (
     area_registry as ar,
     device_registry as dr,
     entity_registry as er,
+    label_registry as lr,
     translation,
 )
 from homeassistant.helpers.service import async_get_cached_service_description
+from homeassistant.helpers.target import (
+    TargetSelection,
+    async_extract_referenced_entity_ids,
+)
 
-from .const import CONF_AREAS, CONF_FAVORITES, CONF_SHORTCUTS, ZeppConfigEntry
+from .const import (
+    CONF_AREAS,
+    CONF_FAVORITES,
+    CONF_GROUPS,
+    CONF_SHORTCUTS,
+    ZeppConfigEntry,
+)
 
 type Actions = dict[str, tuple[str, dict[str, Any]]]
 type Watched = tuple[State, er.RegistryEntry | None]
+
+
+@dataclass(frozen=True, slots=True)
+class Control:
+    """The value the watch sets on an entity with its crown, or its minus and plus."""
+
+    action: str
+    service: str
+    value: float | None
+    low: float
+    high: float
+    step: float
+    unit: str | None
+    data: Callable[[float], dict[str, Any]]
+
+    def as_dict(self) -> dict[str, Any]:
+        """Describe the control as the watch draws it."""
+        return {
+            "action": self.action,
+            "value": self.value,
+            "min": self.low,
+            "max": self.high,
+            "step": self.step,
+            "unit": self.unit,
+        }
+
+    def snap(self, value: float) -> float | None:
+        """Round a value to the step, or None outside the bounds."""
+        if not self.low <= value <= self.high:
+            return None
+        steps = round((value - self.low) / self.step)
+        return round(min(self.high, self.low + steps * self.step), 2)
+
 
 ACTIVE_STATES = {
     "auto",
@@ -78,6 +142,7 @@ FEATURE_ACTIONS: dict[str, tuple[tuple[str, str, int], ...]] = {
         ("close", "close_cover", CoverEntityFeature.CLOSE),
     ),
     "media_player": (
+        ("previous", "media_previous_track", MediaPlayerEntityFeature.PREVIOUS_TRACK),
         ("play_pause", "media_play_pause", MediaPlayerEntityFeature.PAUSE),
         ("next", "media_next_track", MediaPlayerEntityFeature.NEXT_TRACK),
     ),
@@ -106,9 +171,13 @@ def _actions(hass: HomeAssistant, state: State) -> Actions:
     if simple := SIMPLE_ACTIONS.get(state.domain):
         action, service = simple
         return {action: (service, {})}
-    if state.domain == "climate":
-        return _setpoint_actions(hass, state)
     features = state.attributes.get(ATTR_SUPPORTED_FEATURES, 0)
+    if state.domain == "climate":
+        actions = _setpoint_actions(hass, state)
+        on_off = ClimateEntityFeature.TURN_ON | ClimateEntityFeature.TURN_OFF
+        if features & on_off == on_off:
+            actions["toggle"] = ("toggle", {})
+        return actions
     return {
         action: (service, {})
         for action, service, feature in FEATURE_ACTIONS.get(state.domain, ())
@@ -116,14 +185,78 @@ def _actions(hass: HomeAssistant, state: State) -> Actions:
     }
 
 
+def tile_control(hass: HomeAssistant, state: State) -> Control | None:
+    """Return the value the watch may set, bounded as the entity allows."""
+    if state.state == STATE_UNAVAILABLE:
+        return None
+    attributes = state.attributes
+    features = attributes.get(ATTR_SUPPORTED_FEATURES, 0)
+    if state.domain == "light" and brightness_supported(
+        attributes.get(ATTR_SUPPORTED_COLOR_MODES)
+    ):
+        brightness = attributes.get(ATTR_BRIGHTNESS)
+        return Control(
+            "brightness",
+            "turn_on",
+            None if brightness is None else round(brightness * 100 / 255),
+            1,
+            100,
+            1,
+            PERCENTAGE,
+            lambda value: {ATTR_BRIGHTNESS_PCT: value},
+        )
+    if state.domain == "cover" and features & CoverEntityFeature.SET_POSITION:
+        return Control(
+            "position",
+            "set_cover_position",
+            attributes.get(ATTR_CURRENT_POSITION),
+            0,
+            100,
+            1,
+            PERCENTAGE,
+            lambda value: {ATTR_POSITION: int(value)},
+        )
+    if state.domain == "climate" and (target := attributes.get(ATTR_TEMPERATURE)):
+        return Control(
+            "temperature",
+            "set_temperature",
+            target,
+            attributes.get(ATTR_MIN_TEMP, target - 10),
+            attributes.get(ATTR_MAX_TEMP, target + 10),
+            _setpoint_step(hass, state),
+            hass.config.units.temperature_unit,
+            lambda value: {ATTR_TEMPERATURE: value},
+        )
+    if (
+        state.domain == "media_player"
+        and features & MediaPlayerEntityFeature.VOLUME_SET
+    ):
+        level = attributes.get(ATTR_MEDIA_VOLUME_LEVEL)
+        return Control(
+            "volume",
+            "volume_set",
+            None if level is None else round(level * 100),
+            0,
+            100,
+            1,
+            PERCENTAGE,
+            lambda value: {ATTR_MEDIA_VOLUME_LEVEL: value / 100},
+        )
+    return None
+
+
+def _setpoint_step(hass: HomeAssistant, state: State) -> float:
+    return state.attributes.get(ATTR_TARGET_TEMP_STEP) or (
+        0.5 if hass.config.units.temperature_unit == UnitOfTemperature.CELSIUS else 1
+    )
+
+
 def _setpoint_actions(hass: HomeAssistant, state: State) -> Actions:
     """Lower or raise a single setpoint by its step, within the entity's bounds."""
     attributes = state.attributes
     if (target := attributes.get(ATTR_TEMPERATURE)) is None:
         return {}
-    step = attributes.get(ATTR_TARGET_TEMP_STEP) or (
-        0.5 if hass.config.units.temperature_unit == UnitOfTemperature.CELSIUS else 1
-    )
+    step = _setpoint_step(hass, state)
     low = attributes.get(ATTR_MIN_TEMP, -math.inf)
     high = attributes.get(ATTR_MAX_TEMP, math.inf)
     return {
@@ -239,6 +372,71 @@ def async_shortcut_tile(
     }
 
 
+def async_group_members(hass: HomeAssistant, group: dict[str, Any]) -> list[str]:
+    """Return what a group acts on: its domain, in its area and with its label.
+
+    Only entities exposed to Assist, as for everything the phone chooses.
+    """
+    found: set[str] | None = None
+    for key in (ATTR_AREA_ID, ATTR_LABEL_ID):
+        if group.get(key) is None:
+            continue
+        selected = async_extract_referenced_entity_ids(
+            hass, TargetSelection({key: group[key]})
+        )
+        targeted = selected.referenced | selected.indirectly_referenced
+        found = targeted if found is None else found & targeted
+    exposed = async_exposed_entity_ids(hass)
+    return sorted(
+        entity_id
+        for entity_id in found or ()
+        if entity_id.split(".", maxsplit=1)[0] == group["domain"]
+        and entity_id in exposed
+    )
+
+
+def async_group_tile(hass: HomeAssistant, group: dict[str, Any]) -> dict[str, Any]:
+    """Several lights or switches as one: on if any is, a touch turns all alike."""
+    states = [
+        state
+        for entity_id in async_group_members(hass, group)
+        if (state := hass.states.get(entity_id)) is not None
+    ]
+    available = [state for state in states if state.state != STATE_UNAVAILABLE]
+    on = sum(state.state == STATE_ON for state in available)
+    return {
+        "id": f"group:{group['id']}",
+        "group": group["id"],
+        "name": group["name"],
+        "domain": group["domain"],
+        "available": bool(available),
+        "on": on > 0,
+        "members": len(states),
+        "members_on": on,
+        "actions": ["toggle"] if available else [],
+    }
+
+
+def async_targets(hass: HomeAssistant) -> dict[str, list[dict[str, str]]]:
+    """The areas and labels a group may target, by name."""
+    return {
+        "areas": sorted(
+            (
+                {"id": area.id, "name": area.name}
+                for area in ar.async_get(hass).async_list_areas()
+            ),
+            key=lambda item: item["name"].casefold(),
+        ),
+        "labels": sorted(
+            (
+                {"id": label.label_id, "name": label.name}
+                for label in lr.async_get(hass).async_list_labels()
+            ),
+            key=lambda item: item["name"].casefold(),
+        ),
+    }
+
+
 async def async_pages(
     hass: HomeAssistant, entry: ZeppConfigEntry
 ) -> list[dict[str, Any]]:
@@ -278,15 +476,18 @@ async def async_pages(
                 ],
             }
         )
-    if shortcuts := entry.options.get(CONF_SHORTCUTS):
-        pages.append(
-            {
-                "kind": "shortcuts",
-                "tiles": [
-                    async_shortcut_tile(hass, shortcut) for shortcut in shortcuts
-                ],
-            }
-        )
+    shortcuts = [
+        *(
+            async_shortcut_tile(hass, shortcut)
+            for shortcut in entry.options.get(CONF_SHORTCUTS, [])
+        ),
+        *(
+            async_group_tile(hass, group)
+            for group in entry.options.get(CONF_GROUPS, [])
+        ),
+    ]
+    if shortcuts:
+        pages.append({"kind": "shortcuts", "tiles": shortcuts})
     chosen = entry.options.get(CONF_AREAS, [])
     areas = sorted(
         (
@@ -304,6 +505,7 @@ async def async_pages(
         {
             "kind": "area",
             "name": area.name,
+            "icon": area.icon,
             "tiles": _area_tiles(hass, by_area[area.id], translations, area.name),
         }
         for area in areas
@@ -440,6 +642,10 @@ def _tile(
     elif state.domain == "cover" and ATTR_CURRENT_POSITION in attributes:
         tile["value"] = _number(attributes[ATTR_CURRENT_POSITION])
         tile["unit"] = PERCENTAGE
+    elif state.domain == "media_player":
+        tile["title"] = attributes.get(ATTR_MEDIA_TITLE)
+    if (control := tile_control(hass, state)) is not None:
+        tile["control"] = control.as_dict()
     return {key: value for key, value in tile.items() if value is not None}
 
 

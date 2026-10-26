@@ -1,6 +1,16 @@
 # serializer version: 1
 # name: test_catalog
   dict({
+    'areas': list([
+      dict({
+        'id': 'cuisine',
+        'name': 'Cuisine',
+      }),
+      dict({
+        'id': 'salon',
+        'name': 'Salon',
+      }),
+    ]),
     'catalog': list([
       dict({
         'actionable': False,
@@ -76,6 +86,10 @@
         'kind': 'Script',
         'name': 'Maison Bonne nuit',
       }),
+    ]),
+    'groups': list([
+    ]),
+    'labels': list([
     ]),
     'selection': dict({
       'entities': list([
