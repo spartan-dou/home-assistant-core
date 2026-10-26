@@ -1,11 +1,25 @@
 {
   "config": {
-    "create_entry": {
-      "default": "In the Zepp app, open the settings of the Home Assistant mini app and paste:\n\n- the address: `{url}`\n- the key: `{key}`\n\nThe key is the only secret of the watch: keep it private. Then choose what the watch shows, in the settings of the watch app or in the options of the integration."
+    "abort": {
+      "expired": "This request expired or was replaced by a newer one: pair again from the watch.",
+      "pair_from_watch": "Watches are added from their app. In the Zepp app, enter `{url}` in the settings of the Home Assistant mini app, then touch Pair on the watch: it shows up here as discovered, with a code to enter.\n\nThe watch needs `zepp:` in `configuration.yaml` to be heard before its first pairing."
     },
+    "create_entry": {
+      "default": "The watch got its key by itself. Choose what it shows in the settings of the watch app on the phone, or in the options of the integration."
+    },
+    "error": {
+      "invalid_code": "Not the code the watch shows."
+    },
+    "flow_title": "{name}",
     "step": {
-      "user": {
-        "description": "Adds a watch running Zepp OS, which its phone connects with a key of its own. To tell several watches apart, rename them afterwards."
+      "confirm": {
+        "data": {
+          "code": "Code"
+        },
+        "data_description": {
+          "code": "The six digits {name} shows. A request without this code cannot be approved."
+        },
+        "description": "{name} asks to control Home Assistant from the watch."
       }
     }
   },
@@ -23,8 +37,7 @@
           "entities": "A page per area, in this order. They can also be chosen in the settings of the watch app, among the entities exposed to Assist.",
           "favorites": "The first page of the watch, in this order.",
           "pipeline": "Answers the voice messages. The preferred pipeline if empty."
-        },
-        "description": "To paste in the settings of the watch app — address: `{url}`, key: `{key}`"
+        }
       }
     }
   }

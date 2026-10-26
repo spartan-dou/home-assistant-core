@@ -1,5 +1,6 @@
 """Config flow for the Zepp OS integration."""
 
+import hmac
 import secrets
 from typing import Any, override
 
@@ -11,8 +12,8 @@ from homeassistant.config_entries import (
     ConfigFlowResult,
     OptionsFlow,
 )
-from homeassistant.const import CONF_API_KEY, CONF_ENTITIES
-from homeassistant.core import HomeAssistant, callback
+from homeassistant.const import CONF_API_KEY, CONF_CODE, CONF_ENTITIES
+from homeassistant.core import callback
 from homeassistant.helpers.network import NoURLAvailableError, get_url
 from homeassistant.helpers.selector import (
     AreaSelector,
@@ -21,10 +22,12 @@ from homeassistant.helpers.selector import (
     EntitySelector,
     EntitySelectorConfig,
 )
+from homeassistant.helpers.typing import DiscoveryInfoType
 
-from .const import CONF_AREAS, CONF_FAVORITES, CONF_PIPELINE, DOMAIN, URL
+from .const import CONF_AREAS, CONF_FAVORITES, CONF_PIPELINE, DOMAIN
+from .pairing import DATA_PAIRINGS, Pairing
 
-TITLE = "Zepp OS"
+CONFIRM_SCHEMA = probatio.Schema({probatio.Required(CONF_CODE): str})
 
 OPTIONS_SCHEMA = probatio.Schema(
     {
@@ -42,32 +45,56 @@ OPTIONS_SCHEMA = probatio.Schema(
 )
 
 
-def _placeholders(hass: HomeAssistant, key: str) -> dict[str, str]:
-    """The address and the key to paste in the watch app; the phone calls from anywhere."""
-    try:
-        base = get_url(hass, allow_cloud=False, prefer_external=True)
-    except NoURLAvailableError:
-        base = ""
-    return {"url": f"{base}{URL}", "key": key}
-
-
 class ZeppConfigFlow(ConfigFlow, domain=DOMAIN):
-    """Add a watch; each one gets its own key."""
+    """A watch asks from its phone; the code it shows approves it."""
 
     VERSION = 2
+
+    _pairing: Pairing
 
     @override
     async def async_step_user(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
-        """Confirm, then show the address and the key the watch app needs."""
-        if user_input is None:
-            return self.async_show_form(step_id="user")
-        key = secrets.token_hex(32)
-        return self.async_create_entry(
-            title=TITLE,
-            data={CONF_API_KEY: key},
-            description_placeholders=_placeholders(self.hass, key),
+        """Watches are added from their app: say how."""
+        try:
+            url = get_url(self.hass, allow_cloud=False, prefer_external=True)
+        except NoURLAvailableError:
+            url = "https://…"
+        return self.async_abort(
+            reason="pair_from_watch", description_placeholders={"url": url}
+        )
+
+    @override
+    async def async_step_integration_discovery(
+        self, discovery_info: DiscoveryInfoType
+    ) -> ConfigFlowResult:
+        """A watch asked to be added from its phone."""
+        pairing: Pairing = discovery_info["pairing"]
+        if not self.hass.data[DATA_PAIRINGS].async_attach(pairing, self.flow_id):
+            return self.async_abort(reason="expired")
+        self._pairing = pairing
+        self.context["title_placeholders"] = {"name": pairing.name}
+        return await self.async_step_confirm()
+
+    async def async_step_confirm(
+        self, user_input: dict[str, Any] | None = None
+    ) -> ConfigFlowResult:
+        """Enter the code the watch shows: a request from anyone else cannot pass."""
+        errors: dict[str, str] = {}
+        if user_input is not None:
+            code = user_input[CONF_CODE].replace(" ", "").encode()
+            if hmac.compare_digest(code, self._pairing.code.encode()):
+                key = self._pairing.key = secrets.token_hex(32)
+                return self.async_create_entry(
+                    title=self._pairing.name, data={CONF_API_KEY: key}
+                )
+            errors[CONF_CODE] = "invalid_code"
+        return self.async_show_form(
+            step_id="confirm",
+            data_schema=CONFIRM_SCHEMA,
+            errors=errors,
+            description_placeholders={"name": self._pairing.name},
         )
 
     @staticmethod
@@ -91,8 +118,5 @@ class ZeppOptionsFlow(OptionsFlow):
             step_id="init",
             data_schema=self.add_suggested_values_to_schema(
                 OPTIONS_SCHEMA, self.config_entry.options
-            ),
-            description_placeholders=_placeholders(
-                self.hass, self.config_entry.data[CONF_API_KEY]
             ),
         )

@@ -1,11 +1,25 @@
 {
   "config": {
-    "create_entry": {
-      "default": "Dans l'application Zepp, ouvrir les réglages de la mini-app Home Assistant et y coller :\n\n- l'adresse : `{url}`\n- la clé : `{key}`\n\nLa clé est le seul secret de la montre : la garder pour soi. Choisir ensuite ce qu'affiche la montre, dans les réglages de son app ou dans les options de l'intégration."
+    "abort": {
+      "expired": "Cette demande a expiré ou a été remplacée par une plus récente : relancer l'association depuis la montre.",
+      "pair_from_watch": "Les montres s'ajoutent depuis leur app. Dans l'application Zepp, saisir `{url}` dans les réglages de la mini-app Home Assistant, puis toucher Associer sur la montre : elle apparaît ici comme découverte, avec un code à saisir.\n\nAvant la première association, la montre n'est entendue qu'avec `zepp:` dans `configuration.yaml`."
     },
+    "create_entry": {
+      "default": "La montre a reçu sa clé toute seule. Choisir ce qu'elle affiche dans les réglages de son app, sur le téléphone, ou dans les options de l'intégration."
+    },
+    "error": {
+      "invalid_code": "Ce n'est pas le code qu'affiche la montre."
+    },
+    "flow_title": "{name}",
     "step": {
-      "user": {
-        "description": "Ajoute une montre sous Zepp OS, que son téléphone relie avec une clé qui lui est propre. Pour distinguer plusieurs montres, les renommer ensuite."
+      "confirm": {
+        "data": {
+          "code": "Code"
+        },
+        "data_description": {
+          "code": "Les six chiffres qu'affiche {name}. Une demande sans ce code ne peut pas être acceptée."
+        },
+        "description": "{name} demande à piloter Home Assistant depuis la montre."
       }
     }
   },
@@ -23,8 +37,7 @@
           "entities": "Une page par pièce, dans cet ordre. Elles se choisissent aussi dans les réglages de l'app de la montre, parmi les entités exposées à Assist.",
           "favorites": "La première page de la montre, dans cet ordre.",
           "pipeline": "Répond aux messages vocaux. Le pipeline préféré si vide."
-        },
-        "description": "À coller dans les réglages de l'app de la montre — adresse : `{url}`, clé : `{key}`"
+        }
       }
     }
   }
