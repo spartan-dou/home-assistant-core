@@ -2,6 +2,8 @@
 
 import aiohttp
 import pytest
+from pytest_homeassistant.common import MockConfigEntry
+from pytest_homeassistant.test_util.aiohttp import AiohttpClientMocker
 
 from homeassistant.components.switch import (
     DOMAIN as SWITCH_DOMAIN,
@@ -13,9 +15,6 @@ from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 
 from .conftest import URL
-
-from tests.common import MockConfigEntry
-from tests.test_util.aiohttp import AiohttpClientMocker
 
 ENTITY_ID = "switch.immichframe_memories"
 ONLY_ENTITY_ID = "switch.immichframe_memories_only"

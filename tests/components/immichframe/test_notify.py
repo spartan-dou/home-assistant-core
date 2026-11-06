@@ -1,6 +1,8 @@
 """Tests for the notifications of the ImmichFrame integration."""
 
 import pytest
+from pytest_homeassistant.common import MockConfigEntry
+from pytest_homeassistant.test_util.aiohttp import AiohttpClientMocker
 
 from homeassistant.components.immichframe.const import DOMAIN, SERVICE_SHOW_NOTIFICATION
 from homeassistant.components.notify import (
@@ -13,9 +15,6 @@ from homeassistant.const import ATTR_ENTITY_ID
 from homeassistant.core import HomeAssistant
 
 from .conftest import URL
-
-from tests.common import MockConfigEntry
-from tests.test_util.aiohttp import AiohttpClientMocker
 
 ENTITY_ID = "notify.immichframe"
 

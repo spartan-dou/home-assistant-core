@@ -4,13 +4,12 @@ from http import HTTPStatus
 from typing import Any
 
 import pytest
+from pytest_homeassistant.common import async_mock_service
 
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import HomeAssistantError
 
 from .conftest import Post
-
-from tests.common import async_mock_service
 
 pytestmark = pytest.mark.usefixtures("house")
 
