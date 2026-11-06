@@ -28,7 +28,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     return True
 
 
-async def async_setup_entry(hass: HomeAssistant, entry: ZeppConfigEntry) -> bool:
+async def async_setup_entry(hass: HomeAssistant, entry: ZeppConfigEntry) -> None:
     """Set up a watch: its device. The route answers it once the entry is loaded."""
     entry.runtime_data = (
         dr.async_get(hass)
@@ -40,18 +40,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ZeppConfigEntry) -> bool
         )
         .id
     )
-    return True
 
 
-async def async_unload_entry(hass: HomeAssistant, entry: ZeppConfigEntry) -> bool:
+async def async_unload_entry(hass: HomeAssistant, entry: ZeppConfigEntry) -> None:
     """Unload a watch; the route stops answering its key."""
-    return True
 
 
-async def async_migrate_entry(hass: HomeAssistant, entry: ZeppConfigEntry) -> bool:
+async def async_migrate_entry(hass: HomeAssistant, entry: ZeppConfigEntry) -> None:
     """Keep the secret of a first version watch: its webhook id becomes its key."""
     if entry.version == 1:
         hass.config_entries.async_update_entry(
             entry, data={CONF_API_KEY: entry.data[CONF_WEBHOOK_ID]}, version=2
         )
-    return True
