@@ -3,14 +3,13 @@
 from http import HTTPStatus
 
 import pytest
+from pytest_homeassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from homeassistant.components.zepp.const import CONF_FAVORITES
 from homeassistant.const import CONF_ENTITIES
 
 from .conftest import ENTITIES, FAVORITES, Post
-
-from tests.common import MockConfigEntry
 
 pytestmark = pytest.mark.usefixtures("house")
 

@@ -4,12 +4,11 @@ from collections.abc import Generator
 from unittest.mock import AsyncMock, patch
 
 import pytest
+from pytest_homeassistant.common import MockConfigEntry
+from pytest_homeassistant.test_util.aiohttp import AiohttpClientMocker
 
 from homeassistant.components.immichframe.const import CONF_SENSORS, DOMAIN
 from homeassistant.const import CONF_ENTITY_ID, CONF_ICON, CONF_URL
-
-from tests.common import MockConfigEntry
-from tests.test_util.aiohttp import AiohttpClientMocker
 
 URL = "http://192.168.1.166:8080"
 

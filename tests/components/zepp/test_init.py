@@ -5,6 +5,8 @@ from typing import Any
 
 from aiohttp.test_utils import TestClient
 import pytest
+from pytest_homeassistant.common import MockConfigEntry
+from pytest_homeassistant.typing import ClientSessionGenerator
 
 from homeassistant.components.zepp.const import CONF_FAVORITES, DOMAIN, URL
 from homeassistant.config_entries import ConfigEntryState
@@ -14,9 +16,6 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.setup import async_setup_component
 
 from .conftest import HEADERS, KEY, Post
-
-from tests.common import MockConfigEntry
-from tests.typing import ClientSessionGenerator
 
 
 async def test_setup_creates_the_watch_device(

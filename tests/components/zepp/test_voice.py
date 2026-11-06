@@ -10,6 +10,7 @@ from unittest.mock import patch
 
 import av
 import pytest
+from pytest_homeassistant.common import MockConfigEntry
 
 from homeassistant.components import assist_pipeline
 from homeassistant.components.zepp.voice import (
@@ -21,8 +22,6 @@ from homeassistant.components.zepp.voice import (
 from homeassistant.core import HomeAssistant
 
 from .conftest import Post
-
-from tests.common import MockConfigEntry
 
 PIPELINE = "homeassistant.components.zepp.voice.assist_pipeline.async_pipeline_from_audio_stream"
 

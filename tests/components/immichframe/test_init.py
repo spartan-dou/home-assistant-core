@@ -4,6 +4,8 @@ from datetime import timedelta
 
 import aiohttp
 from freezegun.api import FrozenDateTimeFactory
+from pytest_homeassistant.common import MockConfigEntry, async_fire_time_changed
+from pytest_homeassistant.test_util.aiohttp import AiohttpClientMocker
 
 from homeassistant.components.immichframe.const import PUSH_COOLDOWN, PUSH_INTERVAL
 from homeassistant.config_entries import ConfigEntryState
@@ -12,9 +14,6 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry as er
 
 from .conftest import URL
-
-from tests.common import MockConfigEntry, async_fire_time_changed
-from tests.test_util.aiohttp import AiohttpClientMocker
 
 SENSORS_URL = f"{URL}/api/Overlay/Sensors"
 
