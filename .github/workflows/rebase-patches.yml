@@ -249,13 +249,13 @@ jobs:
           # (`No such file or directory: 'c++'`). Seul assist_pipeline les importe.
           grep -v -e '^pymicro-vad==' -e '^pyspeex-noise==' requirements.txt > requirements-ci.txt
           uv pip install -r requirements-ci.txt -r requirements_test.txt
-          # Sauf celles-ci : les deux conftest.py que la collecte traverse
-          # toujours importent au niveau module des bibliothèques d'intégration
-          # — paho.mqtt dans tests/common.py, aiohasupervisor dans
-          # tests/components/conftest.py. Sans elles, pytest s'arrête à la
-          # collecte, avant le moindre test. Les versions sont reprises de
-          # requirements_all.txt plutôt que réécrites, pour ne pas figer un
-          # second pin qui dériverait du premier en silence.
+          # Sauf celles-ci : les aides de test et le conftest.py que la collecte
+          # traverse toujours importent au niveau module des bibliothèques
+          # d'intégration — paho.mqtt dans pytest_homeassistant/common.py,
+          # aiohasupervisor dans tests/components/conftest.py. Sans elles,
+          # pytest s'arrête à la collecte, avant le moindre test. Les versions
+          # sont reprises de requirements_all.txt plutôt que réécrites, pour ne
+          # pas figer un second pin qui dériverait du premier en silence.
           #
           # Si l'amont ajoute un import de ce genre, la collecte échoue avec un
           # ModuleNotFoundError nommant le coupable : ajouter le paquet ici.
@@ -270,6 +270,10 @@ jobs:
             uv pip install "$ligne"
           done
           uv pip install -e . --no-deps --config-settings editable_mode=compat
+          # Les aides de test (MockConfigEntry, hass, aiohttp_client…) vivent
+          # dans ce paquet depuis 2026.11.0 : sans lui, `tests/__init__.py`
+          # échoue à l'import et aucun test n'est collecté.
+          uv pip install -e packages/pytest-homeassistant --config-settings editable_mode=compat
 
       # translations/ est généré au build et absent du dépôt, mais la suite de
       # tests vérifie que chaque clé référencée existe : sans cette étape, tout
@@ -451,7 +455,8 @@ jobs:
           if [ -n "${CONFLITS:-}" ]; then
             corps=$(printf '%s\n' "$corps" \
               "" \
-              "Fichiers en conflit :" \
+              "Fichiers en conflit au premier commit qui bloque (les suivants" \
+              "peuvent l'être aussi) :" \
               "" \
               "$CONFLITS" \
               "" \
@@ -464,8 +469,12 @@ jobs:
               "# … résoudre, git add, git rebase --continue …" \
               "git push --force-with-lease origin $PATCH_BRANCH" \
               "git tag -f $BASE_TAG refs/tags/$CIBLE && git push -f origin refs/tags/$BASE_TAG" \
-              "git tag patches/$CIBLE $PATCH_BRANCH && git push origin refs/tags/patches/$CIBLE" \
-              '```')
+              '```' \
+              "" \
+              "Puis relancer ce workflow à la main : il trouve la série posée sur" \
+              "\`$CIBLE\`, joue les tests et publie \`patches/$CIBLE\`. Ne pas poser" \
+              "ce tag à la main sur la branche : il lui manquerait \`translations/\`" \
+              "et la clé \`version\`, sans laquelle le loader écarte l'intégration.")
           fi
 
           # gh issue create refuse une étiquette inexistante ; --force rend la
