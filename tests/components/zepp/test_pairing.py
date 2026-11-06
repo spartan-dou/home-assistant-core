@@ -7,6 +7,8 @@ from typing import Any
 from aiohttp.test_utils import TestClient
 from freezegun.api import FrozenDateTimeFactory
 import pytest
+from pytest_homeassistant.common import async_fire_time_changed
+from pytest_homeassistant.typing import ClientSessionGenerator
 
 from homeassistant.components.zepp.const import (
     DOMAIN,
@@ -23,9 +25,6 @@ from homeassistant.const import CONF_API_KEY, CONF_CODE
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.setup import async_setup_component
-
-from tests.common import async_fire_time_changed
-from tests.typing import ClientSessionGenerator
 
 NAME = "Amazfit Balance"
 

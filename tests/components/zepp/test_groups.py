@@ -5,6 +5,7 @@ from http import HTTPStatus
 from typing import Any
 
 import pytest
+from pytest_homeassistant.common import MockConfigEntry, async_mock_service
 
 from homeassistant.components.zepp.const import CONF_GROUPS
 from homeassistant.core import HomeAssistant
@@ -16,8 +17,6 @@ from homeassistant.helpers import (
 )
 
 from .conftest import Post
-
-from tests.common import MockConfigEntry, async_mock_service
 
 pytestmark = pytest.mark.usefixtures("house")
 

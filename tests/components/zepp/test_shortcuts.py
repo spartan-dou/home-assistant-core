@@ -4,6 +4,7 @@ from http import HTTPStatus
 from typing import Any
 
 import pytest
+from pytest_homeassistant.common import MockConfigEntry, async_mock_service
 
 from homeassistant.components.conversation import DOMAIN as CONVERSATION_DOMAIN
 from homeassistant.components.homeassistant.exposed_entities import async_expose_entity
@@ -14,8 +15,6 @@ from homeassistant.helpers.service import async_set_service_schema
 from homeassistant.setup import async_setup_component
 
 from .conftest import Post
-
-from tests.common import MockConfigEntry, async_mock_service
 
 ARROSAGE = "script.arrosage"
 FIELDS = {

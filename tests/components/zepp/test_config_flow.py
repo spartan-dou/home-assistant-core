@@ -4,6 +4,7 @@ from collections.abc import Generator
 from unittest.mock import AsyncMock, patch
 
 import pytest
+from pytest_homeassistant.common import MockConfigEntry
 
 from homeassistant.components.zepp.const import (
     CONF_AREAS,
@@ -22,8 +23,6 @@ from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.setup import async_setup_component
 
 from .conftest import KEY
-
-from tests.common import MockConfigEntry
 
 
 @pytest.fixture(autouse=True)
