@@ -7,6 +7,8 @@ from typing import Any
 from aiohttp import ClientResponse
 from aiohttp.test_utils import TestClient
 import pytest
+from pytest_homeassistant.common import MockConfigEntry
+from pytest_homeassistant.typing import ClientSessionGenerator
 
 from homeassistant.components.conversation import DOMAIN as CONVERSATION_DOMAIN
 from homeassistant.components.cover import CoverEntityFeature
@@ -20,9 +22,6 @@ from homeassistant.helpers import (
     entity_registry as er,
 )
 from homeassistant.setup import async_setup_component
-
-from tests.common import MockConfigEntry
-from tests.typing import ClientSessionGenerator
 
 KEY = "0123456789abcdef" * 4
 HEADERS = {"Authorization": f"Bearer {KEY}"}

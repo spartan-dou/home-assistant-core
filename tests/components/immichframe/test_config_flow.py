@@ -4,6 +4,8 @@ from unittest.mock import AsyncMock
 
 import aiohttp
 import pytest
+from pytest_homeassistant.common import MockConfigEntry
+from pytest_homeassistant.test_util.aiohttp import AiohttpClientMocker
 
 from homeassistant.components.immichframe.const import CONF_SENSORS, DOMAIN
 from homeassistant.config_entries import SOURCE_USER
@@ -12,9 +14,6 @@ from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType, InvalidData
 
 from .conftest import URL
-
-from tests.common import MockConfigEntry
-from tests.test_util.aiohttp import AiohttpClientMocker
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
