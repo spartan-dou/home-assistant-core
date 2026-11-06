@@ -61,7 +61,7 @@ env:
   # Doit rester identique au `ref:` de l'étape de récupération ci-dessous : le
   # contexte env n'est pas disponible dans le `with:` d'une action.
   PATCH_BRANCH: ccr-2882f613-xwosfd-patches-10-1
-  BASE_TAG: patches-base-v2
+  BASE_TAG: patches-base-v3
   UPSTREAM: https://github.com/home-assistant/core
   # Intégrations déployées dans le PVC. Doit rester identique à PATCH_DOMAINS
   # côté cluster-config : c'est la liste des dossiers que le tag doit rendre
