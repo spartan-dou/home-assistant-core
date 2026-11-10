@@ -1,0 +1,99 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "Minimalny czas pracy musi być krótszy niż maksymalny czas pracy."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "aktywność",
+          "away_temp": "poza domem",
+          "comfort_temp": "komfort",
+          "eco_temp": "eko",
+          "home_temp": "w domu",
+          "sleep_temp": "sen"
+        },
+        "title": "Wstępne ustawienia temperatury"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Tryb chłodzenia",
+          "cold_tolerance": "Tolerancja zimna",
+          "cycle_cooldown": "Okres bezczynności po zakończeniu pracy",
+          "heater": "Przełącznik siłownika",
+          "hot_tolerance": "Tolerancja gorąca",
+          "keep_alive": "Interwał podtrzymania aktywności",
+          "max_cycle_duration": "Maksymalny czas pracy",
+          "max_temp": "Maksymalna temperatura docelowa",
+          "min_cycle_duration": "Minimalny czas pracy",
+          "min_temp": "Minimalna temperatura docelowa",
+          "name": "Nazwa",
+          "target_sensor": "Sensor temperatury"
+        },
+        "data_description": {
+          "ac_mode": "Ustaw określony siłownik, aby był traktowany jako urządzenie chłodzące zamiast urządzenia grzewczego.",
+          "cold_tolerance": "Minimalna różnica między odczytem z czujnika a temperaturą docelową wymagana do uruchomienia urządzenia. Na przykład: przy temperaturze docelowej 25 i tolerancji 0,5, ogrzewanie włączy się po spadku poniżej 24,5.",
+          "cycle_cooldown": "Minimalny czas, jaki musi upłynąć po wyłączeniu, zanim urządzenie będzie mogło zostać ponownie włączone.",
+          "heater": "Przełącznik encji używany do chłodzenia lub ogrzewania, w zależności od trybu klimatyzacji.",
+          "hot_tolerance": "Minimalna różnica między odczytem z czujnika a temperaturą docelową wymagana do wyłączenia urządzenia. Na przykład: przy temperaturze docelowej 25 i tolerancji 0,5, ogrzewanie wyłączy się, gdy temperatura osiągnie lub przekroczy 25,5.",
+          "keep_alive": "Okresowo uruchamiaj ogrzewanie, aby zapobiec utracie stanu przez urządzenia.",
+          "max_cycle_duration": "Maksymalny czas, jaki może upłynąć od włączenia, zanim urządzenie zostanie automatycznie wyłączone.",
+          "min_cycle_duration": "Minimalny czas, jaki musi upłynąć od włączenia urządzenia, zanim będzie można je wyłączyć.",
+          "target_sensor": "Sensor temperatury, który odzwierciedla aktualną temperaturę."
+        },
+        "description": "Utwórz encję klimatyczną, która kontroluje temperaturę za pomocą przełącznika i sensora.",
+        "title": "Utwórz pomocnika termostatu ogólnego"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "Minimalny czas pracy musi być krótszy niż maksymalny czas pracy."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Tryb chłodzenia",
+          "cold_tolerance": "Tolerancja zimna",
+          "cycle_cooldown": "Okres bezczynności po zakończeniu pracy",
+          "heater": "Przełącznik siłownika",
+          "hot_tolerance": "Tolerancja gorąca",
+          "keep_alive": "Interwał podtrzymania aktywności",
+          "max_cycle_duration": "Maksymalny czas pracy",
+          "max_temp": "Maksymalna temperatura docelowa",
+          "min_cycle_duration": "Minimalny czas pracy",
+          "min_temp": "Minimalna temperatura docelowa",
+          "target_sensor": "Sensor temperatury"
+        },
+        "data_description": {
+          "ac_mode": "Ustaw określony siłownik, aby był traktowany jako urządzenie chłodzące zamiast urządzenia grzewczego.",
+          "cold_tolerance": "Minimalna różnica między odczytem z czujnika a temperaturą docelową wymagana do uruchomienia urządzenia. Na przykład: przy temperaturze docelowej 25 i tolerancji 0,5, ogrzewanie włączy się po spadku poniżej 24,5.",
+          "cycle_cooldown": "Minimalny czas, jaki musi upłynąć po wyłączeniu, zanim urządzenie będzie mogło zostać ponownie włączone.",
+          "heater": "Przełącznik encji używany do chłodzenia lub ogrzewania, w zależności od trybu klimatyzacji.",
+          "hot_tolerance": "Minimalna różnica między odczytem z czujnika a temperaturą docelową wymagana do wyłączenia urządzenia. Na przykład: przy temperaturze docelowej 25 i tolerancji 0,5, ogrzewanie wyłączy się, gdy temperatura osiągnie lub przekroczy 25,5.",
+          "keep_alive": "Okresowo uruchamiaj ogrzewanie, aby zapobiec utracie stanu przez urządzenia.",
+          "max_cycle_duration": "Maksymalny czas, jaki może upłynąć od włączenia, zanim urządzenie zostanie automatycznie wyłączone.",
+          "min_cycle_duration": "Minimalny czas, jaki musi upłynąć od włączenia urządzenia, zanim będzie można je wyłączyć.",
+          "target_sensor": "Sensor temperatury, który odzwierciedla aktualną temperaturę."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "aktywność",
+          "away_temp": "poza domem",
+          "comfort_temp": "komfort",
+          "eco_temp": "eko",
+          "home_temp": "w domu",
+          "sleep_temp": "sen"
+        },
+        "title": "Wstępne ustawienia temperatury"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Ponownie ładuje termostaty ogólne z konfiguracji YAML."
+    }
+  },
+  "title": "Termostat ogólny"
+}

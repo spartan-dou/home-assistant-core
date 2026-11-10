@@ -1,0 +1,58 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Activitat",
+          "away_temp": "Fora",
+          "comfort_temp": "Confort",
+          "eco_temp": "Econòmic",
+          "home_temp": "A casa",
+          "sleep_temp": "Dormir"
+        }
+      },
+      "user": {
+        "data": {
+          "max_temp": "Temperatura objectiu màxima",
+          "min_temp": "Temperatura objectiu mínima",
+          "name": "Nom",
+          "target_sensor": "Sensor de temperatura"
+        },
+        "data_description": {
+          "target_sensor": "Sensor de temperatura que mostra la temperatura actual."
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "max_temp": "Temperatura objectiu màxima",
+          "min_temp": "Temperatura objectiu mínima",
+          "target_sensor": "Sensor de temperatura"
+        },
+        "data_description": {
+          "target_sensor": "Sensor de temperatura que mostra la temperatura actual."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Activitat",
+          "away_temp": "Fora",
+          "comfort_temp": "Confort",
+          "eco_temp": "Econòmic",
+          "home_temp": "A casa",
+          "sleep_temp": "Dormir"
+        }
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Recarrega els termòstats genèrics des de la configuració YAML",
+      "name": "Torna a carregar termòstats genèrics"
+    }
+  },
+  "title": "Termòstat genèric"
+}

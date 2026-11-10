@@ -1,0 +1,24 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "السجل",
+          "away_temp": "خارج المنزل",
+          "home_temp": "في المنزل"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "السجل",
+          "away_temp": "خارج المنزل",
+          "home_temp": "في المنزل"
+        }
+      }
+    }
+  }
+}
