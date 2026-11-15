@@ -1,0 +1,90 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "Ce cadre est déjà configuré"
+    },
+    "error": {
+      "cannot_connect": "Le cadre photo n'a pas répondu. Il ne répond que lorsqu'il est affiché.",
+      "invalid_auth": "Clé refusée",
+      "unknown": "Erreur inattendue"
+    },
+    "step": {
+      "user": {
+        "data": {
+          "api_key": "Clé",
+          "url": "URL"
+        },
+        "data_description": {
+          "api_key": "La clé affichée dans les réglages du launcher, section « Cadre photo ».",
+          "url": "L'adresse affichée dans les réglages du launcher, par exemple http://192.168.1.50:47915."
+        },
+        "description": "Affichez d'abord le cadre photo sur l'appareil : il ne répond que lorsqu'il est à l'écran."
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "close": {
+        "name": "Fermer"
+      },
+      "next": {
+        "name": "Photo suivante"
+      },
+      "previous": {
+        "name": "Photo précédente"
+      }
+    },
+    "switch": {
+      "memories": {
+        "name": "Souvenirs"
+      },
+      "memories_only": {
+        "name": "Souvenirs uniquement"
+      },
+      "paused": {
+        "name": "Pause"
+      }
+    }
+  },
+  "exceptions": {
+    "cannot_connect": {
+      "message": "Impossible de joindre le cadre photo. Il ne répond que lorsqu'il est affiché."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "sensors": "Valeurs affichées sous l'heure"
+        },
+        "data_description": {
+          "sensors": "Une entité climate affiche sa température actuelle, toute autre entité son état. L'emoji précède la valeur."
+        }
+      }
+    }
+  },
+  "services": {
+    "show_notification": {
+      "description": "Affiche un message au-dessus du diaporama, sur les notifications déjà affichées, avec un lien et une fin facultatifs. Le cadre garde les trois plus récentes.",
+      "fields": {
+        "duration": {
+          "description": "Minutes avant que la notification se masque. Vide ou 0 : jusqu'à ce que de plus récentes la chassent.",
+          "name": "Durée"
+        },
+        "link": {
+          "description": "Ouvert au toucher : /chemin ouvre cet écran de Home Assistant, les liens homeassistant:// et https:// sont ouverts tels quels.",
+          "name": "Lien"
+        },
+        "message": {
+          "description": "Texte à afficher. Un message déjà affiché remonte en haut. Un message vide efface la notification de même étiquette, ou toutes sans étiquette.",
+          "name": "Message"
+        },
+        "tag": {
+          "description": "Identifie la notification, comme sur un téléphone : un nouveau message de même étiquette la remplace, un message vide avec elle l'efface seule.",
+          "name": "Étiquette"
+        }
+      },
+      "name": "Afficher une notification"
+    }
+  }
+}

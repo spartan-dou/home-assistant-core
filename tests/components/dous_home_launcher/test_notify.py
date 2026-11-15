@@ -1,0 +1,89 @@
+"""Tests for the notifications of the Dou's Home Launcher integration."""
+
+import pytest
+from pytest_homeassistant.test_util.aiohttp import AiohttpClientMocker
+
+from homeassistant.components.dous_home_launcher.const import (
+    DOMAIN,
+    SERVICE_SHOW_NOTIFICATION,
+)
+from homeassistant.components.notify import (
+    ATTR_MESSAGE,
+    ATTR_TITLE,
+    DOMAIN as NOTIFY_DOMAIN,
+    SERVICE_SEND_MESSAGE,
+)
+from homeassistant.const import ATTR_ENTITY_ID
+from homeassistant.core import HomeAssistant
+
+from .conftest import URL
+
+ENTITY_ID = "notify.tablette"
+
+
+def notifications(frame: AiohttpClientMocker) -> list[dict]:
+    """Payloads sent to the notification endpoint, oldest first."""
+    return [
+        call[2]
+        for call in frame.mock_calls
+        if str(call[1]) == f"{URL}/api/notifications"
+    ]
+
+
+@pytest.mark.usefixtures("setup_frame")
+async def test_send_message(hass: HomeAssistant, frame: AiohttpClientMocker) -> None:
+    """notify.send_message shows the title on its own line above the message."""
+    await hass.services.async_call(
+        NOTIFY_DOMAIN,
+        SERVICE_SEND_MESSAGE,
+        {ATTR_ENTITY_ID: ENTITY_ID, ATTR_MESSAGE: "Colis déposé", ATTR_TITLE: "📦"},
+        blocking=True,
+    )
+
+    assert notifications(frame)[-1] == {
+        "message": "📦\nColis déposé",
+        "link": None,
+        "duration": None,
+        "tag": None,
+    }
+
+
+@pytest.mark.usefixtures("setup_frame")
+async def test_show_notification(
+    hass: HomeAssistant, frame: AiohttpClientMocker
+) -> None:
+    """The action passes the link, the duration and the tag."""
+    await hass.services.async_call(
+        DOMAIN,
+        SERVICE_SHOW_NOTIFICATION,
+        {
+            ATTR_ENTITY_ID: ENTITY_ID,
+            "message": "Colis",
+            "link": "/lovelace/cameras",
+            "duration": 30,
+            "tag": "colis",
+        },
+        blocking=True,
+    )
+
+    assert notifications(frame)[-1] == {
+        "message": "Colis",
+        "link": "/lovelace/cameras",
+        "duration": 30.0,
+        "tag": "colis",
+    }
+
+
+@pytest.mark.usefixtures("setup_frame")
+async def test_show_notification_empty_message_clears(
+    hass: HomeAssistant, frame: AiohttpClientMocker
+) -> None:
+    """An empty message is accepted: it is how a notification is cleared."""
+    await hass.services.async_call(
+        DOMAIN,
+        SERVICE_SHOW_NOTIFICATION,
+        {ATTR_ENTITY_ID: ENTITY_ID, "message": ""},
+        blocking=True,
+    )
+
+    assert notifications(frame)[-1]["message"] == ""
