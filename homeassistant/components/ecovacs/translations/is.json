@@ -1,0 +1,11 @@
+{
+  "entity": {
+    "sensor": {
+      "station_state": {
+        "state": {
+          "idle": "Aðgerðalaus"
+        }
+      }
+    }
+  }
+}
