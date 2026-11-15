@@ -1,0 +1,10 @@
+{
+  "domain": "dous_home_launcher",
+  "name": "Dou's Home Launcher",
+  "codeowners": [],
+  "config_flow": true,
+  "documentation": "https://github.com/spartan-dou/dous-home-launcher#home-assistant",
+  "integration_type": "device",
+  "iot_class": "local_polling",
+  "requirements": []
+}

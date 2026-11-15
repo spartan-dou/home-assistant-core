@@ -1,0 +1,30 @@
+"""Actions of the Dou's Home Launcher integration."""
+
+import probatio
+
+from homeassistant.components.notify import ATTR_MESSAGE, DOMAIN as NOTIFY_DOMAIN
+from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers import config_validation as cv, service
+
+from .const import ATTR_DURATION, ATTR_LINK, ATTR_TAG, DOMAIN, SERVICE_SHOW_NOTIFICATION
+
+
+@callback
+def async_setup_services(hass: HomeAssistant) -> None:
+    """Register the actions."""
+    service.async_register_platform_entity_service(
+        hass,
+        DOMAIN,
+        SERVICE_SHOW_NOTIFICATION,
+        entity_domain=NOTIFY_DOMAIN,
+        schema={
+            # An empty message clears the tagged notification, or all of them.
+            probatio.Required(ATTR_MESSAGE): cv.string,
+            probatio.Optional(ATTR_LINK): cv.string,
+            probatio.Optional(ATTR_DURATION): probatio.All(
+                probatio.Coerce(float), probatio.Range(min=0)
+            ),
+            probatio.Optional(ATTR_TAG): cv.string,
+        },
+        func="async_show_notification",
+    )
