@@ -1,0 +1,34 @@
+{
+  "entity": {
+    "button": {
+      "close": {
+        "default": "mdi:close-circle-outline"
+      },
+      "next": {
+        "default": "mdi:skip-next"
+      },
+      "previous": {
+        "default": "mdi:skip-previous"
+      }
+    },
+    "switch": {
+      "memories": {
+        "default": "mdi:image-multiple",
+        "state": {
+          "off": "mdi:image-off"
+        }
+      },
+      "memories_only": {
+        "default": "mdi:history"
+      },
+      "paused": {
+        "default": "mdi:pause-circle-outline"
+      }
+    }
+  },
+  "services": {
+    "show_notification": {
+      "service": "mdi:message-badge-outline"
+    }
+  }
+}
