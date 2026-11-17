@@ -26,6 +26,7 @@ def commands(frame: AiohttpClientMocker) -> list[dict]:
         pytest.param("button.tablette_next_photo", "next", id="next"),
         pytest.param("button.tablette_previous_photo", "previous", id="previous"),
         pytest.param("button.tablette_close", "close", id="close"),
+        pytest.param("button.tablette_turn_off_screen", "screen_off", id="screen_off"),
     ],
 )
 async def test_button_sends_its_command(

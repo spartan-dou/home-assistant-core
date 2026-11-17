@@ -20,6 +20,9 @@ BUTTONS: tuple[ButtonEntityDescription, ...] = (
     ButtonEntityDescription(key="previous", translation_key="previous"),
     # Leaves the screen to its usual timeout: how a tablet goes to sleep at night.
     ButtonEntityDescription(key="close", translation_key="close"),
+    # Turns the screen off and leaves it off, even on the charger (the tablet's former Tasker
+    # HA_LOCK); the app must be a device admin.
+    ButtonEntityDescription(key="screen_off", translation_key="screen_off"),
 )
 
 

@@ -32,6 +32,9 @@
       },
       "previous": {
         "name": "Previous photo"
+      },
+      "screen_off": {
+        "name": "Turn off screen"
       }
     },
     "switch": {
