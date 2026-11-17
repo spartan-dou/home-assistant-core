@@ -4,6 +4,9 @@
       "close": {
         "default": "mdi:close-circle-outline"
       },
+      "screen_off": {
+        "default": "mdi:monitor-off"
+      },
       "next": {
         "default": "mdi:skip-next"
       },
