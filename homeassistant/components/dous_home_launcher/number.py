@@ -13,7 +13,7 @@ from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .api import LauncherConnectionError
-from .const import DOMAIN
+from .const import CONF_TV, DOMAIN
 from .coordinator import LauncherConfigEntry, LauncherCoordinator
 from .entity import LauncherEntity
 
@@ -37,7 +37,9 @@ async def async_setup_entry(
     entry: LauncherConfigEntry,
     async_add_entities: AddConfigEntryEntitiesCallback,
 ) -> None:
-    """Set up the brightness."""
+    """Set up the brightness; a TV's picture is the TV's business."""
+    if entry.data.get(CONF_TV):
+        return
     async_add_entities([LauncherBrightness(entry.runtime_data.coordinator)])
 
 

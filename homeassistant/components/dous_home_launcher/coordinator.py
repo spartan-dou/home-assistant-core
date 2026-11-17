@@ -9,7 +9,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .api import LauncherClient, LauncherConnectionError
-from .const import DOMAIN, UPDATE_INTERVAL
+from .const import CONF_TV, DOMAIN, UPDATE_INTERVAL
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -48,8 +48,16 @@ class LauncherCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     @override
     async def _async_update_data(self) -> dict[str, Any]:
         try:
-            return await self.client.get_state()
+            state = await self.client.get_state()
         except LauncherConnectionError as err:
             raise UpdateFailed(
                 translation_domain=DOMAIN, translation_key="cannot_connect"
             ) from err
+        # An entry added before the frame said it was a TV: remembered, and reloaded
+        # without the touch screen's entities.
+        if state.get(CONF_TV) and not self.config_entry.data.get(CONF_TV):
+            self.hass.config_entries.async_update_entry(
+                self.config_entry, data={**self.config_entry.data, CONF_TV: True}
+            )
+            self.hass.config_entries.async_schedule_reload(self.config_entry.entry_id)
+        return state

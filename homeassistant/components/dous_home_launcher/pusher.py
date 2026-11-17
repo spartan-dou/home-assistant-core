@@ -134,5 +134,5 @@ def _describe(
         "icon": sensor.get(CONF_ICON) or "",
         "value": None if value is None else str(value),
         "unit": unit,
-        "link": sensor.get(CONF_LINK) or "",
+        "link": sensor.get(CONF_LINK) or "",  # never set on a TV: its form has no link
     }

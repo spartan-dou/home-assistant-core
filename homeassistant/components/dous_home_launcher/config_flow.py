@@ -23,7 +23,7 @@ from homeassistant.helpers.selector import (
 )
 
 from .api import LauncherAuthError, LauncherClient, LauncherConnectionError
-from .const import CONF_LINK, CONF_SENSORS, DOMAIN
+from .const import CONF_LINK, CONF_SENSORS, CONF_TV, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -38,25 +38,27 @@ STEP_USER_DATA_SCHEMA = probatio.Schema(
     }
 )
 
-OPTIONS_SCHEMA = probatio.Schema(
-    {
-        probatio.Optional(CONF_SENSORS, default=[]): ObjectSelector(
-            ObjectSelectorConfig(
-                multiple=True,
-                label_field=CONF_ENTITY_ID,
-                fields={
-                    CONF_ENTITY_ID: {
-                        "label": "Entity",
-                        "required": True,
-                        "selector": {"entity": {}},
-                    },
-                    CONF_ICON: {"label": "Emoji", "selector": {"text": {}}},
-                    CONF_LINK: {"label": "Link", "selector": {"text": {}}},
-                },
-            )
-        ),
+def _options_schema(tv: bool) -> probatio.Schema:
+    """The values under the clock; a TV has no touch screen, so no link to open."""
+    fields: dict[str, Any] = {
+        CONF_ENTITY_ID: {
+            "label": "Entity",
+            "required": True,
+            "selector": {"entity": {}},
+        },
+        CONF_ICON: {"label": "Emoji", "selector": {"text": {}}},
     }
-)
+    if not tv:
+        fields[CONF_LINK] = {"label": "Link", "selector": {"text": {}}}
+    return probatio.Schema(
+        {
+            probatio.Optional(CONF_SENSORS, default=[]): ObjectSelector(
+                ObjectSelectorConfig(
+                    multiple=True, label_field=CONF_ENTITY_ID, fields=fields
+                )
+            ),
+        }
+    )
 
 
 class LauncherConfigFlow(ConfigFlow, domain=DOMAIN):
@@ -86,9 +88,10 @@ class LauncherConfigFlow(ConfigFlow, domain=DOMAIN):
             else:
                 await self.async_set_unique_id(state["id"])
                 self._abort_if_unique_id_configured(updates={CONF_URL: url})
-                return self.async_create_entry(
-                    title=state["name"], data={CONF_URL: url, CONF_API_KEY: key}
-                )
+                data = {CONF_URL: url, CONF_API_KEY: key}
+                if state.get(CONF_TV):
+                    data[CONF_TV] = True
+                return self.async_create_entry(title=state["name"], data=data)
 
         return self.async_show_form(
             step_id="user",
@@ -127,6 +130,7 @@ class LauncherOptionsFlow(OptionsFlowWithReload):
         return self.async_show_form(
             step_id="init",
             data_schema=self.add_suggested_values_to_schema(
-                OPTIONS_SCHEMA, self.config_entry.options
+                _options_schema(self.config_entry.data.get(CONF_TV, False)),
+                self.config_entry.options,
             ),
         )
