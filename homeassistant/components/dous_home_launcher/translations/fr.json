@@ -37,6 +37,11 @@
         "name": "Éteindre l'écran"
       }
     },
+    "number": {
+      "brightness": {
+        "name": "Luminosité du cadre"
+      }
+    },
     "switch": {
       "memories": {
         "name": "Souvenirs"

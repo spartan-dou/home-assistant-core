@@ -21,6 +21,7 @@ STATE = {
     "memories": True,
     "memories_only": False,
     "paused": False,
+    "brightness": None,
     "place": None,
     "date": None,
 }
