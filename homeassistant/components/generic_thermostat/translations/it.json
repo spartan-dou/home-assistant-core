@@ -1,0 +1,79 @@
+{
+  "config": {
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Attività",
+          "away_temp": "Fuori casa",
+          "comfort_temp": "Comfort",
+          "eco_temp": "Eco",
+          "home_temp": "In casa",
+          "sleep_temp": "Sonno"
+        },
+        "title": "Preset temperatura"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Modalità freddo",
+          "cold_tolerance": "Tolleranza al freddo",
+          "heater": "Interruttore attuatore",
+          "hot_tolerance": "Tolleranza al caldo",
+          "keep_alive": "Intervallo di mantenimento in vita",
+          "max_temp": "Temperatura massima desiderata",
+          "min_temp": "Temperatura minima desiderata",
+          "name": "Nome",
+          "target_sensor": "Sensore di temperatura"
+        },
+        "data_description": {
+          "ac_mode": "Imposta l'attuatore specificato come dispositivo di raffreddamento invece che di riscaldamento.",
+          "cold_tolerance": "Differenza minima tra la temperatura rilevata dal sensore di temperatura e la temperatura impostata che deve variare prima dell'accensione. Ad esempio, se la temperatura impostata è 25 e la tolleranza al freddo è 0,5, il riscaldamento si accenderà quando il sensore scende sotto i 24,5.",
+          "heater": "Entità interruttore usata per raffreddare o riscaldare a seconda della modalità.",
+          "hot_tolerance": "Differenza minima tra la temperatura rilevata dal sensore di temperatura e la temperatura impostata che deve variare prima dello spegnimento. Ad esempio, se la temperatura impostata è 25 e la tolleranza al caldo è 0,5, il riscaldamento si spegnerà quando il sensore raggiunge o supera 25,5.",
+          "target_sensor": "Sensore di temperatura che indica la temperatura attuale."
+        },
+        "description": "Crea un'entità termostato che controlla la temperatura attraverso un interruttore e un sensore.",
+        "title": "Crea termostato generico"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Modalità freddo",
+          "cold_tolerance": "Tolleranza al freddo",
+          "heater": "Interruttore attuatore",
+          "hot_tolerance": "Tolleranza al caldo",
+          "keep_alive": "Intervallo di mantenimento in vita",
+          "max_temp": "Temperatura massima desiderata",
+          "min_temp": "Temperatura minima desiderata",
+          "target_sensor": "Sensore di temperatura"
+        },
+        "data_description": {
+          "ac_mode": "Imposta l'attuatore specificato come dispositivo di raffreddamento invece che di riscaldamento.",
+          "cold_tolerance": "Differenza minima tra la temperatura rilevata dal sensore di temperatura e la temperatura impostata che deve variare prima dell'accensione. Ad esempio, se la temperatura impostata è 25 e la tolleranza al freddo è 0,5, il riscaldamento si accenderà quando il sensore scende sotto i 24,5.",
+          "heater": "Entità interruttore usata per raffreddare o riscaldare a seconda della modalità.",
+          "hot_tolerance": "Differenza minima tra la temperatura rilevata dal sensore di temperatura e la temperatura impostata che deve variare prima dello spegnimento. Ad esempio, se la temperatura impostata è 25 e la tolleranza al caldo è 0,5, il riscaldamento si spegnerà quando il sensore raggiunge o supera 25,5.",
+          "target_sensor": "Sensore di temperatura che indica la temperatura attuale."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Attività",
+          "away_temp": "Fuori casa",
+          "comfort_temp": "Comfort",
+          "eco_temp": "Eco",
+          "home_temp": "In casa",
+          "sleep_temp": "Sonno"
+        },
+        "title": "Preset temperatura"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Ricarica i termostati generici dalla configurazione YAML."
+    }
+  },
+  "title": "Termostato generico"
+}

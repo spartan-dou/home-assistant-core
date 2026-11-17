@@ -1,0 +1,44 @@
+{
+    "config": {
+        "abort": {
+            "expired": "This request expired or was replaced by a newer one: pair again from the watch.",
+            "pair_from_watch": "Watches are added from their app. In the Zepp app, enter `{url}` in the settings of the Home Assistant mini app, then touch Pair on the watch: it shows up here as discovered, with a code to enter.\n\nThe watch needs `zepp:` in `configuration.yaml` to be heard before its first pairing."
+        },
+        "create_entry": {
+            "default": "The watch got its key by itself. Choose what it shows in the settings of the watch app on the phone, or in the options of the integration."
+        },
+        "error": {
+            "invalid_code": "Not the code the watch shows."
+        },
+        "flow_title": "{name}",
+        "step": {
+            "confirm": {
+                "data": {
+                    "code": "Code"
+                },
+                "data_description": {
+                    "code": "The six digits {name} shows. A request without this code cannot be approved."
+                },
+                "description": "{name} asks to control Home Assistant from the watch."
+            }
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "areas": "Order of the areas",
+                    "entities": "Shown entities",
+                    "favorites": "Favorites",
+                    "pipeline": "Assist pipeline"
+                },
+                "data_description": {
+                    "areas": "These areas come first, in this order; the others follow by name.",
+                    "entities": "A page per area, in this order. They can also be chosen in the settings of the watch app, among the entities exposed to Assist.",
+                    "favorites": "The first page of the watch, in this order.",
+                    "pipeline": "Answers the voice messages. The preferred pipeline if empty."
+                }
+            }
+        }
+    }
+}

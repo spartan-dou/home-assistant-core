@@ -1,0 +1,98 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Device is already configured"
+        },
+        "error": {
+            "cannot_connect": "The photo frame did not answer. It only does while it is on screen.",
+            "invalid_auth": "Invalid authentication",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "api_key": "Key",
+                    "url": "URL"
+                },
+                "data_description": {
+                    "api_key": "The key shown in the launcher settings, under Photo frame.",
+                    "url": "Address shown in the launcher settings, such as http://192.168.1.50:47915."
+                },
+                "description": "Open the photo frame on the device first: it only answers while it is on screen."
+            }
+        }
+    },
+    "entity": {
+        "button": {
+            "close": {
+                "name": "Close"
+            },
+            "next": {
+                "name": "Next photo"
+            },
+            "previous": {
+                "name": "Previous photo"
+            },
+            "screen_off": {
+                "name": "Turn off screen"
+            }
+        },
+        "number": {
+            "brightness": {
+                "name": "Frame brightness"
+            }
+        },
+        "switch": {
+            "memories": {
+                "name": "Memories"
+            },
+            "memories_only": {
+                "name": "Memories only"
+            },
+            "paused": {
+                "name": "Pause"
+            }
+        }
+    },
+    "exceptions": {
+        "cannot_connect": {
+            "message": "The photo frame could not be reached. It only answers while it is on screen."
+        }
+    },
+    "options": {
+        "step": {
+            "init": {
+                "data": {
+                    "sensors": "Values shown under the clock"
+                },
+                "data_description": {
+                    "sensors": "A climate entity shows its current temperature, anything else its state. The emoji goes before the value. The link, a Home Assistant view such as /home/living-room, opens when the value is tapped."
+                }
+            }
+        }
+    },
+    "services": {
+        "show_notification": {
+            "description": "Shows a message on top of the photos, above the ones already shown, with an optional link and end. The frame keeps the latest three.",
+            "fields": {
+                "duration": {
+                    "description": "Minutes before the notification hides itself. Empty or 0 keeps it until newer ones push it out.",
+                    "name": "Duration"
+                },
+                "link": {
+                    "description": "Opened on tap, on a touch screen: /path opens that Home Assistant view in its app, homeassistant:// and https:// links are opened as they are.",
+                    "name": "Link"
+                },
+                "message": {
+                    "description": "Text to show. A message already shown moves back to the top. An empty message clears the tagged notification, or all of them.",
+                    "name": "Message"
+                },
+                "tag": {
+                    "description": "Identifies the notification, as on a phone: a new message with the same tag replaces it, an empty message with it clears it alone.",
+                    "name": "Tag"
+                }
+            },
+            "name": "Show notification"
+        }
+    }
+}

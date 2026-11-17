@@ -1,0 +1,110 @@
+{
+  "config": {
+    "error": {
+      "min_max_runtime": "O tempo mínimo de funcionamento debe ser menor que o tempo máximo de funcionamento.",
+      "min_max_temp": "A temperatura mínima non debe ser maior que a temperatura máxima."
+    },
+    "step": {
+      "presets": {
+        "data": {
+          "activity_temp": "Actividade",
+          "away_temp": "Fóra",
+          "comfort_temp": "Confort",
+          "eco_temp": "Eco",
+          "home_temp": "Na casa",
+          "sleep_temp": "Durmir"
+        },
+        "title": "Predefinicións de temperatura"
+      },
+      "user": {
+        "data": {
+          "ac_mode": "Modo de refrixeración",
+          "cold_tolerance": "Tolerancia ao frío",
+          "cycle_cooldown": "Período de arrefriamento despois do funcionamento",
+          "heater": "Interruptor do actuador",
+          "hot_tolerance": "Tolerancia en quente",
+          "keep_alive": "Intervalo de mantemento da conexión",
+          "max_cycle_duration": "Tempo máximo de funcionamento",
+          "max_temp": "Temperatura obxectivo máxima",
+          "min_cycle_duration": "Tempo mínimo de funcionamento",
+          "min_temp": "Temperatura obxectivo mínima",
+          "name": "Nome",
+          "precision": "Precisión da temperatura",
+          "target_sensor": "Sensor de temperatura",
+          "target_temp_step": "Paso da temperatura"
+        },
+        "data_description": {
+          "ac_mode": "Fai que o actuador indicado se trate como un dispositivo de refrixeración en vez de calefacción.",
+          "cold_tolerance": "Diferenza mínima entre a temperatura lida polo sensor e a temperatura obxectivo antes de que se acenda. Por exemplo, se a temperatura obxectivo é 25 e a tolerancia é 0,5, o calefactor acenderase cando o sensor baixe de 24,5.",
+          "cycle_cooldown": "Tempo mínimo que debe pasar, despois de apagarse, antes de que se poida volver acender.",
+          "heater": "Entidade de interruptor usada para arrefriar ou quentar segundo o modo A/C.",
+          "hot_tolerance": "Diferenza mínima entre a temperatura lida polo sensor e a temperatura obxectivo antes de que se apague. Por exemplo, se a temperatura obxectivo é 25 e a tolerancia é 0,5, o calefactor apagarase cando o sensor iguale ou supere 25,5.",
+          "keep_alive": "Activa periodicamente o calefactor para evitar que os dispositivos perdan o estado.",
+          "max_cycle_duration": "Tempo máximo que pode pasar, unha vez acendido, antes de que se apague.",
+          "min_cycle_duration": "Tempo mínimo que debe pasar, unha vez acendido, antes de que se poida apagar.",
+          "precision": "Precisión usada para arredondar as temperaturas actual e obxectivo que se mostran. Se non se define, depende da unidade de temperatura.",
+          "target_sensor": "Sensor de temperatura que reflicte a temperatura actual.",
+          "target_temp_step": "Tamaño do paso usado ao axustar a temperatura obxectivo. Se non se define, coincide coa precisión."
+        },
+        "description": "Crea unha entidade de climatización que controla a temperatura mediante un interruptor e un sensor.",
+        "title": "Crear un termóstato xenérico"
+      }
+    }
+  },
+  "options": {
+    "error": {
+      "min_max_runtime": "O tempo mínimo de funcionamento debe ser menor que o tempo máximo de funcionamento.",
+      "min_max_temp": "A temperatura mínima non debe ser maior que a temperatura máxima."
+    },
+    "step": {
+      "init": {
+        "data": {
+          "ac_mode": "Modo de refrixeración",
+          "cold_tolerance": "Tolerancia ao frío",
+          "cycle_cooldown": "Período de arrefriamento despois do funcionamento",
+          "heater": "Interruptor do actuador",
+          "hot_tolerance": "Tolerancia en quente",
+          "keep_alive": "Intervalo de mantemento da conexión",
+          "max_cycle_duration": "Tempo máximo de funcionamento",
+          "max_temp": "Temperatura obxectivo máxima",
+          "min_cycle_duration": "Tempo mínimo de funcionamento",
+          "min_temp": "Temperatura obxectivo mínima",
+          "precision": "Precisión da temperatura",
+          "target_sensor": "Sensor de temperatura",
+          "target_temp_step": "Paso da temperatura"
+        },
+        "data_description": {
+          "ac_mode": "Fai que o actuador indicado se trate como un dispositivo de refrixeración en vez de calefacción.",
+          "cold_tolerance": "Diferenza mínima entre a temperatura lida polo sensor e a temperatura obxectivo antes de que se acenda. Por exemplo, se a temperatura obxectivo é 25 e a tolerancia é 0,5, o calefactor acenderase cando o sensor baixe de 24,5.",
+          "cycle_cooldown": "Tempo mínimo que debe pasar, despois de apagarse, antes de que se poida volver acender.",
+          "heater": "Entidade de interruptor usada para arrefriar ou quentar segundo o modo A/C.",
+          "hot_tolerance": "Diferenza mínima entre a temperatura lida polo sensor e a temperatura obxectivo antes de que se apague. Por exemplo, se a temperatura obxectivo é 25 e a tolerancia é 0,5, o calefactor apagarase cando o sensor iguale ou supere 25,5.",
+          "keep_alive": "Activa periodicamente o calefactor para evitar que os dispositivos perdan o estado.",
+          "max_cycle_duration": "Tempo máximo que pode pasar, unha vez acendido, antes de que se apague.",
+          "min_cycle_duration": "Tempo mínimo que debe pasar, unha vez acendido, antes de que se poida apagar.",
+          "precision": "Precisión usada para arredondar as temperaturas actual e obxectivo que se mostran. Se non se define, depende da unidade de temperatura.",
+          "target_sensor": "Sensor de temperatura que reflicte a temperatura actual.",
+          "target_temp_step": "Tamaño do paso usado ao axustar a temperatura obxectivo. Se non se define, coincide coa precisión."
+        }
+      },
+      "presets": {
+        "data": {
+          "activity_temp": "Actividade",
+          "away_temp": "Fóra",
+          "comfort_temp": "Confort",
+          "eco_temp": "Eco",
+          "home_temp": "Na casa",
+          "sleep_temp": "Durmir"
+        },
+        "title": "Predefinicións de temperatura"
+      }
+    }
+  },
+  "services": {
+    "reload": {
+      "description": "Recarga os termostatos xenéricos desde a configuración YAML.",
+      "name": "Recargar os termostatos xenéricos"
+    }
+  },
+  "title": "Termóstato xenérico"
+}
