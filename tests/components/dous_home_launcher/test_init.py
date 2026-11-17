@@ -44,8 +44,13 @@ async def test_setup_pushes_values_in_order(
 
     assert mock_config_entry.state is ConfigEntryState.LOADED
     assert pushes(frame)[-1] == [
-        {"icon": "🛋️", "value": "20.5", "unit": UnitOfTemperature.CELSIUS},
-        {"icon": "🌳", "value": "12.5", "unit": "°C"},
+        {
+            "icon": "🛋️",
+            "value": "20.5",
+            "unit": UnitOfTemperature.CELSIUS,
+            "link": "/maison/salon",
+        },
+        {"icon": "🌳", "value": "12.5", "unit": "°C", "link": ""},
     ]
 
 

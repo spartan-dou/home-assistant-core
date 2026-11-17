@@ -28,7 +28,7 @@ from homeassistant.helpers.event import (
 )
 
 from .api import LauncherConnectionError
-from .const import CONF_SENSORS, PUSH_COOLDOWN, PUSH_INTERVAL
+from .const import CONF_LINK, CONF_SENSORS, PUSH_COOLDOWN, PUSH_INTERVAL
 from .coordinator import LauncherConfigEntry
 
 _LOGGER = logging.getLogger(__name__)
@@ -134,4 +134,5 @@ def _describe(
         "icon": sensor.get(CONF_ICON) or "",
         "value": None if value is None else str(value),
         "unit": unit,
+        "link": sensor.get(CONF_LINK) or "",
     }

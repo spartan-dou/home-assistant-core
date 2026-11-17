@@ -6,6 +6,8 @@ from typing import Final
 DOMAIN: Final = "dous_home_launcher"
 
 CONF_SENSORS: Final = "sensors"
+# A Home Assistant view (/dashboard/room) the frame opens when its value is tapped.
+CONF_LINK: Final = "link"
 
 UPDATE_INTERVAL: Final = timedelta(seconds=30)
 # The frame forgets values it has not heard of for a while, and only listens while
