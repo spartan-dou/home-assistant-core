@@ -8,7 +8,7 @@ from homeassistant.exceptions import HomeAssistantError
 from homeassistant.helpers.entity_platform import AddConfigEntryEntitiesCallback
 
 from .api import LauncherConnectionError
-from .const import DOMAIN
+from .const import CONF_TV, DOMAIN
 from .coordinator import LauncherConfigEntry, LauncherCoordinator
 from .entity import LauncherEntity
 
@@ -33,8 +33,12 @@ async def async_setup_entry(
 ) -> None:
     """Set up the buttons."""
     coordinator = entry.runtime_data.coordinator
+    # A TV has no screen of its own to turn off
+    tv = entry.data.get(CONF_TV, False)
     async_add_entities(
-        LauncherButton(coordinator, description) for description in BUTTONS
+        LauncherButton(coordinator, description)
+        for description in BUTTONS
+        if not (tv and description.key == "screen_off")
     )
 
 
