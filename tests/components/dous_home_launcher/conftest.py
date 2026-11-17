@@ -46,7 +46,11 @@ def mock_config_entry() -> MockConfigEntry:
         data={CONF_URL: URL, CONF_API_KEY: KEY},
         options={
             CONF_SENSORS: [
-                {CONF_ENTITY_ID: "climate.salon", CONF_ICON: "🛋️"},
+                {
+                    CONF_ENTITY_ID: "climate.salon",
+                    CONF_ICON: "🛋️",
+                    "link": "/maison/salon",
+                },
                 {CONF_ENTITY_ID: "sensor.jardin", CONF_ICON: "🌳"},
             ]
         },

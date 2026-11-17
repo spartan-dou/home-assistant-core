@@ -105,7 +105,7 @@ async def test_options_flow(
     mock_config_entry: MockConfigEntry,
     mock_setup_entry: AsyncMock,
 ) -> None:
-    """The entities and their emoji are stored in order, trimmed."""
+    """The entities, their emoji and link are stored in order, trimmed."""
     mock_config_entry.add_to_hass(hass)
     await hass.config_entries.async_setup(mock_config_entry.entry_id)
     result = await hass.config_entries.options.async_init(mock_config_entry.entry_id)
@@ -115,7 +115,11 @@ async def test_options_flow(
         result["flow_id"],
         {
             CONF_SENSORS: [
-                {CONF_ENTITY_ID: "sensor.jardin", CONF_ICON: " 🌳 "},
+                {
+                    CONF_ENTITY_ID: "sensor.jardin",
+                    CONF_ICON: " 🌳 ",
+                    "link": " /maison/jardin ",
+                },
                 {CONF_ENTITY_ID: "climate.chambre"},
             ]
         },
@@ -124,7 +128,11 @@ async def test_options_flow(
     assert result["type"] is FlowResultType.CREATE_ENTRY
     assert mock_config_entry.options == {
         CONF_SENSORS: [
-            {CONF_ENTITY_ID: "sensor.jardin", CONF_ICON: "🌳"},
-            {CONF_ENTITY_ID: "climate.chambre", CONF_ICON: ""},
+            {
+                CONF_ENTITY_ID: "sensor.jardin",
+                CONF_ICON: "🌳",
+                "link": "/maison/jardin",
+            },
+            {CONF_ENTITY_ID: "climate.chambre", CONF_ICON: "", "link": ""},
         ]
     }

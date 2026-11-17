@@ -61,7 +61,7 @@
           "sensors": "Valeurs affichées sous l'heure"
         },
         "data_description": {
-          "sensors": "Une entité climate affiche sa température actuelle, toute autre entité son état. L'emoji précède la valeur."
+          "sensors": "Un thermostat affiche sa température actuelle, toute autre entité son état. L'emoji précède la valeur. Le lien, une vue de Home Assistant comme /maison/salon, s'ouvre quand on touche la valeur."
         }
       }
     }

@@ -61,7 +61,7 @@
           "sensors": "Values shown under the clock"
         },
         "data_description": {
-          "sensors": "A climate entity shows its current temperature, anything else its state. The emoji goes before the value."
+          "sensors": "A climate entity shows its current temperature, anything else its state. The emoji goes before the value. The link, a Home Assistant view such as /home/living-room, opens when the value is tapped."
         }
       }
     }

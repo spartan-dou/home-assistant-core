@@ -23,7 +23,7 @@ from homeassistant.helpers.selector import (
 )
 
 from .api import LauncherAuthError, LauncherClient, LauncherConnectionError
-from .const import CONF_SENSORS, DOMAIN
+from .const import CONF_LINK, CONF_SENSORS, DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -51,6 +51,7 @@ OPTIONS_SCHEMA = probatio.Schema(
                         "selector": {"entity": {}},
                     },
                     CONF_ICON: {"label": "Emoji", "selector": {"text": {}}},
+                    CONF_LINK: {"label": "Link", "selector": {"text": {}}},
                 },
             )
         ),
@@ -111,12 +112,13 @@ class LauncherOptionsFlow(OptionsFlowWithReload):
     async def async_step_init(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
-        """Edit the list of entities and their emoji; the selector validates the entities."""
+        """Edit the entities, emoji and links; the selector validates the entities."""
         if user_input is not None:
             sensors = [
                 {
                     CONF_ENTITY_ID: sensor[CONF_ENTITY_ID],
                     CONF_ICON: str(sensor.get(CONF_ICON) or "").strip(),
+                    CONF_LINK: str(sensor.get(CONF_LINK) or "").strip(),
                 }
                 for sensor in user_input.get(CONF_SENSORS, [])
             ]
