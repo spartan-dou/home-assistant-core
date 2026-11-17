@@ -12,7 +12,12 @@ from .coordinator import LauncherConfigEntry, LauncherCoordinator, LauncherData
 from .pusher import SensorPusher
 from .services import async_setup_services
 
-PLATFORMS: list[Platform] = [Platform.BUTTON, Platform.NOTIFY, Platform.SWITCH]
+PLATFORMS: list[Platform] = [
+    Platform.BUTTON,
+    Platform.NOTIFY,
+    Platform.NUMBER,
+    Platform.SWITCH,
+]
 
 CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
 

@@ -37,6 +37,11 @@
         "name": "Turn off screen"
       }
     },
+    "number": {
+      "brightness": {
+        "name": "Frame brightness"
+      }
+    },
     "switch": {
       "memories": {
         "name": "Memories"

@@ -47,7 +47,7 @@ class LauncherClient:
         """Return what the frame shows and how it is set."""
         return await self._request("GET", "state")
 
-    async def set_settings(self, **settings: bool) -> dict[str, Any]:
+    async def set_settings(self, **settings: bool | int) -> dict[str, Any]:
         """Change some settings, and return the state that results."""
         return await self._request("PUT", "settings", settings)
 
